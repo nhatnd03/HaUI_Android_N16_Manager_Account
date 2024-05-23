@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/xanh"
+    android:padding="16dp"
+    android:gravity="center"
+    tools:context=".Sign_Account">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="15dp"
+        android:gravity="center"
+        android:background="@drawable/rounded_edit_background_login"
+        android:layout_height="450dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SIGN IN"
+            android:textAlignment="center"
+            android:textSize="34sp"
+            android:textColor="@color/white"
+            android:layout_marginBottom="35dp"
+            android:textStyle="bold" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_edittext_states"
+            android:hint="@string/username"
+            android:textColorHint="@color/gray"
+            android:padding="@dimen/size10dp"
+            android:layout_margin="@dimen/size10dp"
+            android:drawableLeft="@drawable/username"
+            android:drawablePadding="@dimen/size10dp"
+            android:drawableTint="@color/gray"
+
+            />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_edittext_states"
+            android:hint="@string/password"
+            android:textColorHint="@color/gray"
+            android:padding="@dimen/size10dp"
+            android:layout_margin="@dimen/size10dp"
+            android:drawableLeft="@drawable/password"
+            android:drawablePadding="@dimen/size10dp"
+            android:drawableTint="@color/gray"
+            android:inputType="textPassword"
+            />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_edittext_states"
+            android:hint="@string/confirmpassword"
+            android:textColorHint="@color/gray"
+            android:padding="@dimen/size10dp"
+            android:layout_margin="@dimen/size10dp"
+            android:drawableLeft="@drawable/password"
+            android:drawablePadding="@dimen/size10dp"
+            android:drawableTint="@color/gray"
+            android:inputType="textPassword"
+            />
+        <Button
+            android:layout_width="150dp"
+            android:text="SIGN IN"
+            android:layout_marginTop="30dp"
+            android:backgroundTint="@color/xanh"
+            android:layout_height="wrap_content"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Don't have account?"
+                android:textAlignment="center"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/chuyendangnhap"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="Log In"
+                android:textColor="@color/xanh"
+                android:textAlignment="center"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>
