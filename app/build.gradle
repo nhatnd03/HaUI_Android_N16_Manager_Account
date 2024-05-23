@@ -37,4 +37,7 @@ dependencies {
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
+
+//ad thu viện meo
+    implementation 'com.etebarian:meow-bottom-navigation:1.2.0'
 }
