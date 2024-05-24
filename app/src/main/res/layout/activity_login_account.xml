@@ -28,6 +28,7 @@
             android:layout_marginBottom="55dp"
             android:textStyle="bold" />
         <EditText
+            android:id="@+id/edt_TenDangNhap"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_edittext_states"
@@ -35,13 +36,14 @@
             android:textColorHint="@color/gray"
             android:padding="@dimen/size10dp"
             android:layout_margin="@dimen/size10dp"
-            android:drawableLeft="@drawable/username"
+            android:drawableLeft="@drawable/icon_username"
             android:drawablePadding="@dimen/size10dp"
             android:drawableTint="@color/gray"
 
             />
 
         <EditText
+            android:id="@+id/edt_MatKhau"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_edittext_states"
@@ -49,15 +51,32 @@
             android:textColorHint="@color/gray"
             android:padding="@dimen/size10dp"
             android:layout_margin="@dimen/size10dp"
-            android:drawableLeft="@drawable/password"
+            android:drawableLeft="@drawable/icon_password"
             android:drawablePadding="@dimen/size10dp"
             android:drawableTint="@color/gray"
             android:inputType="textPassword"
             />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            >
+
+            <CheckBox
+                android:id="@+id/ckbLuuTTDangNhap"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:layout_marginEnd="15dp"
+                android:text="Lưu mật khẩu" />
+        </TableRow>
+
         <Button
+            android:id="@+id/btnDangNhapManHinh"
             android:layout_width="150dp"
             android:text="LOGIN"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="5dp"
             android:backgroundTint="@color/xanh"
             android:layout_height="wrap_content"/>
         <LinearLayout
@@ -80,7 +99,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:text="Sign up"
-                android:textColor="@color/xanh"
+                android:textColor="@color/white"
                 android:textAlignment="center"
                 android:textSize="12sp"
                 android:textStyle="bold" />
