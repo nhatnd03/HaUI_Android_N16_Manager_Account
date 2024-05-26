@@ -58,18 +58,19 @@
             />
 
         <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:gravity="end"
-            >
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            <CheckBox
-                android:id="@+id/ckbLuuTTDangNhap"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
+
+            <ImageView
+                android:id="@+id/image_finger_login"
+                android:visibility="gone"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:srcCompat="@drawable/finger_print_login"
                 android:layout_marginEnd="15dp"
-                android:text="Lưu mật khẩu" />
+                />
         </TableRow>
 
         <Button
