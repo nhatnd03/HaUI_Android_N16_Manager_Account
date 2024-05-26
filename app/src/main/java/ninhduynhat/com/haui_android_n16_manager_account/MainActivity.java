@@ -1,6 +1,13 @@
 package ninhduynhat.com.haui_android_n16_manager_account;
 
+import static ninhduynhat.com.haui_android_n16_manager_account.Login_Account.TEN_TT_DANG_NHAP;
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Switch;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +23,9 @@ import kotlin.jvm.functions.Function1;
 public class MainActivity extends AppCompatActivity {
 
     MeowBottomNavigation meowBottomNavigation;
+    SharedPreferences sharedPreferences;
+    Switch switchvantay;
+    TextView thongbao;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,9 +38,27 @@ public class MainActivity extends AppCompatActivity {
         });
         findId();
         buttonMeo();
+
+        sharedPreferences = getSharedPreferences(TEN_TT_DANG_NHAP,MODE_PRIVATE);
+        boolean isTurnOnFingerPrint=sharedPreferences.getBoolean("isTurnOnFingerPrint",false);
+        boolean check_device= sharedPreferences.getBoolean("Check_Device_onFinger",false);
+        if(check_device){
+            switchvantay.setVisibility(View.VISIBLE);
+            switchvantay.setChecked(isTurnOnFingerPrint);
+        }else {
+            thongbao.setText("Thiết bị không hỗ trợ đăng nhập bằng vân tay");
+        }
+
+
+
+
+
     }
     private void findId(){
+
         meowBottomNavigation = findViewById(R.id.meoButtonNavigation);
+        switchvantay=findViewById(R.id.switchvantay);
+        thongbao=findViewById(R.id.thongbao);
     }
     private void buttonMeo(){
         meowBottomNavigation.add(new MeowBottomNavigation.Model(1,R.drawable.navbar_ic_home));
@@ -69,5 +97,35 @@ public class MainActivity extends AppCompatActivity {
                 return null;
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        sharedPreferences = getSharedPreferences(TEN_TT_DANG_NHAP,MODE_PRIVATE);
+        boolean checked= sharedPreferences.getBoolean("isTurnOnFingerPrint",false);
+        boolean check_device= sharedPreferences.getBoolean("Check_Device_onFinger",false);
+        if(check_device){
+            switchvantay.setVisibility(View.VISIBLE);
+            switchvantay.setChecked(checked);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        boolean ischeckedSwitch=switchvantay.isChecked();
+        SharedPreferences.Editor editor = getSharedPreferences(TEN_TT_DANG_NHAP,MODE_PRIVATE).edit();
+        editor.putBoolean("isTurnOnFingerPrint",ischeckedSwitch);
+        editor.commit();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        boolean ischeckedSwitch=switchvantay.isChecked();
+        SharedPreferences.Editor editor = getSharedPreferences(TEN_TT_DANG_NHAP,MODE_PRIVATE).edit();
+        editor.putBoolean("isTurnOnFingerPrint",ischeckedSwitch);
+        editor.commit();
     }
 }

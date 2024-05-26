@@ -7,11 +7,43 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <androidx.viewpager2.widget.ViewPager2
+<!--    <androidx.viewpager2.widget.ViewPager2-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_above="@+id/meoButtonNavigation"-->
+<!--        />-->
+
+    <TableRow
+        android:layout_marginTop="100dp"
+        android:gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/meoButtonNavigation"
-        />
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/thongbao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="#FF0000"
+            android:textSize="20sp"
+            android:text="Đăng nhập bằng vân tay"
+            android:textStyle="bold" />
+    </TableRow>
+
+    <TableRow
+        android:layout_marginTop="129dp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Switch
+            android:visibility="gone"
+            android:id="@+id/switchvantay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scrollbarSize="20dp"
+ />
+    </TableRow>
 
     <com.etebarian.meowbottomnavigation.MeowBottomNavigation
         android:id="@+id/meoButtonNavigation"
