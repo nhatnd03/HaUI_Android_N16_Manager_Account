@@ -43,6 +43,8 @@ public class Login_Account extends AppCompatActivity {
     Button btn_DangNhapManHinh;
     CheckBox ckbLuuTTDangNhap;
     public static final String TEN_TT_DANG_NHAP="TEN_TT_DANG_NHAP";
+    
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,11 +58,12 @@ public class Login_Account extends AppCompatActivity {
         });
         findId();
 
-
         //login to fingerPrint
-        SharedPreferences sharedPreferences = getSharedPreferences("Data",MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences(TEN_TT_DANG_NHAP,MODE_PRIVATE);
         boolean islogin=sharedPreferences.getBoolean("isLogin",false);
         boolean isTurnOnFingerPrint=sharedPreferences.getBoolean("isTurnOnFingerPrint",false);
+
+
         if(islogin){
             String user= sharedPreferences.getString("Username","");
             edt_TenDangNhap.setText(user);
@@ -92,6 +95,9 @@ public class Login_Account extends AppCompatActivity {
             }
         });
     }
+    
+    
+    
     private void   findId(){
 
         txtchuyendangky = findViewById(R.id.chuyendangky);
@@ -112,33 +118,6 @@ public class Login_Account extends AppCompatActivity {
         startActivity(intent);
     }
 
-        @Override
-    protected void onPause() {
-        super.onPause();
-            SharedPreferences.Editor editor=getSharedPreferences(TEN_TT_DANG_NHAP,MODE_PRIVATE).edit();
-            editor.putString("UserName",
-                    edt_TenDangNhap.getText().toString());
-            editor.putString("PassWord",
-                    edt_MatKhau.getText().toString());
-//            editor.putBoolean("Save",
-//                    ckbLuuTTDangNhap.isChecked());
-            editor.putBoolean("isLogin",true);
-            editor.putBoolean("Check_Device_onFinger",Check_Device_Biometric());
-            editor.commit();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        SharedPreferences sharedPreferences = getSharedPreferences(TEN_TT_DANG_NHAP,MODE_PRIVATE);
-        boolean isTurnOnFingerPrint=sharedPreferences.getBoolean("isTurnOnFingerPrint",false);
-        if(isTurnOnFingerPrint&&Check_Device_Biometric()){
-            image_finger_login.setVisibility(View.VISIBLE);
-        }
-        else {
-            image_finger_login.setVisibility(View.GONE);
-        }
-    }
 
     private boolean Check_Device_Biometric(){
         boolean check_device=false;
@@ -168,6 +147,7 @@ public class Login_Account extends AppCompatActivity {
     }
 
     private void login_by_finger(){
+
 
         executor = ContextCompat.getMainExecutor(this);
         biometricPrompt = new BiometricPrompt(Login_Account.this,
@@ -213,4 +193,35 @@ public class Login_Account extends AppCompatActivity {
             biometricPrompt.authenticate(promptInfo);
         });
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        SharedPreferences.Editor editor=getSharedPreferences(TEN_TT_DANG_NHAP,MODE_PRIVATE).edit();
+        editor.putString("UserName",
+                edt_TenDangNhap.getText().toString());
+        editor.putString("PassWord",
+                edt_MatKhau.getText().toString());
+//            editor.putBoolean("Save",
+//                    ckbLuuTTDangNhap.isChecked());
+        editor.putBoolean("isLogin",true);
+        editor.putBoolean("Check_Device_onFinger",Check_Device_Biometric());
+        editor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SharedPreferences sharedPreferences = getSharedPreferences(TEN_TT_DANG_NHAP,MODE_PRIVATE);
+        boolean isTurnOnFingerPrint=sharedPreferences.getBoolean("isTurnOnFingerPrint",false);
+        if(isTurnOnFingerPrint&&Check_Device_Biometric()){
+            login_by_finger();
+            image_finger_login.setVisibility(View.VISIBLE);
+        }
+        else {
+            image_finger_login.setVisibility(View.GONE);
+        }
+    }
+
+
 }
