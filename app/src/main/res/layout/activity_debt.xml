@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Debt">
+
+    <!-- Balance and Debt Info -->
+    <TextView
+        android:id="@+id/tv_balance_debt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Số dư: 1.000.000 Đ\nSố tiền còn nợ: 100.000 Đ"
+        android:layout_marginTop="16dp"
+        android:layout_centerHorizontal="true"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <!-- Transaction List -->
+    <LinearLayout
+        android:id="@+id/ll_debt_transactions"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_balance_debt"
+        android:layout_marginTop="16dp"
+        android:padding="16dp">
+
+        <!-- Sample Transaction Item -->
+        <TextView
+            android:id="@+id/tv_debt_transaction_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sit excepteur recusandae quibusdam! - 1.000.000"
+            android:padding="16dp"
+            android:background="@color/white"
+            android:layout_marginBottom="8dp" />
+
+        <!-- More transaction items can be added here -->
+    </LinearLayout>
+
+</RelativeLayout>

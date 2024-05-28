@@ -2,6 +2,8 @@ package ninhduynhat.com.haui_android_n16_manager_account;
 
 import static ninhduynhat.com.haui_android_n16_manager_account.Login_Account.TEN_TT_DANG_NHAP;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -24,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     MeowBottomNavigation meowBottomNavigation;
     SharedPreferences sharedPreferences;
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
     Switch switchvantay;
     TextView thongbao;
     @Override
@@ -64,19 +67,29 @@ public class MainActivity extends AppCompatActivity {
         meowBottomNavigation.add(new MeowBottomNavigation.Model(1,R.drawable.navbar_ic_home));
         meowBottomNavigation.add(new MeowBottomNavigation.Model(2,R.drawable.icon_pertion));
         meowBottomNavigation.add(new MeowBottomNavigation.Model(3,R.drawable.icon_setting));
+        meowBottomNavigation.add(new MeowBottomNavigation.Model(4,R.drawable.icon_password));
+        meowBottomNavigation.add(new MeowBottomNavigation.Model(5,R.drawable.icon_username));
 
 
         meowBottomNavigation.setOnClickMenuListener(new Function1<MeowBottomNavigation.Model, Unit>() {
             @Override
             public Unit invoke(MeowBottomNavigation.Model model) {
                 // YOUR CODES
+                Intent intent = null;
                 int id= model.getId();
                 if(id==1){
-
+                    intent = new Intent(MainActivity.this, Home.class);
                 } else if (id==2) {
-
+                    intent = new Intent(MainActivity.this, Statistical.class);
                 } else if (id==3) {
-
+                    intent = new Intent(MainActivity.this, Plan.class);
+                }else if (id==4) {
+                    intent = new Intent(MainActivity.this, CourseRegistration.class);
+                }else if (id==5) {
+                    intent = new Intent(MainActivity.this, Debt.class);
+                }
+                if(intent != null){
+                    startActivity(intent);
                 }
                 return null;
             }
@@ -86,13 +99,21 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public Unit invoke(MeowBottomNavigation.Model model) {
                 // YOUR CODES
+                Intent intent = null;
                 int id= model.getId();
                 if(id==1){
-
+                    intent = new Intent(MainActivity.this, Home.class);
                 } else if (id==2) {
-
+                    intent = new Intent(MainActivity.this, Statistical.class);
                 } else if (id==3) {
-
+                    intent = new Intent(MainActivity.this, Plan.class);
+                }else if (id==4) {
+                    intent = new Intent(MainActivity.this, CourseRegistration.class);
+                }else if (id==5) {
+                    intent = new Intent(MainActivity.this, Debt.class);
+                }
+                if(intent != null){
+                    startActivity(intent);
                 }
                 return null;
             }
