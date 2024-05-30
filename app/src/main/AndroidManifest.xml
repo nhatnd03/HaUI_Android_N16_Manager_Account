@@ -13,11 +13,26 @@
         android:theme="@style/Theme.HaUI_Android_N16_Manager_Account"
         tools:targetApi="31">
         <activity
+            android:name=".Home"
+            android:exported="false" />
+        <activity
+            android:name=".Debt"
+            android:exported="false" />
+        <activity
+            android:name=".CourseRegistration"
+            android:exported="false" />
+        <activity
+            android:name=".Plan"
+            android:exported="false" />
+        <activity
+            android:name=".Statistical"
+            android:exported="false" />
+        <activity
             android:name=".Sign_Account"
             android:exported="false" />
         <activity
             android:name=".Login_Account"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,9 +41,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:exported="false">
-
-        </activity>
+            android:exported="true" />
     </application>
 
 </manifest>
