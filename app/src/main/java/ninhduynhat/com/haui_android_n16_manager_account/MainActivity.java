@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         meowBottomNavigation.add(new MeowBottomNavigation.Model(2,R.drawable.icon_thongke));
         meowBottomNavigation.add(new MeowBottomNavigation.Model(3,R.drawable.icon_add));
         meowBottomNavigation.add(new MeowBottomNavigation.Model(4,R.drawable.icon_kehoach));
-        meowBottomNavigation.add(new MeowBottomNavigation.Model(5,R.drawable.icon_thong_tin_ca_nhan));
+        meowBottomNavigation.add(new MeowBottomNavigation.Model(5,R.drawable.icon_cong_no));
 
         // Set default selection
         meowBottomNavigation.show(1, true);
