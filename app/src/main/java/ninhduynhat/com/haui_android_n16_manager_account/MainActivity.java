@@ -1,5 +1,13 @@
 package ninhduynhat.com.haui_android_n16_manager_account;
 
+
+ 
+
+
+
+
+
+
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -26,7 +34,10 @@ public class MainActivity extends AppCompatActivity {
 
     MeowBottomNavigation meowBottomNavigation;
     SharedPreferences sharedPreferences;
+
 //    Switch switchvantay;
+
+
     TextView thongbao;
     protected long thoatungdung;
     @Override
@@ -73,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         meowBottomNavigation.add(new MeowBottomNavigation.Model(1,R.drawable.navbar_ic_home));
+
         meowBottomNavigation.add(new MeowBottomNavigation.Model(2,R.drawable.icon_thongke));
         meowBottomNavigation.add(new MeowBottomNavigation.Model(3,R.drawable.icon_add));
         meowBottomNavigation.add(new MeowBottomNavigation.Model(4,R.drawable.icon_kehoach));
@@ -82,14 +94,18 @@ public class MainActivity extends AppCompatActivity {
         meowBottomNavigation.show(1, true);
 
 
+
+
         meowBottomNavigation.setOnClickMenuListener(new Function1<MeowBottomNavigation.Model, Unit>() {
             @Override
             public Unit invoke(MeowBottomNavigation.Model model) {
                 // YOUR CODES
+                Intent intent = null;
                 int id= model.getId();
                 int enterAnimation = R.anim.enter_from_right;
                 int exitAnimation = R.anim.exit_to_left;
                 if(id==1){
+
                     enterAnimation = R.anim.enter_from_right;
                     exitAnimation = R.anim.exit_to_left;
                     openFragment(new HomeFragment(), enterAnimation, exitAnimation);
@@ -108,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
 
                 }else if (id==5) {
                     openFragment(new Cong_No_Fragment(), enterAnimation, exitAnimation);
+
                 }
                 return null;
             }
@@ -117,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public Unit invoke(MeowBottomNavigation.Model model) {
                 // YOUR CODES
+                Intent intent = null;
                 int id= model.getId();
                 int enterAnimation = R.anim.enter_from_right;
                 int exitAnimation = R.anim.exit_to_left;
@@ -136,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
                     openFragment(new Ke_Hoach_Fragment(), enterAnimation, exitAnimation);
                 }else if (id==5) {
                     openFragment(new Cong_No_Fragment(), enterAnimation, exitAnimation);
+
                 }
                 return null;
             }
