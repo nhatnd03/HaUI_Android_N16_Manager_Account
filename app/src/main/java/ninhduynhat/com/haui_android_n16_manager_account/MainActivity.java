@@ -100,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public Unit invoke(MeowBottomNavigation.Model model) {
                 // YOUR CODES
-                Intent intent = null;
                 int id= model.getId();
                 int enterAnimation = R.anim.enter_from_right;
                 int exitAnimation = R.anim.exit_to_left;
@@ -134,7 +133,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public Unit invoke(MeowBottomNavigation.Model model) {
                 // YOUR CODES
-                Intent intent = null;
                 int id= model.getId();
                 int enterAnimation = R.anim.enter_from_right;
                 int exitAnimation = R.anim.exit_to_left;
