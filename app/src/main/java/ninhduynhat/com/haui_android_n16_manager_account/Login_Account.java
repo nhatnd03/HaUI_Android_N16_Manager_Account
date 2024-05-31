@@ -115,6 +115,7 @@ public class Login_Account extends AppCompatActivity {
             return;
         }
         Intent intent = new Intent(Login_Account.this,MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
 
@@ -222,6 +223,5 @@ public class Login_Account extends AppCompatActivity {
             image_finger_login.setVisibility(View.GONE);
         }
     }
-
 
 }
