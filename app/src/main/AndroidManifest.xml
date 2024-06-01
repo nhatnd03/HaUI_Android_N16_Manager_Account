@@ -16,21 +16,6 @@
             android:name=".Database.DatabaseActivity"
             android:exported="true" />
         <activity
-            android:name=".Home"
-            android:exported="false" />
-        <activity
-            android:name=".Debt"
-            android:exported="false" />
-        <activity
-            android:name=".CourseRegistration"
-            android:exported="false" />
-        <activity
-            android:name=".Plan"
-            android:exported="false" />
-        <activity
-            android:name=".Statistical"
-            android:exported="false" />
-        <activity
             android:name=".Sign_Account"
             android:exported="false" />
         <activity
