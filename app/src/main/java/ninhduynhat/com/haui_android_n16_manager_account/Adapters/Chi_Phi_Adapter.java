@@ -1,6 +1,5 @@
 package ninhduynhat.com.haui_android_n16_manager_account.Adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,13 +13,13 @@ import java.util.List;
 import ninhduynhat.com.haui_android_n16_manager_account.Model.KhoanChi;
 import ninhduynhat.com.haui_android_n16_manager_account.R;
 
-public class chi_Phi_Adapter extends RecyclerView.Adapter<chi_Phi_Adapter.chi_PhiViewHolder>{
-    private Context mContext;
+public class Chi_Phi_Adapter extends RecyclerView.Adapter<Chi_Phi_Adapter.chi_PhiViewHolder>{
+//    private Context mContext;
     private List<KhoanChi> mListKhoanChi;
 
-    public chi_Phi_Adapter(Context mContext) {
-        this.mContext = mContext;
-    }
+//    public chi_Phi_Adapter(Context mContext) {
+//        this.mContext = mContext;
+//    }
     public void setData(List<KhoanChi> list){
         this.mListKhoanChi=list;
         notifyDataSetChanged();
@@ -41,7 +40,7 @@ public class chi_Phi_Adapter extends RecyclerView.Adapter<chi_Phi_Adapter.chi_Ph
         }
         holder.ten_chi_phi.setText(khoanChi.getKhoanchi());
         holder.mo_ta_chi_phi.setText(khoanChi.getMo_Ta());
-        holder.gia_chi_phi.setText(khoanChi.getSo_Luong());
+        holder.gia_chi_phi.setText(khoanChi.getSo_Luong()+"");
     }
 
     @Override
