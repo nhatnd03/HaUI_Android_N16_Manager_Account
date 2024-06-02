@@ -39,28 +39,28 @@ public class DatabaseActivity extends AppCompatActivity {
 //        dbHelper.onCreate(db);
 
 //        // Thêm dữ liệu vào bảng User
-//        db.execSQL("INSERT INTO User (Username, Password, PhoneNumber, SoDuSinhHoat, SoDuCongNo, TienNoCong) VALUES ('john_doe', 'password123', '1234567890', 1000.0, 500.0, 200.0)");
+        db.execSQL("INSERT INTO USER (Username, Password, PhoneNumber, LivingExpenses, MoneyForStudying, DebtMoney) VALUES ('quangkedo', '123456', '0334973459', 1000000.0, 1000000.0, 200000.0)");
 //
 //        // Truy vấn dữ liệu từ bảng User
-//        Cursor cursor = db.rawQuery("SELECT * FROM User", null);
-//        StringBuilder stringBuilder = new StringBuilder();
-//        if (cursor.moveToFirst()) {
-//            do {
-//                int id = cursor.getInt(cursor.getColumnIndexOrThrow("Id"));
-//                String username = cursor.getString(cursor.getColumnIndexOrThrow("Username"));
-//                String password = cursor.getString(cursor.getColumnIndexOrThrow("Password"));
-//                String phoneNumber = cursor.getString(cursor.getColumnIndexOrThrow("PhoneNumber"));
-//                double soDuSinhHoat = cursor.getDouble(cursor.getColumnIndexOrThrow("SoDuSinhHoat"));
-//                double soDuCongNo = cursor.getDouble(cursor.getColumnIndexOrThrow("SoDuCongNo"));
-//                double tienNoCong = cursor.getDouble(cursor.getColumnIndexOrThrow("TienNoCong"));
-//
-//                stringBuilder.append("ID: ").append(id).append(", Username: ").append(username)
-//                        .append(", Password: ").append(password).append(", PhoneNumber: ").append(phoneNumber)
-//                        .append(", SoDuSinhHoat: ").append(soDuSinhHoat).append(", SoDuCongNo: ").append(soDuCongNo)
-//                        .append(", TienNoCong: ").append(tienNoCong).append("\n");
-//            } while (cursor.moveToNext());
-//        }
-//        cursor.close();
+        Cursor cursor = db.rawQuery("SELECT * FROM USER", null);
+        StringBuilder stringBuilder = new StringBuilder();
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow("UserID"));
+                String username = cursor.getString(cursor.getColumnIndexOrThrow("Username"));
+                String password = cursor.getString(cursor.getColumnIndexOrThrow("Password"));
+                String phoneNumber = cursor.getString(cursor.getColumnIndexOrThrow("PhoneNumber"));
+                double soDuSinhHoat = cursor.getDouble(cursor.getColumnIndexOrThrow("LivingExpenses"));
+                double soDuCongNo = cursor.getDouble(cursor.getColumnIndexOrThrow("MoneyForStudying"));
+                double tienNoCong = cursor.getDouble(cursor.getColumnIndexOrThrow("DebtMoney"));
+
+                stringBuilder.append("ID: ").append(id).append(", Username: ").append(username)
+                        .append(", Password: ").append(password).append(", PhoneNumber: ").append(phoneNumber)
+                        .append(", LivingExpenses: ").append(soDuSinhHoat).append(", MoneyForStudying: ").append(soDuCongNo)
+                        .append(", DebtMoney: ").append(tienNoCong).append("\n");
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
 //
 //        // Hiển thị dữ liệu
 //        textView.setText(stringBuilder.toString());

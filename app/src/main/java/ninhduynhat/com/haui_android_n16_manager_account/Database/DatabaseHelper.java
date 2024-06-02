@@ -2,8 +2,11 @@ package ninhduynhat.com.haui_android_n16_manager_account.Database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import ninhduynhat.com.haui_android_n16_manager_account.Model.UserObject;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -145,5 +148,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void dropTable(String tableName) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DROP TABLE IF EXISTS " + tableName);
+    }
+
+    public UserObject getUser(int userId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query("USER",
+                new String[]{"UserID", "Username", "Password", "PhoneNumber", "LivingExpenses", "MoneyForStudying", "DebtMoney"},
+                "UserID" + "=?",
+                new String[]{String.valueOf(userId)},
+                null, null, null, null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+            UserObject user = new UserObject(
+                    cursor.getInt(cursor.getColumnIndexOrThrow("UserID")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("Username")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("Password")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("PhoneNumber")),
+                    cursor.getDouble(cursor.getColumnIndexOrThrow("LivingExpenses")),
+                    cursor.getDouble(cursor.getColumnIndexOrThrow("MoneyForStudying")),
+                    cursor.getDouble(cursor.getColumnIndexOrThrow("DebtMoney"))
+            );
+            cursor.close();
+            return user;
+        } else {
+            return null;
+        }
     }
 }

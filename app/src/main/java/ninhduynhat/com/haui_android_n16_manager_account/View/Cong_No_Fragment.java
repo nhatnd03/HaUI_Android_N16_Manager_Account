@@ -11,12 +11,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import ninhduynhat.com.haui_android_n16_manager_account.Adapters.TransactionHistoryAdapter;
+import ninhduynhat.com.haui_android_n16_manager_account.Database.DatabaseHelper;
 import ninhduynhat.com.haui_android_n16_manager_account.Model.PayingTuitionObject;
+import ninhduynhat.com.haui_android_n16_manager_account.Model.UserObject;
 import ninhduynhat.com.haui_android_n16_manager_account.R;
 
 ///**
@@ -75,6 +78,18 @@ public class Cong_No_Fragment extends Fragment {
     private RecyclerView recyclerView;
     private TransactionHistoryAdapter transactionAdapter;
     private List<PayingTuitionObject> transactionList;
+    private DatabaseHelper databaseHelper;
+    TextView soDuTextView;
+    TextView soTienConNoTextView;
+    Button btnThanhToan;
+    Button btnNaptien;
+
+    private void getWidget(View view){
+        btnThanhToan = view.findViewById(R.id.btnThanhToan);
+        btnNaptien = view.findViewById(R.id.btnNap);
+        soDuTextView = view.findViewById(R.id.txtSoDuHocTap);
+        soTienConNoTextView = view.findViewById(R.id.txtCongNo);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -90,7 +105,12 @@ public class Cong_No_Fragment extends Fragment {
         recyclerView.setAdapter(transactionAdapter);
 
         // Handle button click to switch to Chi_Tiet_Fragment
-        Button btnThanhToan = view.findViewById(R.id.btnThanhToan); // Assuming the button ID is btnThanhToan
+        getWidget(view); // Assuming the button ID is btnThanhToan
+
+        databaseHelper = new DatabaseHelper(getContext());
+
+        loadUserData(1);
+
         btnThanhToan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,7 +122,26 @@ public class Cong_No_Fragment extends Fragment {
             }
         });
 
+        btnNaptien.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Recharge_Fragment rechargeFragment = new Recharge_Fragment();
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_container, rechargeFragment); // Assuming your fragment container has this ID
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
+
 
         return view;
+    }
+
+    private void loadUserData(int userId) {
+        UserObject user = databaseHelper.getUser(userId);
+        if (user != null) {
+            soDuTextView.setText(String.valueOf(user.getMoneyForStudying()));
+            soTienConNoTextView.setText(String.valueOf(user.getDebtMoney()));
+        }
     }
 }
