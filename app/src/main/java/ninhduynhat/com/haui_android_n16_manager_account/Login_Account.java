@@ -41,7 +41,6 @@ public class Login_Account extends AppCompatActivity {
     TextView txtchuyendangky;
     EditText edt_TenDangNhap,edt_MatKhau;
     Button btn_DangNhapManHinh;
-    CheckBox ckbLuuTTDangNhap;
     public static final String TEN_TT_DANG_NHAP="TEN_TT_DANG_NHAP";
     
     
@@ -66,9 +65,11 @@ public class Login_Account extends AppCompatActivity {
 
         if(islogin){
             String user= sharedPreferences.getString("Username","");
+            String pass= sharedPreferences.getString("PassWord","");
             edt_TenDangNhap.setText(user);
+            edt_MatKhau.setText(pass);
         }
-        if(islogin && isTurnOnFingerPrint&&Check_Device_Biometric()){
+        if(islogin && isTurnOnFingerPrint && Check_Device_Biometric()){
             login_by_finger();
             image_finger_login.setVisibility(View.VISIBLE);
         }
@@ -203,9 +204,7 @@ public class Login_Account extends AppCompatActivity {
                 edt_TenDangNhap.getText().toString());
         editor.putString("PassWord",
                 edt_MatKhau.getText().toString());
-//            editor.putBoolean("Save",
-//                    ckbLuuTTDangNhap.isChecked());
-        editor.putBoolean("isLogin",true);
+//        editor.putBoolean("isLogin",true);
         editor.putBoolean("Check_Device_onFinger",Check_Device_Biometric());
         editor.commit();
     }

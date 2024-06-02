@@ -37,20 +37,7 @@
 <!--            android:textStyle="bold" />-->
 <!--    </TableRow>-->
 
-<!--    <TableRow-->
-<!--        android:layout_marginTop="129dp"-->
-<!--        android:gravity="center"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content">-->
 
-<!--        <Switch-->
-<!--            android:visibility="gone"-->
-<!--            android:id="@+id/switchvantay"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:scrollbarSize="20dp"-->
-<!-- />-->
-<!--    </TableRow>-->
 
     <com.etebarian.meowbottomnavigation.MeowBottomNavigation
         android:id="@+id/meoButtonNavigation"
