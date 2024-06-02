@@ -1,5 +1,12 @@
 package ninhduynhat.com.haui_android_n16_manager_account;
 
+
+
+
+
+
+import static ninhduynhat.com.haui_android_n16_manager_account.Login_Account.TEN_TT_DANG_NHAP;
+
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.TextView;
