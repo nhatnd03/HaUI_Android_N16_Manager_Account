@@ -2,12 +2,19 @@ package ninhduynhat.com.haui_android_n16_manager_account.View;
 
 import static ninhduynhat.com.haui_android_n16_manager_account.Login_Account.TEN_TT_DANG_NHAP;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Base64;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -16,24 +23,38 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TableRow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.normal.TedPermission;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+import gun0912.tedbottompicker.TedBottomPicker;
 import ninhduynhat.com.haui_android_n16_manager_account.Login_Account;
 import ninhduynhat.com.haui_android_n16_manager_account.MainActivity;
 import ninhduynhat.com.haui_android_n16_manager_account.R;
 
 public class man_hinh_thontincanhan extends AppCompatActivity {
+    CircleImageView home_imgAvartar;
     ImageView doimatkhau,thoattaikhoan,thoatmanhinhchinh;
     SwitchCompat switchvantay,switchluumatkhau;
     SharedPreferences sharedPreferences;
     TableRow hienthivantay;
+    TextView txtNchangeImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +87,7 @@ public class man_hinh_thontincanhan extends AppCompatActivity {
         thoattaikhoan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openFeedbackDialog_Thoat(Gravity.CENTER);
+                openFeedbackDialog_DangXuat(Gravity.CENTER);
             }
         });
         thoatmanhinhchinh.setOnClickListener(new View.OnClickListener() {
@@ -74,6 +95,13 @@ public class man_hinh_thontincanhan extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(man_hinh_thontincanhan.this, MainActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        txtNchangeImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requesPermission();
             }
         });
 
@@ -85,6 +113,8 @@ public class man_hinh_thontincanhan extends AppCompatActivity {
         switchluumatkhau=findViewById(R.id.switchluumatkhau);
         hienthivantay=findViewById(R.id.hienthivantay);
         thoatmanhinhchinh=findViewById(R.id.thoatmanhinhchinh);
+        txtNchangeImage=findViewById(R.id.txtNchangeImage);
+        home_imgAvartar=findViewById(R.id.home_imgAvartar);
     }
 
 
@@ -123,7 +153,7 @@ public class man_hinh_thontincanhan extends AppCompatActivity {
         });
         dialog.show();
     }
-    private void openFeedbackDialog_Thoat(int gravity){
+    private void openFeedbackDialog_DangXuat(int gravity){
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.layout_dialog_thoattaikhoan);
@@ -163,6 +193,12 @@ public class man_hinh_thontincanhan extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(TEN_TT_DANG_NHAP,MODE_PRIVATE);
         boolean checked= sharedPreferences.getBoolean("isTurnOnFingerPrint",false);
         boolean check_device= sharedPreferences.getBoolean("Check_Device_onFinger",false);
+        String LUU_DU_LIEU_ANH=sharedPreferences.getString("LUU_DU_LIEU_ANH","");
+        Bitmap bitmap=StringToBitMap(LUU_DU_LIEU_ANH);
+        if(!LUU_DU_LIEU_ANH.equals("")){
+            home_imgAvartar.setImageBitmap(bitmap);
+        }
+
         if(check_device){
             hienthivantay.setVisibility(View.VISIBLE);
             switchvantay.setChecked(checked);
@@ -190,4 +226,71 @@ public class man_hinh_thontincanhan extends AppCompatActivity {
         editor.putBoolean("isLogin",luumatkhau);
         editor.commit();
     }
+
+    private void requesPermission(){
+
+        PermissionListener permissionlistener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+                openImagePicker();
+            }
+
+            @Override
+            public void onPermissionDenied(List<String> deniedPermissions) {
+                Toast.makeText(man_hinh_thontincanhan.this, "Permission Denied\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
+            }
+        };
+        TedPermission.create()
+                .setPermissionListener(permissionlistener)
+                .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
+                .setPermissions(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .check();
+    }
+
+    private void openImagePicker(){
+        TedBottomPicker.OnImageSelectedListener listener= new TedBottomPicker.OnImageSelectedListener() {
+            @Override
+            public void onImageSelected(Uri uri) {
+                try {
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
+                    home_imgAvartar.setImageBitmap(bitmap);
+                    SharedPreferences.Editor editor =getSharedPreferences(TEN_TT_DANG_NHAP,MODE_PRIVATE).edit();
+                    editor.putString("LUU_DU_LIEU_ANH",BitMapToString(bitmap));
+                    editor.commit();
+
+                } catch (IOException e) {
+                    Log.e("lỗi chọn ảnh", e+"");
+                }
+            }
+        };
+        TedBottomPicker tedBottomPicker = new TedBottomPicker.Builder(man_hinh_thontincanhan.this)
+                .setOnImageSelectedListener(listener)
+                .setCompleteButtonText("Xong")
+                .create();
+        tedBottomPicker.show(getSupportFragmentManager());
+    }
+
+
+
+    private String BitMapToString(@NonNull Bitmap bitmap){
+        ByteArrayOutputStream baos=new  ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
+        byte [] b=baos.toByteArray();
+        String temp= Base64.encodeToString(b, Base64.DEFAULT);
+        return temp;
+    }
+    @Nullable
+    private Bitmap StringToBitMap(String encodedString){
+        try {
+            byte [] encodeByte=Base64.decode(encodedString,Base64.DEFAULT);
+            Bitmap bitmap= BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        } catch(Exception e) {
+            e.getMessage();
+            return null;
+        }
+    }
+
+
+
 }

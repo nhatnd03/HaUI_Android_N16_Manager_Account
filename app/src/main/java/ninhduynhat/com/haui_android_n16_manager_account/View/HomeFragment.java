@@ -1,6 +1,12 @@
 package ninhduynhat.com.haui_android_n16_manager_account.View;
 
+import static android.content.Context.MODE_PRIVATE;
+import static ninhduynhat.com.haui_android_n16_manager_account.Login_Account.TEN_TT_DANG_NHAP;
+
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,9 +16,11 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -35,6 +43,7 @@ public class HomeFragment extends Fragment {
     private Chi_Phi_Adapter chiPhiAdapter;
     CircleImageView home_imgAvartar;
     FloatingActionButton floating_add;
+    SharedPreferences sharedPreferences;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -61,9 +70,6 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         home_imgAvartar=view.findViewById(R.id.home_imgAvartar);
         floating_add=view.findViewById(R.id.floating_add);
-
-
-
 
 
         home_imgAvartar.setOnClickListener(new View.OnClickListener() {
@@ -104,5 +110,28 @@ public class HomeFragment extends Fragment {
         khoanChiArrayLists.add(new KhoanChi("Phở xào",1000,"Mua buổi chiều"));
         khoanChiArrayLists.add(new KhoanChi("Phở xào",1000,"Mua buổi chiều"));
         return khoanChiArrayLists;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        sharedPreferences= getActivity().getSharedPreferences(TEN_TT_DANG_NHAP,MODE_PRIVATE);
+        String LUU_DU_LIEU_ANH=sharedPreferences.getString("LUU_DU_LIEU_ANH","");
+        Bitmap bitmap=StringToBitMap(LUU_DU_LIEU_ANH);
+        if(!LUU_DU_LIEU_ANH.equals("")){
+            home_imgAvartar.setImageBitmap(bitmap);
+        }
+    }
+
+    @androidx.annotation.Nullable
+    private Bitmap StringToBitMap(String encodedString){
+        try {
+            byte [] encodeByte= Base64.decode(encodedString,Base64.DEFAULT);
+            Bitmap bitmap= BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        } catch(Exception e) {
+            e.getMessage();
+            return null;
+        }
     }
 }
