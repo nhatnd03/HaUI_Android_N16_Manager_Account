@@ -43,4 +43,10 @@ dependencies {
     implementation "androidx.biometric:biometric:1.1.0"
     //thư viện ảnh hình tròn
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    //chọn ảnh từ thiết bị
+    implementation 'gun0912.ted:tedbottompicker:1.2.6'
+    //check permission
+    implementation 'io.github.ParkSangGwon:tedpermission-normal:3.3.0'
+
 }
