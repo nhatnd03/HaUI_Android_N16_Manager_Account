@@ -27,6 +27,7 @@ import ninhduynhat.com.haui_android_n16_manager_account.View.Add_Chi_Phi_Fragmen
 import ninhduynhat.com.haui_android_n16_manager_account.View.Cong_No_Fragment;
 import ninhduynhat.com.haui_android_n16_manager_account.View.HomeFragment;
 import ninhduynhat.com.haui_android_n16_manager_account.View.Ke_Hoach_Fragment;
+import ninhduynhat.com.haui_android_n16_manager_account.View.RegisterFragment;
 import ninhduynhat.com.haui_android_n16_manager_account.View.Thong_Ke_Fragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -118,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
                 }else if (id==4) {
                     enterAnimation = R.anim.enter_from_left;
                     exitAnimation = R.anim.exit_to_right;
-                    openFragment(new Ke_Hoach_Fragment(), enterAnimation, exitAnimation);
+                    openFragment(new RegisterFragment(), enterAnimation, exitAnimation);
 
                 }else if (id==5) {
                     openFragment(new Cong_No_Fragment(), enterAnimation, exitAnimation);
@@ -148,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
                 }else if (id==4) {
                     enterAnimation = R.anim.enter_from_left;
                     exitAnimation = R.anim.exit_to_right;
-                    openFragment(new Ke_Hoach_Fragment(), enterAnimation, exitAnimation);
+                    openFragment(new RegisterFragment(), enterAnimation, exitAnimation);
                 }else if (id==5) {
                     openFragment(new Cong_No_Fragment(), enterAnimation, exitAnimation);
 

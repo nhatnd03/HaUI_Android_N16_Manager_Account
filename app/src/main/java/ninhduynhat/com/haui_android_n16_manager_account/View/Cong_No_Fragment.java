@@ -99,8 +99,17 @@ public class Cong_No_Fragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         transactionList = new ArrayList<>();
         // Thêm dữ liệu mẫu
-        transactionList.add(new PayingTuitionObject(1, 1, "Sit excepturi recusandae quibusdam!", 1000000, true));
-        transactionList.add(new PayingTuitionObject(2,2, "Sit excepturi recusandae quibusdam!", 100000, false));
+        transactionList.add(new PayingTuitionObject(1, 1, "Công nợ 1", 1000000, true));
+        transactionList.add(new PayingTuitionObject(2,2, "Công nợ 2", 100000, false));
+        transactionList.add(new PayingTuitionObject(3,3, "Công nợ 3", 100000, true));
+        transactionList.add(new PayingTuitionObject(4,4, "Công nợ 4", 100000, false));
+        transactionList.add(new PayingTuitionObject(5,5, "Công nợ 5", 100000, false));
+        transactionList.add(new PayingTuitionObject(6,6, "Công nợ 6", 100000, true));
+        transactionList.add(new PayingTuitionObject(7,7, "Công nợ 7", 100000, false));
+        transactionList.add(new PayingTuitionObject(8,8, "Công nợ 8", 100000, true));
+        transactionList.add(new PayingTuitionObject(9,9, "Công nợ 9", 100000, false));
+        transactionList.add(new PayingTuitionObject(10,10, "Công nợ `10", 100000, false));
+
         transactionAdapter = new TransactionHistoryAdapter(transactionList);
         recyclerView.setAdapter(transactionAdapter);
 

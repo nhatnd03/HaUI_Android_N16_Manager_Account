@@ -118,7 +118,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     // Phương thức chèn dữ liệu vào bảng SUBJECT
-    public long insertSubject(String subjectName, int studyCredits, String semester) {
+    public long insertSubject(String subjectName, int studyCredits, int semester) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("SubjectName", subjectName);
