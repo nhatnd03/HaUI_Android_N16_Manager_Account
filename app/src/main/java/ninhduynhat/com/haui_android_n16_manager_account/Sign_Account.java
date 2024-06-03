@@ -36,6 +36,7 @@ public class Sign_Account extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         btn_Sign_In.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -44,24 +45,24 @@ public class Sign_Account extends AppCompatActivity {
         });
     }
     private void findId(){
-
-        chuyenmanhinhdangnhap = findViewById(R.id.chuyendangnhap);
+        btn_Sign_In=findViewById(R.id.btn_Sign_In);
+        chuyenmanhinhdangnhap = findViewById(R.id.chuyenmanhinhdangnhap);
         edt_UserName_Sign = findViewById(R.id.edt_UserName_Sign);
         edt_Password_Sign= findViewById(R.id.edt_Password_Sign);
         edt_Password_Sign_Confirm= findViewById(R.id.edt_Password_Sign_Confirm);
     }
-    private void checkInPutSignIn(){
-        if(edt_UserName_Sign.getText().toString().isEmpty()||
-                edt_Password_Sign.getText().toString().isEmpty()||
-                edt_Password_Sign_Confirm.getText().toString().isEmpty()
-        ){
-            Toast.makeText(this, "Phải điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
-            return;
+        private void checkInPutSignIn(){
+            if(edt_UserName_Sign.getText().toString().isEmpty()||
+                    edt_Password_Sign.getText().toString().isEmpty()||
+                    edt_Password_Sign_Confirm.getText().toString().isEmpty()
+            ){
+                Toast.makeText(this, "Phải điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if(!(edt_Password_Sign.getText().toString().equals(edt_Password_Sign_Confirm.getText().toString()))){
+                Toast.makeText(this, "Mật khẩu không trùng khớp", Toast.LENGTH_SHORT).show();
+            }
+            Intent intent = new Intent(Sign_Account.this,Login_Account.class);
+            startActivity(intent);
         }
-        if(!(edt_Password_Sign.getText().toString().equals(edt_Password_Sign_Confirm.getText().toString()))){
-            Toast.makeText(this, "Mật khẩu không trùng khớp", Toast.LENGTH_SHORT).show();
-        }
-        Intent intent = new Intent(Sign_Account.this,Login_Account.class);
-        startActivity(intent);
-    }
 }
