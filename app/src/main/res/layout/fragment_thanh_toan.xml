@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/nen_chinh"
     tools:context=".View.ThanhToan_Fragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -14,20 +15,37 @@
         android:orientation="vertical">
 
 
-        <RadioGroup
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical|right"
-            android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <RadioButton
-                android:id="@+id/radioButton"
-                android:layout_width="match_parent"
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Chọn tất cả"
+                android:layout_gravity="center_vertical"
+                android:textSize="24dp"
+                android:textColor="@color/white"
+                android:text="Thanh toán" />
 
-                />
-        </RadioGroup>
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radioButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Chọn tất cả"
+                    android:textSize="18dp"
+                    android:textColor="@color/white"
+                    />
+            </RadioGroup>
+        </LinearLayout>
 
         <ScrollView
             android:layout_width="match_parent"

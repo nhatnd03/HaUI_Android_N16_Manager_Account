@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -41,8 +40,9 @@ public class Login_Account extends AppCompatActivity {
     TextView txtchuyendangky;
     EditText edt_TenDangNhap,edt_MatKhau;
     Button btn_DangNhapManHinh;
-    public static final String TEN_TT_DANG_NHAP="TEN_TT_DANG_NHAP";
-    
+    public static final String LUU_TRANG_THAI_NGUOI_DUNG ="LUU_TRANG_THAI_NGUOI_DUNG";
+//    public static final int UserID=1;
+
     
 
     @Override
@@ -58,13 +58,13 @@ public class Login_Account extends AppCompatActivity {
         findId();
 
         //login to fingerPrint
-        SharedPreferences sharedPreferences = getSharedPreferences(TEN_TT_DANG_NHAP,MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences(LUU_TRANG_THAI_NGUOI_DUNG,MODE_PRIVATE);
         boolean islogin=sharedPreferences.getBoolean("isLogin",false);
         boolean isTurnOnFingerPrint=sharedPreferences.getBoolean("isTurnOnFingerPrint",false);
 
 
         if(islogin){
-            String user= sharedPreferences.getString("Username","");
+            String user= sharedPreferences.getString("UserName","");
             String pass= sharedPreferences.getString("PassWord","");
             edt_TenDangNhap.setText(user);
             edt_MatKhau.setText(pass);
@@ -199,7 +199,7 @@ public class Login_Account extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        SharedPreferences.Editor editor=getSharedPreferences(TEN_TT_DANG_NHAP,MODE_PRIVATE).edit();
+        SharedPreferences.Editor editor=getSharedPreferences(LUU_TRANG_THAI_NGUOI_DUNG,MODE_PRIVATE).edit();
         editor.putString("UserName",
                 edt_TenDangNhap.getText().toString());
         editor.putString("PassWord",
@@ -212,7 +212,7 @@ public class Login_Account extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        SharedPreferences sharedPreferences = getSharedPreferences(TEN_TT_DANG_NHAP,MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences(LUU_TRANG_THAI_NGUOI_DUNG,MODE_PRIVATE);
         boolean isTurnOnFingerPrint=sharedPreferences.getBoolean("isTurnOnFingerPrint",false);
         if(isTurnOnFingerPrint&&Check_Device_Biometric()){
             login_by_finger();

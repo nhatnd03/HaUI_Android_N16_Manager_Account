@@ -12,8 +12,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import ninhduynhat.com.haui_android_n16_manager_account.Model.SubjectObject;
 import ninhduynhat.com.haui_android_n16_manager_account.R;
@@ -21,12 +23,13 @@ import ninhduynhat.com.haui_android_n16_manager_account.R;
 public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.ViewHolder> {
 
     private List<SubjectObject> subjects;
-    private List<SubjectObject> selectedSubjects;
+    private Set<Integer> selectedSubjects;
     private Context context;
 
-    public SubjectAdapter(List<SubjectObject> subjects) {
+    public SubjectAdapter(List<SubjectObject> subjects, Context context) {
         this.subjects = subjects;
-        this.selectedSubjects = new ArrayList<>();
+        this.selectedSubjects = new HashSet<>();
+        this.context = context;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -67,18 +70,38 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.ViewHold
         String formattedAmount = numberFormat.format(subject.getAmount());
         holder.amount.setText(String.format("Số tiền: %s", formattedAmount));
 
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
+        // Sử dụng context để truy cập tài nguyên
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (selectedSubjects.contains(subject)) {
-                    selectedSubjects.remove(subject);
-                    holder.cardView.setCardBackgroundColor(context.getResources().getColor(android.R.color.white));
+                v.setBackgroundColor(context.getResources().getColor(R.color.xanhla));
+                // Các thao tác khác khi ấn vào item
+                if (selectedSubjects.contains(position)) {
+                    selectedSubjects.remove(position);
+                    v.setBackgroundColor(context.getResources().getColor(android.R.color.white));
                 } else {
-                    selectedSubjects.add(subject);
-                    holder.cardView.setCardBackgroundColor(context.getResources().getColor(R.color.black));
+                    selectedSubjects.add(position);
+                    v.setBackgroundColor(context.getResources().getColor(R.color.xanhla));
                 }
             }
         });
+
+        holder.itemView.setBackgroundColor(selectedSubjects.contains(position) ?
+                context.getResources().getColor(R.color.xanhla) :
+                context.getResources().getColor(android.R.color.white));
+
+//        holder.cardView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (selectedSubjects.contains(subject)) {
+//                    selectedSubjects.remove(subject);
+//                    holder.cardView.setCardBackgroundColor(context.getResources().getColor(android.R.color.white));
+//                } else {
+//                    selectedSubjects.add(subject);
+//                    holder.cardView.setCardBackgroundColor(context.getResources().getColor(R.color.black));
+//                }
+//            }
+//        });
     }
 
     @Override
@@ -86,7 +109,7 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.ViewHold
         return subjects.size();
     }
 
-    public List<SubjectObject> getSelectedSubjects() {
+    public Set<Integer> getSelectedPositions() {
         return selectedSubjects;
     }
 
