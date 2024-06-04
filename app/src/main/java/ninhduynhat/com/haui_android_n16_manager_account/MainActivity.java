@@ -8,9 +8,8 @@ package ninhduynhat.com.haui_android_n16_manager_account;
 
 
 
-import android.content.SharedPreferences;
+
 import android.os.Bundle;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -33,12 +32,12 @@ import ninhduynhat.com.haui_android_n16_manager_account.View.Thong_Ke_Fragment;
 public class MainActivity extends AppCompatActivity {
 
     MeowBottomNavigation meowBottomNavigation;
-    SharedPreferences sharedPreferences;
+//    SharedPreferences sharedPreferences;
 
 //    Switch switchvantay;
 
-
-    TextView thongbao;
+//
+//    TextView thongbao;
     protected long thoatungdung;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +99,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public Unit invoke(MeowBottomNavigation.Model model) {
                 // YOUR CODES
-                Intent intent = null;
                 int id= model.getId();
                 int enterAnimation = R.anim.enter_from_right;
                 int exitAnimation = R.anim.exit_to_left;
@@ -134,7 +132,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public Unit invoke(MeowBottomNavigation.Model model) {
                 // YOUR CODES
-                Intent intent = null;
                 int id= model.getId();
                 int enterAnimation = R.anim.enter_from_right;
                 int exitAnimation = R.anim.exit_to_left;
