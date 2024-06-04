@@ -3,8 +3,14 @@ plugins {
 }
 
 android {
+    //binding
+    buildFeatures {
+        viewBinding = true
+    }
     namespace 'ninhduynhat.com.haui_android_n16_manager_account'
     compileSdk 34
+
+
 
     defaultConfig {
         applicationId "ninhduynhat.com.haui_android_n16_manager_account"
@@ -48,5 +54,7 @@ dependencies {
     implementation 'gun0912.ted:tedbottompicker:1.2.6'
     //check permission
     implementation 'io.github.ParkSangGwon:tedpermission-normal:3.3.0'
+//Bieu do
+    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
 }
