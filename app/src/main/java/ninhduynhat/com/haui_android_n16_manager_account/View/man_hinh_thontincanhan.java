@@ -238,12 +238,15 @@ public class man_hinh_thontincanhan extends AppCompatActivity {
             @Override
             public void onPermissionDenied(List<String> deniedPermissions) {
                 Toast.makeText(man_hinh_thontincanhan.this, "Permission Denied\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
+                Log.e("check quyền truy cập ảnh",""+deniedPermissions.toString());
             }
         };
         TedPermission.create()
                 .setPermissionListener(permissionlistener)
                 .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
-                .setPermissions(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .setPermissions(
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.READ_MEDIA_IMAGES)
                 .check();
     }
 

@@ -3,10 +3,13 @@ package ninhduynhat.com.haui_android_n16_manager_account.View;
 import static android.content.Context.MODE_PRIVATE;
 import static ninhduynhat.com.haui_android_n16_manager_account.Login_Account.LUU_TRANG_THAI_NGUOI_DUNG;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,9 +18,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Base64;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -34,7 +45,6 @@ import ninhduynhat.com.haui_android_n16_manager_account.R;
 
 public class HomeFragment extends Fragment {
 
-    
     private RecyclerView rcl_Chi_Phi;
     private Chi_Phi_Adapter chiPhiAdapter;
     CircleImageView home_imgAvartar;
@@ -76,6 +86,12 @@ public class HomeFragment extends Fragment {
 //                        new Thong_Tin_Ca_Nhan_Fragment()).addToBackStack(null).commit();
                 Intent intent = new Intent(getActivity(), man_hinh_thontincanhan.class);
                 startActivity(intent);
+            }
+        });
+        floating_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openFeedbackDialog_themchiphi(Gravity.CENTER);
             }
         });
         rcl_Chi_Phi.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -130,4 +146,43 @@ public class HomeFragment extends Fragment {
             return null;
         }
     }
+
+
+    private void openFeedbackDialog_themchiphi(int gravity){
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.layout_dialog_themchiphi);
+        Window window = dialog.getWindow();
+        if(window==null){
+            return;
+        }
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        WindowManager.LayoutParams windowAtrubus= window.getAttributes();
+        windowAtrubus.gravity=gravity;
+        window.setAttributes(windowAtrubus);
+
+        EditText ten_chi_phi,thoi_gian_mua,mo_ta_chi_phi;
+        Button thoatDialogthemchiphi,nhanThemChiPhi;
+        ten_chi_phi= dialog.findViewById(R.id.ten_chi_phi);
+        thoi_gian_mua=dialog.findViewById(R.id.thoi_gian_mua);
+        mo_ta_chi_phi=dialog.findViewById(R.id.mo_ta_chi_phi);
+        thoatDialogthemchiphi=dialog.findViewById(R.id.thoatDialogthemchiphi);
+        nhanThemChiPhi=dialog.findViewById(R.id.nhanThemChiPhi);
+
+        nhanThemChiPhi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(), "Thêm thành công", Toast.LENGTH_SHORT).show();
+            }
+        });
+        thoatDialogthemchiphi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+
 }

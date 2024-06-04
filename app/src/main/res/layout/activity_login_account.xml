@@ -21,7 +21,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="LOGIN"
+            android:text="Đăng Nhập"
             android:textAlignment="center"
             android:textSize="34sp"
             android:textColor="@color/white"
@@ -76,7 +76,7 @@
         <Button
             android:id="@+id/btnDangNhapManHinh"
             android:layout_width="150dp"
-            android:text="LOGIN"
+            android:text="Đăng Nhập"
             android:layout_marginTop="5dp"
             android:backgroundTint="@color/xanh"
             android:layout_height="wrap_content"/>
@@ -90,16 +90,16 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Don't have account?"
+                android:text="Chưa có tài khoản? "
                 android:textAlignment="center"
                 android:textSize="12sp" />
 
             <TextView
-                android:id="@+id/chuyendangky"
+                android:id="@+id/txtchuyendangkys"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:text="Sign up"
+                android:text="Đăng ký"
                 android:textColor="@color/white"
                 android:textAlignment="center"
                 android:textSize="12sp"
