@@ -57,7 +57,9 @@ public class Cong_No_Fragment extends Fragment {
 
         databaseHelper = new DatabaseHelper(getContext());
 
-        loadUserData(1);
+        int userId = 1; // Giả sử bạn có userId là 1
+        loadUserData(userId);
+        loadTransactionHistory(userId);
 
         btnThanhToan.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,15 +83,20 @@ public class Cong_No_Fragment extends Fragment {
             }
         });
 
-
         return view;
     }
 
     private void loadUserData(int userId) {
-        UserObject user = databaseHelper.getUser(userId);
+        UserObject user = databaseHelper.getUserById(userId);
         if (user != null) {
             soDuTextView.setText(String.valueOf(user.getMoneyForStudying()));
             soTienConNoTextView.setText(String.valueOf(user.getDebtMoney()));
         }
+    }
+
+    private void loadTransactionHistory(int userId) {
+        transactionList.clear();
+        transactionList.addAll(databaseHelper.getPaidTuitionList(userId));
+        transactionAdapter.notifyDataSetChanged();
     }
 }

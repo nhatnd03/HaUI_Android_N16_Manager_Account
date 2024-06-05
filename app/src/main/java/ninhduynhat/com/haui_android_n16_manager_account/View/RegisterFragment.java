@@ -114,31 +114,21 @@ public class RegisterFragment extends Fragment {
     }
 
     private void registerSelectedSubjects() {
-//        List<SubjectObject> selectedSubjects = subjectAdapter.getSelectedSubjects();
-//        for (SubjectObject subject : selectedSubjects) {
-//            // Insert into PayingTuition table
-//            ContentValues values = new ContentValues();
-//            values.put("SubjectID", subject.getSubjectId());
-//            values.put("SubjectName", subject.getSubjectName());
-//            values.put("TheAmount", subject.getAmount());
-//            values.put("IsPaided", 0);
-//            db.insert("PayingTuition", null, values);
-//
-//            // Update DebtMoney for the user (Assuming userId is 1 for example)
-//            db.execSQL("UPDATE USER SET DebtMoney = DebtMoney + ? WHERE UserID = ?", new Object[]{subject.getAmount(), 1});
+
         Set<Integer> selectedPositions = subjectAdapter.getSelectedPositions();
         double totalDebt = 0;
 
         for (int position : selectedPositions) {
             SubjectObject subject = subjects.get(position);
-            PayingTuitionObject payingTuition = new PayingTuitionObject(0,1, subject.getSubjectId(), subject.getSubjectName(), subject.getAmount(), false);
+            PayingTuitionObject payingTuition = new PayingTuitionObject(0,1, subject.getSubjectId(), subject.getSubjectName(), subject.getStudyCredits() * 415000, false);
             databaseHelper.insertPayingTuition(1, payingTuition.getSubjectID(), payingTuition.getSubjectName(), payingTuition.getAmount(), payingTuition.isPaided()?1:0);
             totalDebt += subject.getAmount();
         }
 
         // Update the user's debt in the database
         SharedPreferences sharedPreferences = getContext().getSharedPreferences(LUU_TRANG_THAI_NGUOI_DUNG, MODE_PRIVATE);
-        UserObject user = databaseHelper.getUserById(sharedPreferences.getString("Username",""));
+//        UserObject user = databaseHelper.getUserByUsername(sharedPreferences.getString("Username",""));
+        UserObject user = databaseHelper.getUserByUsername("quangkedo");
         if (user != null) {
             double newDebt = user.getDebtMoney() + totalDebt;
             user.setDebtMoney(newDebt);

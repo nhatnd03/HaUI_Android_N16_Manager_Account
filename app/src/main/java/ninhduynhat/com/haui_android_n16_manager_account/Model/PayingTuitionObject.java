@@ -1,8 +1,10 @@
 package ninhduynhat.com.haui_android_n16_manager_account.Model;
 
+import ninhduynhat.com.haui_android_n16_manager_account.Database.DatabaseHelper;
+
 public class PayingTuitionObject {
 
-    private static final double TIENMOTTINCHI = 415000;
+    public static final double TIENMOTTINCHI = 415000;
 
     private int PayingTuitionId;
     private int UserID;
@@ -10,6 +12,7 @@ public class PayingTuitionObject {
     private String SubjectName;
     private double Amount;
     private boolean IsPaided;
+
 
     public PayingTuitionObject(){
 
@@ -71,4 +74,5 @@ public class PayingTuitionObject {
     public void setPaided(boolean paided) {
         IsPaided = paided;
     }
+
 }

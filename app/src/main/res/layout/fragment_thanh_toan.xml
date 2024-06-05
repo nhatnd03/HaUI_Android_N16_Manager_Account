@@ -60,7 +60,8 @@
                     android:id="@+id/chi_tiet_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="584dp"
-                    android:orientation="vertical" />
+
+                    android:clipToPadding="false"/>
             </LinearLayout>
         </ScrollView>
 

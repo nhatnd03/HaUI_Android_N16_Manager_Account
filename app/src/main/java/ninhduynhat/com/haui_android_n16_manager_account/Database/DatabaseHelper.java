@@ -217,6 +217,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return subjects;
     }
 
+    public double getCreditSubjectByID(int subjectID) {
+        double amount = 0;
+        SubjectObject subject = null;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query("SUBJECT", null, "SubjectID = ?", new String[]{String.valueOf(subjectID)}, null, null, null);
+
+        if (cursor != null) {
+                amount = cursor.getInt(cursor.getColumnIndexOrThrow("StudyCredits")) * 415000;
+            cursor.close();
+        }
+
+        return amount;
+    }
+
     // Phương thức chèn dữ liệu vào bảng PayingTuition
     public long insertPayingTuition(int userID, int subjectId, String subjectName, double theAmount, int isPaided) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -249,6 +263,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return payingTuitionList;
     }
+    public List<PayingTuitionObject> getPaidTuitionList(int userId) {
+        List<PayingTuitionObject> payingTuitionList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM PayingTuition WHERE IsPaided = 1 AND UserID = ?", new String[]{String.valueOf(userId)});
+        if (cursor.moveToFirst()) {
+            do {
+                PayingTuitionObject payingTuition = new PayingTuitionObject(
+                        cursor.getInt(cursor.getColumnIndexOrThrow("PayingTuitionId")),
+                        cursor.getInt(cursor.getColumnIndexOrThrow("SubjectID")),
+                        cursor.getInt(cursor.getColumnIndexOrThrow("UserID")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("SubjectName")),
+                        cursor.getDouble(cursor.getColumnIndexOrThrow("TheAmount")),
+                        cursor.getInt(cursor.getColumnIndexOrThrow("IsPaided")) == 1
+                );
+                payingTuitionList.add(payingTuition);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return payingTuitionList;
+    }
+
 
     public void updatePayingTuition(PayingTuitionObject payingTuition) {
         SQLiteDatabase db = this.getWritableDatabase();

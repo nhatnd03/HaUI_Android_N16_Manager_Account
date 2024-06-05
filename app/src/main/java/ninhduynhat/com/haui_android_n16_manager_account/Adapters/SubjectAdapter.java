@@ -74,14 +74,14 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.ViewHold
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                v.setBackgroundColor(context.getResources().getColor(R.color.xanhla));
+//                v.setBackgroundColor(context.getResources().getColor(R.color.xanhla));
                 // Các thao tác khác khi ấn vào item
                 if (selectedSubjects.contains(position)) {
                     selectedSubjects.remove(position);
-                    v.setBackgroundColor(context.getResources().getColor(android.R.color.white));
+//                    v.setBackgroundColor(context.getResources().getColor(android.R.color.white));
                 } else {
                     selectedSubjects.add(position);
-                    v.setBackgroundColor(context.getResources().getColor(R.color.xanhla));
+//                    v.setBackgroundColor(context.getResources().getColor(R.color.xanhla));
                 }
             }
         });

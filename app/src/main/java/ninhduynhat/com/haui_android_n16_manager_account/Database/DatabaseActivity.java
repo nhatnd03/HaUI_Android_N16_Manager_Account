@@ -39,7 +39,7 @@ public class DatabaseActivity extends AppCompatActivity {
 //        dbHelper.onCreate(db);
 
 //        // Thêm dữ liệu vào bảng User
-//        db.execSQL("INSERT INTO USER (Username, Password, Fullname, PhoneNumber, LivingExpenses, MoneyForStudying, DebtMoney) VALUES ('quangkedo', '1', \"Nguyễn Minh Quang\", '0334973459', 1000000.0, 1000000.0, 200000.0)");
+        db.execSQL("INSERT INTO USER (Username, Password, Fullname, PhoneNumber, LivingExpenses, MoneyForStudying, DebtMoney) VALUES ('quangkedo', '1', \"Nguyễn Minh Quang\", '0334973459', 1000000.0, 10000000.0, 000000.0)");
 //
 //        // Truy vấn dữ liệu từ bảng User
 //        Cursor cursor = db.rawQuery("SELECT * FROM USER", null);
@@ -78,31 +78,32 @@ public class DatabaseActivity extends AppCompatActivity {
 //        dbHelper.insertPlanning("Vacation", 2000.0, 1500.0, "2024-06-30", "Family");
 //
 //        // Chèn dữ liệu thử vào bảng SUBJECT
-//        long subjectId1 = dbHelper.insertSubject(1,"C++", 3, 1);
-//        long subjectId2 = dbHelper.insertSubject(1,"English", 5, 1);
-//        long subjectId3 = dbHelper.insertSubject(1,"English", 5, 1);
-//        long subjectId4 = dbHelper.insertSubject(1,"English", 5, 1);
-//        long subjectId5 = dbHelper.insertSubject(1,"English", 5, 1);
-//        long subjectId6 = dbHelper.insertSubject(1,"English", 5, 1);
-//        long subjectId7 = dbHelper.insertSubject(1,"English", 5, 1);
-//        long subjectId8 = dbHelper.insertSubject(1,"English", 5, 1);
-//        long subjectId9 = dbHelper.insertSubject(1,"English", 5, 1);
-//        long subjectId10 = dbHelper.insertSubject(1,"English", 5, 1);
-//        long subjectId11 = dbHelper.insertSubject(1,"Android", 4, 2);
-//        long subjectId12 = dbHelper.insertSubject(1,"English", 4, 3);
-//        long subjectId13 = dbHelper.insertSubject(1,"Java", 4, 3);
-//        long subjectId14 = dbHelper.insertSubject(1,"English", 4, 4);
+        long subjectId1 = dbHelper.insertSubject(1,"Lập trình C++", 3, 1);
+        long subjectId2 = dbHelper.insertSubject(1,"English", 5, 1);
+        long subjectId3 = dbHelper.insertSubject(1,"Lập trình C", 3, 1);
+        long subjectId4 = dbHelper.insertSubject(1,"Hệ thống cơ sở dữ liệu", 4, 1);
+        long subjectId5 = dbHelper.insertSubject(1,"Kiến trúc máy tính", 3, 1);
+        long subjectId6 = dbHelper.insertSubject(1,"Hệ điều hành", 3, 1);
+        long subjectId7 = dbHelper.insertSubject(1,"Phân tích thiết kế phần mềm", 3, 1);
+        long subjectId8 = dbHelper.insertSubject(1,"Lập trình Java", 3, 1);
+        long subjectId9 = dbHelper.insertSubject(1,"Lập trình .NET", 3, 1);
+        long subjectId10 = dbHelper.insertSubject(1,"English", 5, 1);
+        long subjectId11 = dbHelper.insertSubject(1,"Android", 4, 2);
+        long subjectId12 = dbHelper.insertSubject(1,"English", 4, 3);
+        long subjectId13 = dbHelper.insertSubject(1,"Lập trình Java nâng cao", 3, 3);
+        long subjectId14 = dbHelper.insertSubject(1,"English", 5, 4);
 //
 //        // Chèn dữ liệu thử vào bảng PayingTuition
-        dbHelper.insertPayingTuition( 1,1, "C++", 415000, 0);
-        dbHelper.insertPayingTuition( 1, 2,"English", 415000, 0);
-        dbHelper.insertPayingTuition( 1, 3,"English", 415000, 0);
-        dbHelper.insertPayingTuition( 1, 11,"Android", 415000, 0);
-        dbHelper.insertPayingTuition( 1, 5,"English", 415000, 0);
-        dbHelper.insertPayingTuition( 1, 13,"Java", 415000, 0);
-        dbHelper.insertPayingTuition( 1, 7,"English", 415000, 0);
-        dbHelper.insertPayingTuition( 1, 6,"English", 415000, 0);
-        dbHelper.insertPayingTuition( 1, 8,"English", 415000, 0);
+//        dbHelper.insertPayingTuition( 1,1, "C++", 415000, 0);
+//        dbHelper.insertPayingTuition( 1, 2,"English", 415000, 0);
+//        dbHelper.insertPayingTuition( 1, 3,"English", 415000, 0);
+//        dbHelper.insertPayingTuition( 1, 11,"Android", 415000, 0);
+//        dbHelper.insertPayingTuition( 1, 5,"English", 415000, 0);
+//        dbHelper.insertPayingTuition( 1, 13,"Java", 415000, 0);
+//        dbHelper.insertPayingTuition( 1, 7,"English", 415000, 0);
+//        dbHelper.insertPayingTuition( 1, 6,"English", 415000, 0);
+//        dbHelper.insertPayingTuition( 1, 8,"English", 415000, 0);
+//        dbHelper.insertPayingTuition( 1, 8,"English", 415000, 1);
 
         // Xóa tất cả dữ liệu từ bảng USER (ví dụ)
         // dbHelper.deleteAllFromTable("USER");
