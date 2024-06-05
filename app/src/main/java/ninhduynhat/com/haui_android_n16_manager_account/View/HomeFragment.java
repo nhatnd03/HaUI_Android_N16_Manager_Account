@@ -1,7 +1,7 @@
 package ninhduynhat.com.haui_android_n16_manager_account.View;
 
 import static android.content.Context.MODE_PRIVATE;
-import static ninhduynhat.com.haui_android_n16_manager_account.Login_Account.TEN_TT_DANG_NHAP;
+import static ninhduynhat.com.haui_android_n16_manager_account.Login_Account.LUU_TRANG_THAI_NGUOI_DUNG;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -14,8 +14,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,11 +22,13 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -39,7 +39,6 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import ninhduynhat.com.haui_android_n16_manager_account.Adapters.Chi_Phi_Adapter;
-import ninhduynhat.com.haui_android_n16_manager_account.Login_Account;
 import ninhduynhat.com.haui_android_n16_manager_account.Model.KhoanChi;
 import ninhduynhat.com.haui_android_n16_manager_account.R;
 
@@ -128,7 +127,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        sharedPreferences= getActivity().getSharedPreferences(TEN_TT_DANG_NHAP,MODE_PRIVATE);
+        sharedPreferences= getActivity().getSharedPreferences(LUU_TRANG_THAI_NGUOI_DUNG,MODE_PRIVATE);
         String LUU_DU_LIEU_ANH=sharedPreferences.getString("LUU_DU_LIEU_ANH","");
         Bitmap bitmap=StringToBitMap(LUU_DU_LIEU_ANH);
         if(!LUU_DU_LIEU_ANH.equals("")){

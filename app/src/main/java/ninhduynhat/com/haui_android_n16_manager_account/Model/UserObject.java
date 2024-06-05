@@ -5,23 +5,27 @@ public class UserObject {
     private int UserID;
     private String UserName;
     private String Password;
+    private String Fullname;
     private String PhoneNumber;
     private double LivingExpenses;
     private double MoneyForStudying;
     private double DebtMoney;
+    private String Image;
 
     public UserObject(){
 
     }
 
-    public UserObject(int userID, String userName, String password, String phoneNumber, double livingExpenses, double moneyForStudying, double debtMoney) {
+    public UserObject(int userID, String userName, String password, String fullname, String phoneNumber, double livingExpenses, double moneyForStudying, double debtMoney, String image) {
         UserID = userID;
         UserName = userName;
         Password = password;
+        Fullname = fullname;
         PhoneNumber = phoneNumber;
         LivingExpenses = livingExpenses;
         MoneyForStudying = moneyForStudying;
         DebtMoney = debtMoney;
+        Image = image;
     }
 
     public int getUserID() {
@@ -46,6 +50,14 @@ public class UserObject {
 
     public void setPassword(String password) {
         Password = password;
+    }
+
+    public String getFullname() {
+        return Fullname;
+    }
+
+    public void setFullname(String fullname) {
+        Fullname = fullname;
     }
 
     public String getPhoneNumber() {
@@ -78,5 +90,13 @@ public class UserObject {
 
     public void setDebtMoney(double debtMoney) {
         DebtMoney = debtMoney;
+    }
+
+    public String getImage() {
+        return Image;
+    }
+
+    public void setImage(String image) {
+        Image = image;
     }
 }

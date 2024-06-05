@@ -5,6 +5,7 @@ import java.sql.Date;
 public class PlanObject {
 
     private int PlanId;
+    private int UserID;
     private String PlanName;
     private double AmoutNeeded;
     private double AmoutReached;
@@ -14,8 +15,9 @@ public class PlanObject {
     public PlanObject() {
     }
 
-    public PlanObject(int planId, String planName, double amoutNeeded, double amoutReached, Date timeLine, String planType) {
+    public PlanObject(int planId, int userID, String planName, double amoutNeeded, double amoutReached, Date timeLine, String planType) {
         PlanId = planId;
+        UserID = userID;
         PlanName = planName;
         AmoutNeeded = amoutNeeded;
         AmoutReached = amoutReached;
@@ -29,6 +31,14 @@ public class PlanObject {
 
     public void setPlanId(int planId) {
         PlanId = planId;
+    }
+
+    public int getUserID() {
+        return UserID;
+    }
+
+    public void setUserID(int userID) {
+        UserID = userID;
     }
 
     public String getPlanName() {
