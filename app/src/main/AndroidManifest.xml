@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
 
-
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -21,6 +20,7 @@
         <activity
             android:name=".Database.DatabaseActivity"
             android:exported="true" />
+
         <activity
             android:name=".Sign_Account"
             android:exported="false" />

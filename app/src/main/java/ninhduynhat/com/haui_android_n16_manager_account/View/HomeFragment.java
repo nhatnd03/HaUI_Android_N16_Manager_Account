@@ -1,9 +1,11 @@
 package ninhduynhat.com.haui_android_n16_manager_account.View;
 
 import static android.content.Context.MODE_PRIVATE;
-import static ninhduynhat.com.haui_android_n16_manager_account.Login_Account.TEN_TT_DANG_NHAP;
+import static ninhduynhat.com.haui_android_n16_manager_account.Login_Account.LUU_TRANG_THAI_NGUOI_DUNG;
+
 
 import android.app.DatePickerDialog;
+
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,11 +21,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Base64;
-import android.view.ContextMenu;
+
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -31,7 +34,9 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+
 import android.widget.Toast;
+
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -123,12 +128,6 @@ public class HomeFragment extends Fragment {
 
     }
 
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        getActivity().getMenuInflater().inflate(R.menu.context_menu_chi_phi, menu);
-    }
-
 
     private List<KhoanChi> dataInitalize() {
 
@@ -155,7 +154,7 @@ public class HomeFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        sharedPreferences= getActivity().getSharedPreferences(TEN_TT_DANG_NHAP,MODE_PRIVATE);
+        sharedPreferences= getActivity().getSharedPreferences(LUU_TRANG_THAI_NGUOI_DUNG,MODE_PRIVATE);
         String LUU_DU_LIEU_ANH=sharedPreferences.getString("LUU_DU_LIEU_ANH","");
         Bitmap bitmap=StringToBitMap(LUU_DU_LIEU_ANH);
         if(!LUU_DU_LIEU_ANH.equals("")){
@@ -191,16 +190,19 @@ public class HomeFragment extends Fragment {
         windowAtrubus.gravity=gravity;
         window.setAttributes(windowAtrubus);
 
+
         EditText mo_ta_chi_phi;
         TextView date_picker,thoi_gian_mua;
         Spinner loai_chi_phi;
         Button thoatDialogthemchiphi,nhanThemChiPhi;
         date_picker=dialog.findViewById(R.id.date_picker);
         loai_chi_phi= dialog.findViewById(R.id.loai_chi_phi);
+
         thoi_gian_mua=dialog.findViewById(R.id.thoi_gian_mua);
         mo_ta_chi_phi=dialog.findViewById(R.id.mo_ta_chi_phi);
         thoatDialogthemchiphi=dialog.findViewById(R.id.thoatDialogthemchiphi);
         nhanThemChiPhi=dialog.findViewById(R.id.nhanThemChiPhi);
+
 
         loaiChiPhi=LoaiChiPhi.values();
         ChiPhiSpiner_Adapter chiPhiSpinerAdapter=new ChiPhiSpiner_Adapter(getActivity(),loaiChiPhi);

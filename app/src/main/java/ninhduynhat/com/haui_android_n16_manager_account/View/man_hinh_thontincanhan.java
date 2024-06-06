@@ -1,6 +1,6 @@
 package ninhduynhat.com.haui_android_n16_manager_account.View;
 
-import static ninhduynhat.com.haui_android_n16_manager_account.Login_Account.TEN_TT_DANG_NHAP;
+import static ninhduynhat.com.haui_android_n16_manager_account.Login_Account.LUU_TRANG_THAI_NGUOI_DUNG;
 
 import android.Manifest;
 import android.app.Activity;
@@ -75,7 +75,7 @@ public class man_hinh_thontincanhan extends AppCompatActivity {
         });
         findId();
 
-        sharedPreferences =getSharedPreferences(TEN_TT_DANG_NHAP,MODE_PRIVATE);
+        sharedPreferences =getSharedPreferences(LUU_TRANG_THAI_NGUOI_DUNG,MODE_PRIVATE);
         boolean isTurnOnFingerPrint=sharedPreferences.getBoolean("isTurnOnFingerPrint",false);
         boolean check_device= sharedPreferences.getBoolean("Check_Device_onFinger",false);
         boolean isLogin =sharedPreferences.getBoolean("isLogin",false);
@@ -135,7 +135,7 @@ public class man_hinh_thontincanhan extends AppCompatActivity {
         if(uriToBitmap2(uri)==null){
             return;
         }
-        SharedPreferences.Editor editor = getSharedPreferences(TEN_TT_DANG_NHAP,MODE_PRIVATE).edit();
+        SharedPreferences.Editor editor = getSharedPreferences(LUU_TRANG_THAI_NGUOI_DUNG,MODE_PRIVATE).edit();
         Bitmap bitmapFromFile = uriToBitmap2(uri);
         if(bitmapFromFile==null){
             editor.putString("LUU_DU_LIEU_ANH","");
@@ -222,7 +222,7 @@ public class man_hinh_thontincanhan extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        sharedPreferences = getSharedPreferences(TEN_TT_DANG_NHAP,MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(LUU_TRANG_THAI_NGUOI_DUNG,MODE_PRIVATE);
         boolean checked= sharedPreferences.getBoolean("isTurnOnFingerPrint",false);
         boolean check_device= sharedPreferences.getBoolean("Check_Device_onFinger",false);
         String LUU_DU_LIEU_ANH=sharedPreferences.getString("LUU_DU_LIEU_ANH","");
@@ -242,7 +242,7 @@ public class man_hinh_thontincanhan extends AppCompatActivity {
         super.onPause();
         boolean ischeckedSwitch=switchvantay.isChecked();
         boolean luumatkhau=switchluumatkhau.isChecked();
-        SharedPreferences.Editor editor = getSharedPreferences(TEN_TT_DANG_NHAP,MODE_PRIVATE).edit();
+        SharedPreferences.Editor editor = getSharedPreferences(LUU_TRANG_THAI_NGUOI_DUNG,MODE_PRIVATE).edit();
         editor.putBoolean("isTurnOnFingerPrint",ischeckedSwitch);
         editor.putBoolean("isLogin",luumatkhau);
 
@@ -254,7 +254,7 @@ public class man_hinh_thontincanhan extends AppCompatActivity {
         super.onDestroy();
         boolean ischeckedSwitch=switchvantay.isChecked();
         boolean luumatkhau=switchluumatkhau.isChecked();
-        SharedPreferences.Editor editor = getSharedPreferences(TEN_TT_DANG_NHAP,MODE_PRIVATE).edit();
+        SharedPreferences.Editor editor = getSharedPreferences(LUU_TRANG_THAI_NGUOI_DUNG,MODE_PRIVATE).edit();
         editor.putBoolean("isTurnOnFingerPrint",ischeckedSwitch);
         editor.putBoolean("isLogin",luumatkhau);
         editor.commit();
@@ -277,6 +277,7 @@ public class man_hinh_thontincanhan extends AppCompatActivity {
             return bitmap;
         }
     }
+
 
 
 
