@@ -58,6 +58,7 @@ public class Login_Account extends AppCompatActivity {
         });
         findId();
 
+
         //login to fingerPrint
         SharedPreferences sharedPreferences = getSharedPreferences(LUU_TRANG_THAI_NGUOI_DUNG,MODE_PRIVATE);
 
@@ -206,7 +207,6 @@ public class Login_Account extends AppCompatActivity {
 
         SharedPreferences.Editor editor=getSharedPreferences(LUU_TRANG_THAI_NGUOI_DUNG,MODE_PRIVATE).edit();
         editor.putString("UserName",
-
                 edt_TenDangNhap.getText().toString());
         editor.putString("PassWord",
                 edt_MatKhau.getText().toString());
@@ -219,6 +219,7 @@ public class Login_Account extends AppCompatActivity {
         super.onResume();
         SharedPreferences sharedPreferences = getSharedPreferences(LUU_TRANG_THAI_NGUOI_DUNG,MODE_PRIVATE);
         boolean isTurnOnFingerPrint=sharedPreferences.getBoolean("isTurnOnFingerPrint",false);
+        String LUU_DU_LIEU_ANH=sharedPreferences.getString("LUU_DU_LIEU_ANH","");
         if(isTurnOnFingerPrint&&Check_Device_Biometric()){
             login_by_finger();
             image_finger_login.setVisibility(View.VISIBLE);

@@ -85,7 +85,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
-                            android:background="@drawable/edit_image_ttcn" />
+                            android:backgroundTint="@color/white"
+                            android:background="@drawable/icon_chon_anh" />
                     </androidx.cardview.widget.CardView>
                 </RelativeLayout>
             </LinearLayout>

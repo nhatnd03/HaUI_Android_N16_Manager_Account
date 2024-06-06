@@ -3,6 +3,9 @@ package ninhduynhat.com.haui_android_n16_manager_account.View;
 import static android.content.Context.MODE_PRIVATE;
 import static ninhduynhat.com.haui_android_n16_manager_account.Login_Account.LUU_TRANG_THAI_NGUOI_DUNG;
 
+
+import android.app.DatePickerDialog;
+
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,6 +21,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Base64;
+
+import android.view.ContextMenu;
+
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +33,15 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
+
 import android.widget.Toast;
 
 
@@ -34,12 +49,18 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import ninhduynhat.com.haui_android_n16_manager_account.Adapters.ChiPhiSpiner_Adapter;
 import ninhduynhat.com.haui_android_n16_manager_account.Adapters.Chi_Phi_Adapter;
 import ninhduynhat.com.haui_android_n16_manager_account.Model.KhoanChi;
+import ninhduynhat.com.haui_android_n16_manager_account.Model.LoaiChiPhi;
 import ninhduynhat.com.haui_android_n16_manager_account.R;
 
 
@@ -47,9 +68,11 @@ public class HomeFragment extends Fragment {
 
     private RecyclerView rcl_Chi_Phi;
     private Chi_Phi_Adapter chiPhiAdapter;
-    CircleImageView home_imgAvartar;
-    FloatingActionButton floating_add;
-    SharedPreferences sharedPreferences;
+    private CircleImageView home_imgAvartar;
+    private FloatingActionButton floating_add;
+    private SharedPreferences sharedPreferences;
+    private LoaiChiPhi loaiChiPhi[];
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -62,11 +85,13 @@ public class HomeFragment extends Fragment {
         View rootView =inflater.inflate(R.layout.fragment_home, container, false);
         rcl_Chi_Phi=rootView.findViewById(R.id.rcl_Chi_Phi);
 
-
         rcl_Chi_Phi.setLayoutManager(new LinearLayoutManager(getActivity()));
         chiPhiAdapter = new Chi_Phi_Adapter();
-        chiPhiAdapter.setData(dataInitalize());
+        chiPhiAdapter.setData(getActivity(),dataInitalize());
+
         rcl_Chi_Phi.setAdapter(chiPhiAdapter);
+
+
 
         return rootView;
     }
@@ -105,7 +130,16 @@ public class HomeFragment extends Fragment {
                 super.onScrolled(recyclerView, dx, dy);
             }
         });
+
+
     }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        getActivity().getMenuInflater().inflate(R.menu.context_menu_chi_phi, menu);
+    }
+
 
     private List<KhoanChi> dataInitalize() {
 
@@ -124,15 +158,22 @@ public class HomeFragment extends Fragment {
         return khoanChiArrayLists;
     }
 
+    private void xuLySuaXoaChiPhi(){
+
+    }
+
     @Override
     public void onResume() {
         super.onResume();
+
         sharedPreferences= getActivity().getSharedPreferences(LUU_TRANG_THAI_NGUOI_DUNG,MODE_PRIVATE);
+
         String LUU_DU_LIEU_ANH=sharedPreferences.getString("LUU_DU_LIEU_ANH","");
         Bitmap bitmap=StringToBitMap(LUU_DU_LIEU_ANH);
         if(!LUU_DU_LIEU_ANH.equals("")){
             home_imgAvartar.setImageBitmap(bitmap);
         }
+
     }
 
     @androidx.annotation.Nullable
@@ -162,13 +203,53 @@ public class HomeFragment extends Fragment {
         windowAtrubus.gravity=gravity;
         window.setAttributes(windowAtrubus);
 
-        EditText ten_chi_phi,thoi_gian_mua,mo_ta_chi_phi;
+
+
+
+        EditText mo_ta_chi_phi;
+        TextView date_picker,thoi_gian_mua;
+        Spinner loai_chi_phi;
         Button thoatDialogthemchiphi,nhanThemChiPhi;
-        ten_chi_phi= dialog.findViewById(R.id.ten_chi_phi);
+        date_picker=dialog.findViewById(R.id.date_picker);
+        loai_chi_phi= dialog.findViewById(R.id.loai_chi_phi);
+
         thoi_gian_mua=dialog.findViewById(R.id.thoi_gian_mua);
         mo_ta_chi_phi=dialog.findViewById(R.id.mo_ta_chi_phi);
         thoatDialogthemchiphi=dialog.findViewById(R.id.thoatDialogthemchiphi);
         nhanThemChiPhi=dialog.findViewById(R.id.nhanThemChiPhi);
+
+
+        loaiChiPhi=LoaiChiPhi.values();
+        ChiPhiSpiner_Adapter chiPhiSpinerAdapter=new ChiPhiSpiner_Adapter(getActivity(),loaiChiPhi);
+        loai_chi_phi.setAdapter(chiPhiSpinerAdapter);
+        date_picker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar calendar = Calendar.getInstance();
+                int ngay = calendar.get(Calendar.DATE);
+                int thang = calendar.get(Calendar.MONTH);
+                int nam = calendar.get(Calendar.YEAR);
+
+                DatePickerDialog dialog = new DatePickerDialog(getActivity(), android.R.style.Theme_Holo_Light_Dialog, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        try {
+                            Date date = new Date(year-1900,month,dayOfMonth);
+                            DateFormat df = new SimpleDateFormat("dd/MM/yyyy ");
+                            String dateString = df.format(date);
+                            thoi_gian_mua.setText(dateString);
+                        }
+                        catch (Exception e){
+                            Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }, nam, thang, ngay);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.setTitle("Chọn thời gian");
+                dialog.show();
+            }
+        });
+
 
         nhanThemChiPhi.setOnClickListener(new View.OnClickListener() {
             @Override
