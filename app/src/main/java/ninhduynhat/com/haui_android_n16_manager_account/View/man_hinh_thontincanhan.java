@@ -3,15 +3,18 @@ package ninhduynhat.com.haui_android_n16_manager_account.View;
 import static ninhduynhat.com.haui_android_n16_manager_account.Login_Account.TEN_TT_DANG_NHAP;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
@@ -27,6 +30,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,15 +42,15 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.gun0912.tedpermission.PermissionListener;
-import com.gun0912.tedpermission.normal.TedPermission;
+import com.github.dhaval2404.imagepicker.ImagePicker;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileDescriptor;
 import java.io.IOException;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import gun0912.tedbottompicker.TedBottomPicker;
 import ninhduynhat.com.haui_android_n16_manager_account.Login_Account;
 import ninhduynhat.com.haui_android_n16_manager_account.MainActivity;
 import ninhduynhat.com.haui_android_n16_manager_account.R;
@@ -101,7 +108,11 @@ public class man_hinh_thontincanhan extends AppCompatActivity {
         txtNchangeImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                requesPermission();
+                ImagePicker.with(man_hinh_thontincanhan.this)
+                        .crop()	    			//Crop image(Optional), Check Customization for more option
+                        .compress(1024)			//Final image size will be less than 1 MB(Optional)
+                        .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
+                        .start();
             }
         });
 
@@ -117,6 +128,25 @@ public class man_hinh_thontincanhan extends AppCompatActivity {
         home_imgAvartar=findViewById(R.id.home_imgAvartar);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Uri uri=data.getData();
+        if(uriToBitmap2(uri)==null){
+            return;
+        }
+        SharedPreferences.Editor editor = getSharedPreferences(TEN_TT_DANG_NHAP,MODE_PRIVATE).edit();
+        Bitmap bitmapFromFile = uriToBitmap2(uri);
+        if(bitmapFromFile==null){
+            editor.putString("LUU_DU_LIEU_ANH","");
+            editor.commit();
+        }
+        else {
+            editor.putString("LUU_DU_LIEU_ANH",BitMapToString(uriToBitmap2(uri)));
+            editor.commit();
+        }
+        home_imgAvartar.setImageBitmap(uriToBitmap2(uri));
+    }
 
     private void openFeedbackDialog_Matkhau(int gravity){
         final Dialog dialog = new Dialog(this);
@@ -167,6 +197,7 @@ public class man_hinh_thontincanhan extends AppCompatActivity {
         windowAtrubus.gravity=gravity;
         window.setAttributes(windowAtrubus);
 
+
         Button thoatDialog2,nhanThoat;
         thoatDialog2=dialog.findViewById(R.id.thoatDialog2);
         nhanThoat=dialog.findViewById(R.id.nhanThoat);
@@ -179,6 +210,7 @@ public class man_hinh_thontincanhan extends AppCompatActivity {
         nhanThoat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent(man_hinh_thontincanhan.this, Login_Account.class);
                 startActivity(intent);
             }
@@ -213,6 +245,7 @@ public class man_hinh_thontincanhan extends AppCompatActivity {
         SharedPreferences.Editor editor = getSharedPreferences(TEN_TT_DANG_NHAP,MODE_PRIVATE).edit();
         editor.putBoolean("isTurnOnFingerPrint",ischeckedSwitch);
         editor.putBoolean("isLogin",luumatkhau);
+
         editor.commit();
     }
 
@@ -227,48 +260,25 @@ public class man_hinh_thontincanhan extends AppCompatActivity {
         editor.commit();
     }
 
-    private void requesPermission(){
 
-        PermissionListener permissionlistener = new PermissionListener() {
-            @Override
-            public void onPermissionGranted() {
-                openImagePicker();
-            }
+    private Bitmap uriToBitmap2(Uri selectedFileUri) {
+        Bitmap bitmap=null;
+        try {
+            ParcelFileDescriptor parcelFileDescriptor =
+                    getContentResolver().openFileDescriptor(selectedFileUri, "r");
+            FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
+            bitmap = BitmapFactory.decodeFileDescriptor(fileDescriptor);
 
-            @Override
-            public void onPermissionDenied(List<String> deniedPermissions) {
-                Toast.makeText(man_hinh_thontincanhan.this, "Permission Denied\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
-            }
-        };
-        TedPermission.create()
-                .setPermissionListener(permissionlistener)
-                .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
-                .setPermissions(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                .check();
+            parcelFileDescriptor.close();
+            return bitmap;
+        } catch (IOException e) {
+
+            e.printStackTrace();
+            return bitmap;
+        }
     }
 
-    private void openImagePicker(){
-        TedBottomPicker.OnImageSelectedListener listener= new TedBottomPicker.OnImageSelectedListener() {
-            @Override
-            public void onImageSelected(Uri uri) {
-                try {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
-                    home_imgAvartar.setImageBitmap(bitmap);
-                    SharedPreferences.Editor editor =getSharedPreferences(TEN_TT_DANG_NHAP,MODE_PRIVATE).edit();
-                    editor.putString("LUU_DU_LIEU_ANH",BitMapToString(bitmap));
-                    editor.commit();
 
-                } catch (IOException e) {
-                    Log.e("lỗi chọn ảnh", e+"");
-                }
-            }
-        };
-        TedBottomPicker tedBottomPicker = new TedBottomPicker.Builder(man_hinh_thontincanhan.this)
-                .setOnImageSelectedListener(listener)
-                .setCompleteButtonText("Xong")
-                .create();
-        tedBottomPicker.show(getSupportFragmentManager());
-    }
 
 
 

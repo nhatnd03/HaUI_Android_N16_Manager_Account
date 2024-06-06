@@ -216,6 +216,7 @@ public class Login_Account extends AppCompatActivity {
         super.onResume();
         SharedPreferences sharedPreferences = getSharedPreferences(TEN_TT_DANG_NHAP,MODE_PRIVATE);
         boolean isTurnOnFingerPrint=sharedPreferences.getBoolean("isTurnOnFingerPrint",false);
+        String LUU_DU_LIEU_ANH=sharedPreferences.getString("LUU_DU_LIEU_ANH","");
         if(isTurnOnFingerPrint&&Check_Device_Biometric()){
             login_by_finger();
             image_finger_login.setVisibility(View.VISIBLE);
