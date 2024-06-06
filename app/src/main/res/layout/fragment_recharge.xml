@@ -7,9 +7,6 @@
     android:background="@color/nen_chinh"
     tools:context=".View.Recharge_Fragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -63,44 +60,62 @@
                         android:layout_width="250dp"
                         android:layout_height="70dp"
                         android:ems="10"
-                        android:inputType="text"
+                        android:inputType="numberDecimal"
                         android:drawableStart="@drawable/icon_cong_no"
-                        android:hint="3.000.000 VND"
-                        android:layout_below="@id/textView"
+                        android:hint="Nhập số tiền"
                         android:drawablePadding="10dp"
                         android:padding="5dp"
                         android:background="@drawable/rounded_edittext_states"
                         android:backgroundTintMode="@color/white"
-                        android:elevation="10dp"
-                        />
+                        android:elevation="10dp"/>
                 </TableRow>
 
-<!--                <TableRow-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginTop="16dp">-->
+                <Spinner
+                    android:id="@+id/spinner_payment_method"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"/>
 
-<!--                    <Button-->
-<!--                        android:id="@+id/btnNapTien"-->
-<!--                        android:layout_width="0dp"-->
-<!--                        android:layout_height="60dp"-->
-<!--                        android:layout_weight="1"-->
-<!--                        android:backgroundTint="@android:color/holo_blue_light"-->
-<!--                        android:text="Nạp tiền"-->
-<!--                        android:textSize="20sp" />-->
+                <LinearLayout
+                    android:id="@+id/bank_transfer_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    android:layout_marginTop="16dp">
 
-<!--                    <Button-->
-<!--                        android:id="@+id/btnQuayLaiMHNap"-->
-<!--                        android:layout_width="0dp"-->
-<!--                        android:layout_height="60dp"-->
-<!--                        android:layout_marginStart="8dp"-->
-<!--                        android:layout_weight="1"-->
-<!--                        android:backgroundTint="@android:color/holo_blue_light"-->
-<!--                        android:text="Quay lại"-->
-<!--                        android:textSize="20sp" />-->
-<!--                </TableRow>-->
+                    <EditText
+                        android:id="@+id/edit_text_bank_account"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Số tài khoản ngân hàng"
+                        android:inputType="number"
+                        android:padding="10dp"
+                        android:background="@drawable/rounded_edittext_states"
+                        android:layout_marginBottom="16dp"/>
+
+                    <EditText
+                        android:id="@+id/edit_text_bank_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Tên ngân hàng"
+                        android:padding="10dp"
+                        android:background="@drawable/rounded_edittext_states"
+                        android:layout_marginBottom="16dp"/>
+
+                    <EditText
+                        android:id="@+id/edit_text_bank_branch"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Chi nhánh ngân hàng"
+                        android:padding="10dp"
+                        android:background="@drawable/rounded_edittext_states"
+                        android:layout_marginBottom="16dp"/>
+                </LinearLayout>
+
             </LinearLayout>
         </androidx.cardview.widget.CardView>
+
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -113,7 +128,7 @@
                 android:layout_weight="1"
                 android:backgroundTint="@android:color/holo_blue_light"
                 android:text="Nạp tiền"
-                android:textSize="20sp" />
+                android:textSize="20sp"/>
 
             <Button
                 android:id="@+id/btnQuayLaiMHNap"
@@ -123,7 +138,7 @@
                 android:layout_weight="1"
                 android:backgroundTint="@android:color/holo_blue_light"
                 android:text="Quay lại"
-                android:textSize="20sp" />
+                android:textSize="20sp"/>
         </TableRow>
     </LinearLayout>
 </FrameLayout>

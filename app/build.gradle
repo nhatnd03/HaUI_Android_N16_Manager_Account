@@ -42,6 +42,10 @@ dependencies {
     implementation 'com.etebarian:meow-bottom-navigation:1.2.0'
     implementation "androidx.biometric:biometric:1.1.0"
     implementation 'androidx.cardview:cardview:1.0.0'
+//    implementation 'com.vnpay:vnpt-pg-sdk:1.0.0'
+//    implementation 'vn.vnpay:payment:1.0.0' // Sử dụng đúng phiên bản SDK của VNPay
+//    implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
+
     //thư viện ảnh hình tròn
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
