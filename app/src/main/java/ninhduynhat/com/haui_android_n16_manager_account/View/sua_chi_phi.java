@@ -124,7 +124,9 @@ public class sua_chi_phi extends AppCompatActivity {
         nhanSuaChiPhi_2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                xulyDauVao();
+                if(xulyDauVao()){
+                    finish();
+                }
             }
         });
         //thoát chức năng thêm chi phí
@@ -173,35 +175,37 @@ public class sua_chi_phi extends AppCompatActivity {
         return userObject;
     }
 
-    private void xulyDauVao(){
+    private boolean xulyDauVao(){
         databaseHelper= new DatabaseHelper(sua_chi_phi.this);
-        if(mo_ta_chi_phi_2.getText().toString().isEmpty()&&gia_chi_phi_2.getText().toString().isEmpty()){
+        if(mo_ta_chi_phi_2.getText().toString().isEmpty()||gia_chi_phi_2.getText().toString().isEmpty()){
             Toast.makeText(this, "Phải điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
-            return;
+            return false;
         }
-        ExpensesObject expensesObject=databaseHelper.getExpensesByIdExpense(user_id);
-        double gia= Double.parseDouble(gia_chi_phi_2.getText().toString());
-        if(gia<1000){
-            Toast.makeText(this, "Chi phí phải lớn hơn 1000", Toast.LENGTH_SHORT).show();
+        else {
+            ExpensesObject expensesObject=databaseHelper.getExpensesByIdExpense(user_id);
+            double gia= Double.parseDouble(gia_chi_phi_2.getText().toString());
+            if(gia<1000){
+                Toast.makeText(this, "Chi phí phải lớn hơn 1000", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+            else {
+                UserObject userObject=new UserObject();
+                userObject=getDataUserName();
+
+                String ngaymua=thoi_gian_mua_3.getText().toString();
+                String mota=mo_ta_chi_phi_2.getText().toString();
+
+                double sodumoi=userObject.getLivingExpenses()-gia+expensesObject.getAmountSpent();
+                if(sodumoi>=0){
+                    databaseHelper.update_LivingExpenses(userObject.getUserID(),sodumoi);
+                    databaseHelper.updateKhoanChi(user_id,loaichi,gia,ngaymua,mota);
+                    return true;
+                }else {
+                    Toast.makeText(this, "Số dư không đủ", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            }
         }
-        UserObject userObject=new UserObject();
-        userObject=getDataUserName();
 
-        String ngaymua=thoi_gian_mua_3.getText().toString();
-        String mota=mo_ta_chi_phi_2.getText().toString();
-
-        double sodumoi=userObject.getLivingExpenses()-gia+expensesObject.getAmountSpent();
-        if(sodumoi>=0){
-            databaseHelper.update_LivingExpenses(userObject.getUserID(),sodumoi);
-            databaseHelper.updateKhoanChi(user_id,loaichi,gia,ngaymua,mota);
-        }else {
-            Toast.makeText(this, "Số dư không đủ", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-//        databaseHelper.updateKhoanChi();
-
-
-        finish();
     }
 }

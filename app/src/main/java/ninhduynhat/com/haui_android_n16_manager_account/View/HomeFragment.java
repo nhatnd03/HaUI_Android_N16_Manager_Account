@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 
 import android.widget.CalendarView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -196,8 +197,6 @@ public class HomeFragment extends Fragment {
 
 //        sharedPreferences= getActivity().getSharedPreferences(LUU_TRANG_THAI_NGUOI_DUNG,MODE_PRIVATE);
 //        String LUU_DU_LIEU_ANH=sharedPreferences.getString("LUU_DU_LIEU_ANH","");
-
-
         databaseHelper= new DatabaseHelper(getActivity());
         UserObject userObject= new UserObject();
         userObject=getDataUserName();
@@ -209,7 +208,6 @@ public class HomeFragment extends Fragment {
         Date date = new Date(nam-1900,thang,ngay);
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         String dateString = df.format(date);
-
         rcl_Chi_Phi.setLayoutManager(new LinearLayoutManager(getActivity()));
         chiPhiAdapter = new Chi_Phi_Adapter();
         chiPhiAdapter.setData(getActivity(),setDataCholistKhoanchi(userObject.getUserID(),dateString));
@@ -224,8 +222,7 @@ public class HomeFragment extends Fragment {
         }else {
             soduhientai.setText("Số dư: 0 VND");
         }
-
-
+        
         Bitmap bitmap=StringToBitMap(userObject.getImage());
         if(bitmap!=null){
             home_imgAvartar.setImageBitmap(bitmap);

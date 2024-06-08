@@ -217,14 +217,16 @@ public class man_hinh_thontincanhan extends AppCompatActivity {
     }
     
     private boolean XuLyDoiMatKhau(String mkHienTai,String matKhauMoi,String xacNhanMK){
-        if(mkHienTai.isEmpty()&&matKhauMoi.isEmpty()&&xacNhanMK.isEmpty()){
+        if(mkHienTai.isEmpty()||matKhauMoi.isEmpty()||xacNhanMK.isEmpty()){
             Toast.makeText(this, "Phải điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+            return false;
         }
 
         SharedPreferences sharedPreferences = getSharedPreferences(LUU_TRANG_THAI_NGUOI_DUNG, MODE_PRIVATE);
         String username = sharedPreferences.getString("UserName", null);
         if(username ==null){
             Toast.makeText(man_hinh_thontincanhan.this,"tài khoản chưa đăng nhập!", Toast.LENGTH_SHORT).show();
+            return false;
         }
         else {
             DatabaseHelper db = new DatabaseHelper(man_hinh_thontincanhan.this);
