@@ -27,26 +27,28 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import ninhduynhat.com.haui_android_n16_manager_account.Login_Account;
-import ninhduynhat.com.haui_android_n16_manager_account.Model.KhoanChi;
+import ninhduynhat.com.haui_android_n16_manager_account.Database.DatabaseHelper;
+import ninhduynhat.com.haui_android_n16_manager_account.Model.ExpensesObject;
 import ninhduynhat.com.haui_android_n16_manager_account.Model.LoaiChiPhi;
 import ninhduynhat.com.haui_android_n16_manager_account.R;
-import ninhduynhat.com.haui_android_n16_manager_account.View.man_hinh_thontincanhan;
+import ninhduynhat.com.haui_android_n16_manager_account.View.sua_chi_phi;
 
 public class Chi_Phi_Adapter extends RecyclerView.Adapter<Chi_Phi_Adapter.chi_PhiViewHolder>{
 //    private Context mContext;
-    private List<KhoanChi> mListKhoanChi;
+    private List<ExpensesObject> mListKhoanChi;
     private Chi_Phi_Adapter chiPhiAdapter;
     private LoaiChiPhi loaiChiPhi_1[];
     private Context mContext;
+    private DatabaseHelper databaseHelper;
 
-    public void setData(Context mContext,List<KhoanChi> list){
-        this.mListKhoanChi=list;
+    public void setData(Context mContext,List<ExpensesObject> mListKhoanChi){
+        this.mListKhoanChi=mListKhoanChi;
         this.mContext=mContext;
         notifyDataSetChanged();
     }
@@ -60,13 +62,16 @@ public class Chi_Phi_Adapter extends RecyclerView.Adapter<Chi_Phi_Adapter.chi_Ph
 
     @Override
     public void onBindViewHolder(@NonNull chi_PhiViewHolder holder, int position) {
-        KhoanChi khoanChi =mListKhoanChi.get(position);
-        if(khoanChi==null){
+        ExpensesObject chiphi =mListKhoanChi.get(position);
+        if(chiphi==null){
             return;
         }
-        holder.ten_chi_phi.setText(khoanChi.getKhoanchi());
-        holder.mo_ta_chi_phi.setText(khoanChi.getMo_Ta());
-        holder.gia_chi_phi.setText(khoanChi.getSo_Luong()+"");
+        NumberFormat numberFormat = NumberFormat.getInstance();
+        String formattedNumber = numberFormat.format(chiphi.getAmountSpent());
+        //đẩy lên view
+        holder.loai_chi_phi.setText(chiphi.getExpensesType());
+        holder.mo_ta_chi_phi.setText(chiphi.getDescription());
+        holder.gia_chi_phi.setText(formattedNumber+" VND");
 
         int vitri=position;
 
@@ -79,12 +84,16 @@ public class Chi_Phi_Adapter extends RecyclerView.Adapter<Chi_Phi_Adapter.chi_Ph
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        if(item.getItemId()==R.id.sua_chiPhi){
-                            openFeedbackDialog_suachiphi_1(Gravity.CENTER);
-                        } else if (item.getItemId()==R.id.xoa_chi_phi) {
-                            openFeedbackDialog_xoaKhoanChi(Gravity.CENTER,vitri);
-
+                        if(item.getItemId()==R.id.sua_chiPhi) {
+//                            openFeedbackDialog_suachiphi_1(Gravity.CENTER,chiphi.getExpensesID());
+                            Intent intent= new Intent(mContext, sua_chi_phi.class);
+                            intent.putExtra("UserId",chiphi.getExpensesID());
+                            mContext.startActivity(intent);
                         }
+//                        } else if (item.getItemId()==R.id.xoa_chi_phi) {
+//                            openFeedbackDialog_xoaKhoanChi(Gravity.CENTER,vitri);
+//
+//                        }
                         return false;
                     }
                 });
@@ -95,78 +104,6 @@ public class Chi_Phi_Adapter extends RecyclerView.Adapter<Chi_Phi_Adapter.chi_Ph
     }
 
 
-    private void openFeedbackDialog_suachiphi_1(int gravity){
-        final Dialog dialog = new Dialog(mContext);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.layout_dialog_sua_chi_phi);
-        Window window = dialog.getWindow();
-        if(window==null){
-            return;
-        }
-        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);
-        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        WindowManager.LayoutParams windowAtrubus= window.getAttributes();
-        windowAtrubus.gravity=gravity;
-        window.setAttributes(windowAtrubus);
-
-        EditText mo_ta_chi_phi_1;
-        TextView date_picker_1,thoi_gian_mua_1;
-        Spinner loai_chi_phi_1;
-        Button thoatDialogsuachiphi_1,nhanSuaChiPhi_1;
-        date_picker_1=dialog.findViewById(R.id.date_picker_1);
-        loai_chi_phi_1= dialog.findViewById(R.id.loai_chi_phi_1);
-        thoi_gian_mua_1=dialog.findViewById(R.id.thoi_gian_mua_1);
-        mo_ta_chi_phi_1=dialog.findViewById(R.id.mo_ta_chi_phi_1);
-        thoatDialogsuachiphi_1=dialog.findViewById(R.id.thoatDialogsuachiphi_1);
-        nhanSuaChiPhi_1=dialog.findViewById(R.id.nhanSuaChiPhi_1);
-
-
-        loaiChiPhi_1= LoaiChiPhi.values();
-        ChiPhiSpiner_Adapter chiPhiSpinerAdapter=new ChiPhiSpiner_Adapter(mContext,loaiChiPhi_1);
-        loai_chi_phi_1.setAdapter(chiPhiSpinerAdapter);
-
-        date_picker_1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Calendar calendar = Calendar.getInstance();
-                int ngay = calendar.get(Calendar.DATE);
-                int thang = calendar.get(Calendar.MONTH);
-                int nam = calendar.get(Calendar.YEAR);
-
-                DatePickerDialog dialog = new DatePickerDialog(mContext, android.R.style.Theme_Holo_Light_Dialog, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        try {
-                            Date date = new Date(year-1900,month,dayOfMonth);
-                            DateFormat df = new SimpleDateFormat("dd/MM/yyyy ");
-                            String dateString = df.format(date);
-                            thoi_gian_mua_1.setText(dateString);
-                        }
-                        catch (Exception e){
-                            Toast.makeText(mContext, e.toString(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }, nam, thang, ngay);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.setTitle("Chọn thời gian");
-                dialog.show();
-            }
-        });
-
-        nhanSuaChiPhi_1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(mContext, "Nhấn sửa thành công", Toast.LENGTH_SHORT).show();
-            }
-        });
-        thoatDialogsuachiphi_1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-        dialog.show();
-    }
 
 
     private void openFeedbackDialog_xoaKhoanChi(int gravity,int vitrixoa){
@@ -188,8 +125,12 @@ public class Chi_Phi_Adapter extends RecyclerView.Adapter<Chi_Phi_Adapter.chi_Ph
         thoatDialog4=dialog.findViewById(R.id.thoatDialog4);
         nhanXoaKhoanChi=dialog.findViewById(R.id.nhanXoaKhoanChi);
         tenKhoanChiMuonXoa=dialog.findViewById(R.id.tenKhoanChiMuonXoa);
-        KhoanChi khoanChi = mListKhoanChi.get(vitrixoa);
-        tenKhoanChiMuonXoa.setText(khoanChi.getKhoanchi());
+
+
+//        KhoanChi khoanChi = mListKhoanChi.get(vitrixoa);
+//        tenKhoanChiMuonXoa.setText(khoanChi.getKhoanchi());
+
+
         thoatDialog4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -222,11 +163,11 @@ public class Chi_Phi_Adapter extends RecyclerView.Adapter<Chi_Phi_Adapter.chi_Ph
 
     public class chi_PhiViewHolder extends RecyclerView.ViewHolder{
         private CardView layout_item_chiPhi;
-        private TextView ten_chi_phi,mo_ta_chi_phi,gia_chi_phi;
+        private TextView loai_chi_phi,mo_ta_chi_phi,gia_chi_phi;
 
         public chi_PhiViewHolder(@NonNull View itemView) {
             super(itemView);
-            ten_chi_phi=itemView.findViewById(R.id.ten_chi_phi);
+            loai_chi_phi=itemView.findViewById(R.id.loai_chi_phi);
             mo_ta_chi_phi=itemView.findViewById(R.id.mo_ta_chi_phi);
             gia_chi_phi=itemView.findViewById(R.id.gia_chi_phi);
             layout_item_chiPhi=itemView.findViewById(R.id.layout_item_chiPhi);

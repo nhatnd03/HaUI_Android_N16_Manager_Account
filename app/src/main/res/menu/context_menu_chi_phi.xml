@@ -5,8 +5,8 @@
             android:title="Sửa Chi Phí"
             android:orderInCategory="100"
             app:showAsAction="withText" />
-        <item android:id="@+id/xoa_chi_phi"
-            android:title="Xóa chi phí"
-            android:orderInCategory="100"
-            app:showAsAction="withText" />
+<!--        <item android:id="@+id/xoa_chi_phi"-->
+<!--            android:title="Xóa chi phí"-->
+<!--            android:orderInCategory="100"-->
+<!--            app:showAsAction="withText" />-->
 </menu>

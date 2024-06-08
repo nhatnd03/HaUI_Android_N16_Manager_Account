@@ -3,6 +3,11 @@ plugins {
 }
 
 android {
+
+    buildFeatures {
+        viewBinding = true
+    }
+
     namespace 'ninhduynhat.com.haui_android_n16_manager_account'
     compileSdk 34
 
@@ -46,7 +51,10 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
 
-    //lần 2
+    //cài đặt thư viện chọn ảnh từ thiết bị
     implementation 'com.github.dhaval2404:imagepicker:2.1'
+
+    implementation "com.github.PhilJay:MPAndroidChart:v3.1.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0"
 
 }

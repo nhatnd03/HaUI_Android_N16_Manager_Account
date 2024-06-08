@@ -12,6 +12,26 @@ public class ExpensesObject {
     public ExpensesObject() {
     }
 
+    public ExpensesObject(String expensesType, double amountSpent) {
+        ExpensesType = expensesType;
+        AmountSpent = amountSpent;
+    }
+
+    public ExpensesObject(int expensesID, String expensesType, double amountSpent, String dateSpent, String description) {
+        ExpensesID = expensesID;
+        ExpensesType = expensesType;
+        AmountSpent = amountSpent;
+        DateSpent = dateSpent;
+        Description = description;
+    }
+
+    public ExpensesObject(String expensesType, double amountSpent, String dateSpent, String description) {
+        ExpensesType = expensesType;
+        AmountSpent = amountSpent;
+        DateSpent = dateSpent;
+        Description = description;
+    }
+
     public ExpensesObject(int expensesID, int userID, String expensesType, double amountSpent, String dateSpent, String description) {
         ExpensesID = expensesID;
         UserID = userID;

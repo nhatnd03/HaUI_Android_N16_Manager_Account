@@ -10,10 +10,14 @@ public enum LoaiChiPhi {
     TRANSPORT("Chi phí đi lại", R.drawable.icon_chi_phi_di_lai),
     TRAVEL("Du lịch", R.drawable.icon_diz_du_lich),
     UNCATEGORIZED("Chi phí khác", R.drawable.icon_question);
+    public final String tenchiphi;
+    public final int drawable;
     LoaiChiPhi(String tenchiphi, int drawable) {
         this.tenchiphi = tenchiphi;
         this.drawable = drawable;
     }
-    public String tenchiphi;
-    public int drawable;
+    public String getTenchiphi(){
+        return tenchiphi;
+    }
+
 }
