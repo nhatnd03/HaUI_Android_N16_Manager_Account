@@ -73,6 +73,16 @@
                 />
         </TableRow>
 
+        <TextView
+            android:id="@+id/canhBaoDangNhap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#F80000"
+            android:visibility="gone"
+            android:text="Sai tên đăng nhập hoặc mật khẩu"
+            android:textAlignment="center"
+            android:textSize="12sp" />
+
         <Button
             android:id="@+id/btnDangNhapManHinh"
             android:layout_width="150dp"

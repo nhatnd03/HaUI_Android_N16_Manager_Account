@@ -3,10 +3,6 @@ package ninhduynhat.com.haui_android_n16_manager_account.View;
 import static android.content.Context.MODE_PRIVATE;
 import static ninhduynhat.com.haui_android_n16_manager_account.Login_Account.LUU_TRANG_THAI_NGUOI_DUNG;
 
-
-import android.app.DatePickerDialog;
-
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -22,27 +18,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Base64;
 
-import android.view.ContextMenu;
 
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.EditText;
-
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 
-import android.widget.Toast;
+import android.widget.CalendarView;
 
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -50,8 +33,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import org.jetbrains.annotations.Nullable;
 
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -59,8 +42,10 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 import ninhduynhat.com.haui_android_n16_manager_account.Adapters.ChiPhiSpiner_Adapter;
 import ninhduynhat.com.haui_android_n16_manager_account.Adapters.Chi_Phi_Adapter;
-import ninhduynhat.com.haui_android_n16_manager_account.Model.KhoanChi;
+import ninhduynhat.com.haui_android_n16_manager_account.Database.DatabaseHelper;
+import ninhduynhat.com.haui_android_n16_manager_account.Model.ExpensesObject;
 import ninhduynhat.com.haui_android_n16_manager_account.Model.LoaiChiPhi;
+import ninhduynhat.com.haui_android_n16_manager_account.Model.UserObject;
 import ninhduynhat.com.haui_android_n16_manager_account.R;
 
 
@@ -72,6 +57,9 @@ public class HomeFragment extends Fragment {
     private FloatingActionButton floating_add;
     private SharedPreferences sharedPreferences;
     private LoaiChiPhi loaiChiPhi[];
+    private DatabaseHelper databaseHelper;
+    private TextView home_txtTen,soduhientai;
+    private CalendarView calendar_view_calendar;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -84,39 +72,91 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView =inflater.inflate(R.layout.fragment_home, container, false);
         rcl_Chi_Phi=rootView.findViewById(R.id.rcl_Chi_Phi);
+        databaseHelper= new DatabaseHelper(getActivity());
+        UserObject userObject= new UserObject();
+        userObject=getDataUserName();
+
+        //lấy ngày hiện tại
+        Calendar calendar = Calendar.getInstance();
+        int ngay = calendar.get(Calendar.DATE);
+        int thang = calendar.get(Calendar.MONTH);
+        int nam = calendar.get(Calendar.YEAR);
+        Date date = new Date(nam-1900,thang,ngay);
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        String dateString = df.format(date);
 
         rcl_Chi_Phi.setLayoutManager(new LinearLayoutManager(getActivity()));
         chiPhiAdapter = new Chi_Phi_Adapter();
-        chiPhiAdapter.setData(getActivity(),dataInitalize());
 
+        chiPhiAdapter.setData(getActivity(),setDataCholistKhoanchi(userObject.getUserID(),dateString));
+//        set adapter cho list chi phí
         rcl_Chi_Phi.setAdapter(chiPhiAdapter);
-
+        chiPhiAdapter.notifyDataSetChanged();
 
 
         return rootView;
     }
+
+
+    private UserObject getDataUserName(){
+        sharedPreferences =getActivity().getSharedPreferences(LUU_TRANG_THAI_NGUOI_DUNG,MODE_PRIVATE);
+        databaseHelper= new DatabaseHelper(getActivity());
+        UserObject userObject= new UserObject();
+        String user_name=sharedPreferences.getString("UserName","");
+        userObject=databaseHelper.getUserByUsername_Home(user_name);
+        return userObject;
+    }
+
+    //hàm lấy dữ liệu khoản chi từ csdl
+    private List<ExpensesObject> setDataCholistKhoanchi(int userid,String dateOfMonth) {
+        databaseHelper= new DatabaseHelper(getActivity());
+        return databaseHelper.getExpensesObjectOfDate(userid,dateOfMonth);
+    }
+
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         home_imgAvartar=view.findViewById(R.id.home_imgAvartar);
         floating_add=view.findViewById(R.id.floating_add);
+        home_txtTen=view.findViewById(R.id.home_txtTen);
+        soduhientai=view.findViewById(R.id.soduhientai);
+        calendar_view_calendar=view.findViewById(R.id.calendar_view_calendar);
+
+
+        calendar_view_calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+                xuLyHienThiChiPhiTheoNgay(year,month,dayOfMonth);
+            }
+        });
+
+        UserObject userObjects=new UserObject();
+        userObjects=getDataUserName();
+        home_txtTen.setText(userObjects.getFullname());
+        if(userObjects!=null){
+            NumberFormat numberFormat = NumberFormat.getInstance();
+            String formattedNumber = numberFormat.format(userObjects.getLivingExpenses());
+            soduhientai.setText("Số dư: "+formattedNumber+" VND");
+        }else {
+            soduhientai.setText("Số dư: 0 VND");
+        }
 
 
         home_imgAvartar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-//                fragmentManager.beginTransaction().replace(R.id.fragment_container,
-//                        new Thong_Tin_Ca_Nhan_Fragment()).addToBackStack(null).commit();
                 Intent intent = new Intent(getActivity(), man_hinh_thontincanhan.class);
                 startActivity(intent);
             }
         });
+        //thêm khoản chi
         floating_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openFeedbackDialog_themchiphi(Gravity.CENTER);
+                Intent intent= new Intent(getActivity(),add_chi_phi.class);
+                startActivity(intent);
             }
         });
         rcl_Chi_Phi.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -134,28 +174,19 @@ public class HomeFragment extends Fragment {
 
     }
 
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        getActivity().getMenuInflater().inflate(R.menu.context_menu_chi_phi, menu);
-    }
-
-
-    private List<KhoanChi> dataInitalize() {
-
-
-        List<KhoanChi> khoanChiArrayLists = new ArrayList<>();
-        khoanChiArrayLists.add(new KhoanChi("Gà rán",1000,"Mua buổi chiều"));
-        khoanChiArrayLists.add(new KhoanChi("Cơm rang",1000,"Mua buổi chiều"));
-        khoanChiArrayLists.add(new KhoanChi("Phở bò",1000,"Mua buổi chiều"));
-        khoanChiArrayLists.add(new KhoanChi("Phở xào",1000,"Mua buổi chiều"));
-        khoanChiArrayLists.add(new KhoanChi("Phở xào",1000,"Mua buổi chiều"));
-        khoanChiArrayLists.add(new KhoanChi("Phở xào",1000,"Mua buổi chiều"));
-        khoanChiArrayLists.add(new KhoanChi("Phở xào",1000,"Mua buổi chiều"));
-        khoanChiArrayLists.add(new KhoanChi("Phở xào",1000,"Mua buổi chiều"));
-        khoanChiArrayLists.add(new KhoanChi("Phở xào",1000,"Mua buổi chiều"));
-        khoanChiArrayLists.add(new KhoanChi("Phở xào",1000,"Mua buổi chiều"));
-        return khoanChiArrayLists;
+    private void xuLyHienThiChiPhiTheoNgay(int year, int month, int dayOfMonth){
+        databaseHelper= new DatabaseHelper(getActivity());
+        UserObject userObject= new UserObject();
+        userObject=getDataUserName();
+        rcl_Chi_Phi.setLayoutManager(new LinearLayoutManager(getActivity()));
+        chiPhiAdapter = new Chi_Phi_Adapter();
+        Date date = new Date(year-1900,month,dayOfMonth);
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        String dateString = df.format(date);
+        chiPhiAdapter.setData(getActivity(),setDataCholistKhoanchi(userObject.getUserID(),dateString));
+        //set adapter cho list chi phí
+        rcl_Chi_Phi.setAdapter(chiPhiAdapter);
+        chiPhiAdapter.notifyDataSetChanged();
     }
 
     private void xuLySuaXoaChiPhi(){
@@ -166,11 +197,37 @@ public class HomeFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        sharedPreferences= getActivity().getSharedPreferences(LUU_TRANG_THAI_NGUOI_DUNG,MODE_PRIVATE);
 
-        String LUU_DU_LIEU_ANH=sharedPreferences.getString("LUU_DU_LIEU_ANH","");
-        Bitmap bitmap=StringToBitMap(LUU_DU_LIEU_ANH);
-        if(!LUU_DU_LIEU_ANH.equals("")){
+        databaseHelper= new DatabaseHelper(getActivity());
+        UserObject userObject= new UserObject();
+        userObject=getDataUserName();
+        //lấy ngày hiện tại
+        Calendar calendar = Calendar.getInstance();
+        int ngay = calendar.get(Calendar.DATE);
+        int thang = calendar.get(Calendar.MONTH);
+        int nam = calendar.get(Calendar.YEAR);
+        Date date = new Date(nam-1900,thang,ngay);
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        String dateString = df.format(date);
+
+        rcl_Chi_Phi.setLayoutManager(new LinearLayoutManager(getActivity()));
+        chiPhiAdapter = new Chi_Phi_Adapter();
+        chiPhiAdapter.setData(getActivity(),setDataCholistKhoanchi(userObject.getUserID(),dateString));
+        //set adapter cho list chi phí
+        rcl_Chi_Phi.setAdapter(chiPhiAdapter);
+        chiPhiAdapter.notifyDataSetChanged();
+
+        if(userObject!=null){
+            NumberFormat numberFormat = NumberFormat.getInstance();
+            String formattedNumber = numberFormat.format(userObject.getLivingExpenses());
+            soduhientai.setText("Số dư: "+formattedNumber+" VND");
+        }else {
+            soduhientai.setText("Số dư: 0 VND");
+        }
+
+
+        Bitmap bitmap=StringToBitMap(userObject.getImage());
+        if(bitmap!=null){
             home_imgAvartar.setImageBitmap(bitmap);
         }
 
@@ -189,81 +246,7 @@ public class HomeFragment extends Fragment {
     }
 
 
-    private void openFeedbackDialog_themchiphi(int gravity){
-        final Dialog dialog = new Dialog(getActivity());
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.layout_dialog_themchiphi);
-        Window window = dialog.getWindow();
-        if(window==null){
-            return;
-        }
-        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);
-        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        WindowManager.LayoutParams windowAtrubus= window.getAttributes();
-        windowAtrubus.gravity=gravity;
-        window.setAttributes(windowAtrubus);
 
 
-
-
-        EditText mo_ta_chi_phi;
-        TextView date_picker,thoi_gian_mua;
-        Spinner loai_chi_phi;
-        Button thoatDialogthemchiphi,nhanThemChiPhi;
-        date_picker=dialog.findViewById(R.id.date_picker);
-        loai_chi_phi= dialog.findViewById(R.id.loai_chi_phi);
-
-        thoi_gian_mua=dialog.findViewById(R.id.thoi_gian_mua);
-        mo_ta_chi_phi=dialog.findViewById(R.id.mo_ta_chi_phi);
-        thoatDialogthemchiphi=dialog.findViewById(R.id.thoatDialogthemchiphi);
-        nhanThemChiPhi=dialog.findViewById(R.id.nhanThemChiPhi);
-
-
-        loaiChiPhi=LoaiChiPhi.values();
-        ChiPhiSpiner_Adapter chiPhiSpinerAdapter=new ChiPhiSpiner_Adapter(getActivity(),loaiChiPhi);
-        loai_chi_phi.setAdapter(chiPhiSpinerAdapter);
-        date_picker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Calendar calendar = Calendar.getInstance();
-                int ngay = calendar.get(Calendar.DATE);
-                int thang = calendar.get(Calendar.MONTH);
-                int nam = calendar.get(Calendar.YEAR);
-
-                DatePickerDialog dialog = new DatePickerDialog(getActivity(), android.R.style.Theme_Holo_Light_Dialog, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        try {
-                            Date date = new Date(year-1900,month,dayOfMonth);
-                            DateFormat df = new SimpleDateFormat("dd/MM/yyyy ");
-                            String dateString = df.format(date);
-                            thoi_gian_mua.setText(dateString);
-                        }
-                        catch (Exception e){
-                            Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }, nam, thang, ngay);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.setTitle("Chọn thời gian");
-                dialog.show();
-            }
-        });
-
-
-        nhanThemChiPhi.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), "Thêm thành công", Toast.LENGTH_SHORT).show();
-            }
-        });
-        thoatDialogthemchiphi.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-        dialog.show();
-    }
 
 }

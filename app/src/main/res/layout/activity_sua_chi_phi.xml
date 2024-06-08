@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:layout_margin="20dp"
     android:background="@drawable/bg_white_conner_16dp_dialog"
-    android:layout_height="wrap_content">
-
-
+    android:layout_height="wrap_content"
+    tools:context=".View.sua_chi_phi">
     <TextView
+        android:layout_marginTop="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -23,7 +25,7 @@
         android:orientation="vertical">
 
         <Spinner
-            android:id="@+id/loai_chi_phi"
+            android:id="@+id/loai_chi_phi_2"
             android:background="@drawable/bg_spiner_them_chiphi"
             android:layout_width="match_parent"
             android:padding="12dp"
@@ -32,14 +34,13 @@
 
         <EditText
             android:layout_marginTop="@dimen/size10dp"
-            android:id="@+id/gia_chi_phi"
+            android:id="@+id/gia_chi_phi_2"
             android:background="@drawable/rounded_edittext_states"
             android:layout_width="match_parent"
             android:padding="12dp"
+            android:textColor="@color/black"
             android:hint="Giá chi phí"
             android:layout_height="wrap_content"/>
-
-
 
         <TableRow
             android:orientation="horizontal"
@@ -48,27 +49,27 @@
             android:layout_marginTop="@dimen/size10dp"
             android:layout_height="wrap_content">
             <TextView
-                android:id="@+id/thoi_gian_mua"
+                android:id="@+id/thoi_gian_mua_3"
                 android:padding="12dp"
                 android:textSize="16dp"
                 android:layout_weight="9"
                 android:text="Thời gian mua"
                 android:layout_width="0dp"
+                android:textColor="@color/black"
                 android:layout_height="wrap_content"/>
             <TextView
                 android:layout_marginEnd="@dimen/size10dp"
                 android:layout_weight="0"
-                android:id="@+id/date_picker"
+                android:id="@+id/date_picker_3"
                 android:background="@drawable/icon_ngay_thang"
                 android:layout_width="30dp"
                 android:layout_height="30dp"/>
         </TableRow>
 
 
-
-
         <EditText
-            android:id="@+id/mo_ta_chi_phi"
+            android:textColor="@color/black"
+            android:id="@+id/mo_ta_chi_phi_2"
             android:padding="12dp"
             android:layout_marginTop="@dimen/size10dp"
             android:hint="Mô tả"
@@ -85,7 +86,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <Button
-                android:id="@+id/thoatDialogthemchiphi"
+                android:id="@+id/thoatDialogsuachiphi_2"
                 android:layout_marginEnd="5dp"
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -94,14 +95,15 @@
                 android:layout_height="50dp"
                 android:text="Hủy bỏ"/>
             <Button
-                android:id="@+id/nhanThemChiPhi"
+                android:id="@+id/nhanSuaChiPhi_2"
                 android:layout_marginStart="5dp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/xanh"
                 android:textSize="12sp"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:text="Thêm"/>
+                android:text="Sửa"/>
         </LinearLayout>
     </LinearLayout>
+
 </LinearLayout>
