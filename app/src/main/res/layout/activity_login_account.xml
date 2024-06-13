@@ -73,6 +73,7 @@
                 />
         </TableRow>
 
+<<<<<<< HEAD
         <TextView
             android:id="@+id/canhBaoDangNhap"
             android:layout_width="wrap_content"
@@ -83,6 +84,8 @@
             android:textAlignment="center"
             android:textSize="12sp" />
 
+=======
+>>>>>>> 3a9ede9f57b692f2210c5863c731435fd19a2fab
         <Button
             android:id="@+id/btnDangNhapManHinh"
             android:layout_width="150dp"

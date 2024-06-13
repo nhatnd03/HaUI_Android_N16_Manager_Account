@@ -16,6 +16,7 @@ public class UserObject {
 
     }
 
+<<<<<<< HEAD
     public UserObject(String image) {
         Image = image;
     }
@@ -28,6 +29,8 @@ public class UserObject {
     }
 
 
+=======
+>>>>>>> 3a9ede9f57b692f2210c5863c731435fd19a2fab
     public UserObject(int userID, String userName, String password, String fullname, String phoneNumber, double livingExpenses, double moneyForStudying, double debtMoney, String image) {
         UserID = userID;
         UserName = userName;

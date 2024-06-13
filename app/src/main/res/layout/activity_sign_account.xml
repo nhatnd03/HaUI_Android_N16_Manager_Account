@@ -16,7 +16,11 @@
         android:layout_margin="15dp"
         android:gravity="center"
         android:background="@drawable/rounded_edit_background_login"
+<<<<<<< HEAD
         android:layout_height="460dp">
+=======
+        android:layout_height="450dp">
+>>>>>>> 3a9ede9f57b692f2210c5863c731435fd19a2fab
 
         <TextView
             android:layout_width="match_parent"
@@ -25,6 +29,7 @@
             android:textAlignment="center"
             android:textSize="34sp"
             android:textColor="@color/white"
+<<<<<<< HEAD
             android:layout_marginBottom="10dp"
             android:textStyle="bold" />
 
@@ -42,6 +47,10 @@
             android:drawableTint="@color/gray"
 
             />
+=======
+            android:layout_marginBottom="35dp"
+            android:textStyle="bold" />
+>>>>>>> 3a9ede9f57b692f2210c5863c731435fd19a2fab
         <EditText
             android:id="@+id/edt_UserName_Sign"
             android:layout_width="match_parent"

@@ -3,23 +3,35 @@ package ninhduynhat.com.haui_android_n16_manager_account.View;
 import static ninhduynhat.com.haui_android_n16_manager_account.Login_Account.LUU_TRANG_THAI_NGUOI_DUNG;
 
 import android.Manifest;
+<<<<<<< HEAD
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+=======
+import android.app.Dialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
+>>>>>>> 3a9ede9f57b692f2210c5863c731435fd19a2fab
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+<<<<<<< HEAD
 import android.os.ParcelFileDescriptor;
+=======
+>>>>>>> 3a9ede9f57b692f2210c5863c731435fd19a2fab
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
+<<<<<<< HEAD
 import android.view.LayoutInflater;
+=======
+>>>>>>> 3a9ede9f57b692f2210c5863c731435fd19a2fab
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -31,10 +43,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+<<<<<<< HEAD
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+=======
+>>>>>>> 3a9ede9f57b692f2210c5863c731435fd19a2fab
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -43,6 +58,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+<<<<<<< HEAD
 import com.github.dhaval2404.imagepicker.ImagePicker;
 
 import java.io.ByteArrayOutputStream;
@@ -57,10 +73,24 @@ import ninhduynhat.com.haui_android_n16_manager_account.Database.DatabaseHelper;
 import ninhduynhat.com.haui_android_n16_manager_account.Login_Account;
 import ninhduynhat.com.haui_android_n16_manager_account.MainActivity;
 import ninhduynhat.com.haui_android_n16_manager_account.Model.UserObject;
+=======
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.normal.TedPermission;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+import gun0912.tedbottompicker.TedBottomPicker;
+import ninhduynhat.com.haui_android_n16_manager_account.Login_Account;
+import ninhduynhat.com.haui_android_n16_manager_account.MainActivity;
+>>>>>>> 3a9ede9f57b692f2210c5863c731435fd19a2fab
 import ninhduynhat.com.haui_android_n16_manager_account.R;
 
 public class man_hinh_thontincanhan extends AppCompatActivity {
     CircleImageView home_imgAvartar;
+<<<<<<< HEAD
     ImageView doimatkhau,thoattaikhoan,thoatmanhinhchinh,napTienSinhHoat;
     SwitchCompat switchvantay,switchluumatkhau;
     SharedPreferences sharedPreferences;
@@ -68,6 +98,13 @@ public class man_hinh_thontincanhan extends AppCompatActivity {
     TextView txtNchangeImage,tenTaiKhoan,soduHienTai;
     DatabaseHelper databaseHelper;
 
+=======
+    ImageView doimatkhau,thoattaikhoan,thoatmanhinhchinh;
+    SwitchCompat switchvantay,switchluumatkhau;
+    SharedPreferences sharedPreferences;
+    TableRow hienthivantay;
+    TextView txtNchangeImage;
+>>>>>>> 3a9ede9f57b692f2210c5863c731435fd19a2fab
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +151,7 @@ public class man_hinh_thontincanhan extends AppCompatActivity {
         txtNchangeImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+<<<<<<< HEAD
                 ImagePicker.with(man_hinh_thontincanhan.this)
                         .crop()	    			//Crop image(Optional), Check Customization for more option
                         .compress(1024)			//Final image size will be less than 1 MB(Optional)
@@ -127,10 +165,14 @@ public class man_hinh_thontincanhan extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 openFeedbackDialog_NapTien(Gravity.CENTER);
+=======
+                requesPermission();
+>>>>>>> 3a9ede9f57b692f2210c5863c731435fd19a2fab
             }
         });
 
     }
+<<<<<<< HEAD
 
 
     private UserObject getDataUserNameS(){
@@ -143,6 +185,8 @@ public class man_hinh_thontincanhan extends AppCompatActivity {
     }
 
 
+=======
+>>>>>>> 3a9ede9f57b692f2210c5863c731435fd19a2fab
     private void findId(){
         doimatkhau=findViewById(R.id.doimatkhau);
         thoattaikhoan=findViewById(R.id.thoattaikhoan);
@@ -152,6 +196,7 @@ public class man_hinh_thontincanhan extends AppCompatActivity {
         thoatmanhinhchinh=findViewById(R.id.thoatmanhinhchinh);
         txtNchangeImage=findViewById(R.id.txtNchangeImage);
         home_imgAvartar=findViewById(R.id.home_imgAvartar);
+<<<<<<< HEAD
         napTienSinhHoat=findViewById(R.id.napTienSinhHoat);
         tenTaiKhoan=findViewById(R.id.tenTaiKhoan);
         soduHienTai=findViewById(R.id.soduHienTai);
@@ -176,6 +221,10 @@ public class man_hinh_thontincanhan extends AppCompatActivity {
         }
 
     }
+=======
+    }
+
+>>>>>>> 3a9ede9f57b692f2210c5863c731435fd19a2fab
 
     private void openFeedbackDialog_Matkhau(int gravity){
         final Dialog dialog = new Dialog(this);
@@ -207,14 +256,19 @@ public class man_hinh_thontincanhan extends AppCompatActivity {
         nhanDoimatkhau.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+<<<<<<< HEAD
                 boolean a=XuLyDoiMatKhau(matkhauhientai.getText().toString(),matkhaumoi.getText().toString(),nhaclaimatkhaumoi.getText().toString());
                 if (a){
                     dialog.dismiss();
                 }
+=======
+                Toast.makeText(man_hinh_thontincanhan.this, "Đổi mật khẩu thành công", Toast.LENGTH_SHORT).show();
+>>>>>>> 3a9ede9f57b692f2210c5863c731435fd19a2fab
             }
         });
         dialog.show();
     }
+<<<<<<< HEAD
     
     private boolean XuLyDoiMatKhau(String mkHienTai,String matKhauMoi,String xacNhanMK){
         if(mkHienTai.isEmpty()||matKhauMoi.isEmpty()||xacNhanMK.isEmpty()){
@@ -287,6 +341,8 @@ public class man_hinh_thontincanhan extends AppCompatActivity {
         return true;
 
     }
+=======
+>>>>>>> 3a9ede9f57b692f2210c5863c731435fd19a2fab
     private void openFeedbackDialog_DangXuat(int gravity){
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -301,7 +357,10 @@ public class man_hinh_thontincanhan extends AppCompatActivity {
         windowAtrubus.gravity=gravity;
         window.setAttributes(windowAtrubus);
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3a9ede9f57b692f2210c5863c731435fd19a2fab
         Button thoatDialog2,nhanThoat;
         thoatDialog2=dialog.findViewById(R.id.thoatDialog2);
         nhanThoat=dialog.findViewById(R.id.nhanThoat);
@@ -314,7 +373,10 @@ public class man_hinh_thontincanhan extends AppCompatActivity {
         nhanThoat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3a9ede9f57b692f2210c5863c731435fd19a2fab
                 Intent intent = new Intent(man_hinh_thontincanhan.this, Login_Account.class);
                 startActivity(intent);
             }
@@ -322,6 +384,7 @@ public class man_hinh_thontincanhan extends AppCompatActivity {
         dialog.show();
     }
 
+<<<<<<< HEAD
     private void openFeedbackDialog_NapTien(int gravity){
         final Dialog dialog = new Dialog(man_hinh_thontincanhan.this,android.R.style.Theme_Holo_Light_Dialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -373,6 +436,8 @@ public class man_hinh_thontincanhan extends AppCompatActivity {
         return 1;
     }
 
+=======
+>>>>>>> 3a9ede9f57b692f2210c5863c731435fd19a2fab
 
     @Override
     protected void onResume() {
@@ -380,6 +445,7 @@ public class man_hinh_thontincanhan extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(LUU_TRANG_THAI_NGUOI_DUNG,MODE_PRIVATE);
         boolean checked= sharedPreferences.getBoolean("isTurnOnFingerPrint",false);
         boolean check_device= sharedPreferences.getBoolean("Check_Device_onFinger",false);
+<<<<<<< HEAD
 //        String LUU_DU_LIEU_ANH=sharedPreferences.getString("LUU_DU_LIEU_ANH","");
 
         //thao tác csdl
@@ -397,6 +463,11 @@ public class man_hinh_thontincanhan extends AppCompatActivity {
 
         Bitmap bitmap=StringToBitMap(userObject.getImage());
         if(bitmap!=null){
+=======
+        String LUU_DU_LIEU_ANH=sharedPreferences.getString("LUU_DU_LIEU_ANH","");
+        Bitmap bitmap=StringToBitMap(LUU_DU_LIEU_ANH);
+        if(!LUU_DU_LIEU_ANH.equals("")){
+>>>>>>> 3a9ede9f57b692f2210c5863c731435fd19a2fab
             home_imgAvartar.setImageBitmap(bitmap);
         }
 
@@ -414,7 +485,10 @@ public class man_hinh_thontincanhan extends AppCompatActivity {
         SharedPreferences.Editor editor = getSharedPreferences(LUU_TRANG_THAI_NGUOI_DUNG,MODE_PRIVATE).edit();
         editor.putBoolean("isTurnOnFingerPrint",ischeckedSwitch);
         editor.putBoolean("isLogin",luumatkhau);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3a9ede9f57b692f2210c5863c731435fd19a2fab
         editor.commit();
     }
 
@@ -429,6 +503,7 @@ public class man_hinh_thontincanhan extends AppCompatActivity {
         editor.commit();
     }
 
+<<<<<<< HEAD
 
 
     private Bitmap uriToBitmap2(Uri selectedFileUri) {
@@ -448,6 +523,55 @@ public class man_hinh_thontincanhan extends AppCompatActivity {
         }
     }
 
+=======
+    private void requesPermission(){
+
+        PermissionListener permissionlistener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+                openImagePicker();
+            }
+
+            @Override
+            public void onPermissionDenied(List<String> deniedPermissions) {
+                Toast.makeText(man_hinh_thontincanhan.this, "Permission Denied\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
+                Log.e("check quyền truy cập ảnh",""+deniedPermissions.toString());
+            }
+        };
+        TedPermission.create()
+                .setPermissionListener(permissionlistener)
+                .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
+                .setPermissions(
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.READ_MEDIA_IMAGES)
+                .check();
+    }
+
+    private void openImagePicker(){
+        TedBottomPicker.OnImageSelectedListener listener= new TedBottomPicker.OnImageSelectedListener() {
+            @Override
+            public void onImageSelected(Uri uri) {
+                try {
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
+                    home_imgAvartar.setImageBitmap(bitmap);
+                    SharedPreferences.Editor editor =getSharedPreferences(LUU_TRANG_THAI_NGUOI_DUNG,MODE_PRIVATE).edit();
+                    editor.putString("LUU_DU_LIEU_ANH",BitMapToString(bitmap));
+                    editor.commit();
+
+                } catch (IOException e) {
+                    Log.e("lỗi chọn ảnh", e+"");
+                }
+            }
+        };
+        TedBottomPicker tedBottomPicker = new TedBottomPicker.Builder(man_hinh_thontincanhan.this)
+                .setOnImageSelectedListener(listener)
+                .setCompleteButtonText("Xong")
+                .create();
+        tedBottomPicker.show(getSupportFragmentManager());
+    }
+
+
+>>>>>>> 3a9ede9f57b692f2210c5863c731435fd19a2fab
 
     private String BitMapToString(@NonNull Bitmap bitmap){
         ByteArrayOutputStream baos=new  ByteArrayOutputStream();
@@ -469,4 +593,8 @@ public class man_hinh_thontincanhan extends AppCompatActivity {
     }
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3a9ede9f57b692f2210c5863c731435fd19a2fab
 }

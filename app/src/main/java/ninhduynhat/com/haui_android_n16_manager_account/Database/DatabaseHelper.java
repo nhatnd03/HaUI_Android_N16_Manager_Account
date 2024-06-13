@@ -5,12 +5,18 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+<<<<<<< HEAD
 import android.util.Log;
+=======
+>>>>>>> 3a9ede9f57b692f2210c5863c731435fd19a2fab
 
 import java.util.ArrayList;
 import java.util.List;
 
+<<<<<<< HEAD
 import ninhduynhat.com.haui_android_n16_manager_account.Model.ExpensesObject;
+=======
+>>>>>>> 3a9ede9f57b692f2210c5863c731435fd19a2fab
 import ninhduynhat.com.haui_android_n16_manager_account.Model.PayingTuitionObject;
 import ninhduynhat.com.haui_android_n16_manager_account.Model.SubjectObject;
 import ninhduynhat.com.haui_android_n16_manager_account.Model.UserObject;
@@ -107,7 +113,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put("DebtMoney", debtMoney);
         return db.insert("USER", null, values);
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3a9ede9f57b692f2210c5863c731435fd19a2fab
     public UserObject getUserById(int userid) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query("USER", null, "UserID = ?", new String[]{String.valueOf(userid)}, null, null, null);
@@ -130,9 +139,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return null;
     }
 
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> 3a9ede9f57b692f2210c5863c731435fd19a2fab
     public UserObject getUserByUsername(String username) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM USER WHERE Username = ?", new String[]{username});
@@ -153,6 +165,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return null;
     }
 
+<<<<<<< HEAD
 
     //lấy dữ liệu cho màn hình home
     public UserObject getUserByUsername_Home(String username) {
@@ -396,6 +409,8 @@ public List<ExpensesObject> getExpensesObjectOfYear(int userId,String year) {
     }
 
 
+=======
+>>>>>>> 3a9ede9f57b692f2210c5863c731435fd19a2fab
     // Phương thức chèn dữ liệu vào bảng EXPENSES
     public long insertExpenses(int userId, String expensesType, double amountSpent, String dateSpent, String description) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -408,7 +423,10 @@ public List<ExpensesObject> getExpensesObjectOfYear(int userId,String year) {
         return db.insert("EXPENSES", null, values);
     }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3a9ede9f57b692f2210c5863c731435fd19a2fab
     // Phương thức chèn dữ liệu vào bảng PLANNING
     public long insertPlanning(String planName, double amountNeeded, double amountReached, String timeline, String planType) {
         SQLiteDatabase db = this.getWritableDatabase();

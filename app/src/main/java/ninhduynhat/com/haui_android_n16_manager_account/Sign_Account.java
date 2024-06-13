@@ -14,6 +14,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+<<<<<<< HEAD
 import ninhduynhat.com.haui_android_n16_manager_account.Database.DatabaseHelper;
 
 public class Sign_Account extends AppCompatActivity {
@@ -21,6 +22,12 @@ public class Sign_Account extends AppCompatActivity {
     private EditText edt_UserName_Sign,edt_Password_Sign,edt_Password_Sign_Confirm,edt_FullName_Sign;
     private Button btn_Sign_In;
     private DatabaseHelper db;
+=======
+public class Sign_Account extends AppCompatActivity {
+    TextView chuyenmanhinhdangnhap;
+    EditText edt_UserName_Sign,edt_Password_Sign,edt_Password_Sign_Confirm;
+    Button btn_Sign_In;
+>>>>>>> 3a9ede9f57b692f2210c5863c731435fd19a2fab
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +60,7 @@ public class Sign_Account extends AppCompatActivity {
         edt_UserName_Sign = findViewById(R.id.edt_UserName_Sign);
         edt_Password_Sign= findViewById(R.id.edt_Password_Sign);
         edt_Password_Sign_Confirm= findViewById(R.id.edt_Password_Sign_Confirm);
+<<<<<<< HEAD
         edt_FullName_Sign=findViewById(R.id.edt_FullName_Sign);
     }
     private void checkInPutSignIn(){
@@ -108,4 +116,21 @@ public class Sign_Account extends AppCompatActivity {
         Intent intent = new Intent(Sign_Account.this,Login_Account.class);
         startActivity(intent);
     }
+=======
+    }
+        private void checkInPutSignIn(){
+            if(edt_UserName_Sign.getText().toString().isEmpty()||
+                    edt_Password_Sign.getText().toString().isEmpty()||
+                    edt_Password_Sign_Confirm.getText().toString().isEmpty()
+            ){
+                Toast.makeText(this, "Phải điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if(!(edt_Password_Sign.getText().toString().equals(edt_Password_Sign_Confirm.getText().toString()))){
+                Toast.makeText(this, "Mật khẩu không trùng khớp", Toast.LENGTH_SHORT).show();
+            }
+            Intent intent = new Intent(Sign_Account.this,Login_Account.class);
+            startActivity(intent);
+        }
+>>>>>>> 3a9ede9f57b692f2210c5863c731435fd19a2fab
 }

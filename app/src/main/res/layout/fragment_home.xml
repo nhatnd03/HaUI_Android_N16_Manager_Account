@@ -38,7 +38,10 @@
 
             <TextView
                 android:id="@+id/home_txtHello"
+<<<<<<< HEAD
                 android:layout_marginTop="5dp"
+=======
+>>>>>>> 3a9ede9f57b692f2210c5863c731435fd19a2fab
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

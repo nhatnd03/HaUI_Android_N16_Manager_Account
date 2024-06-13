@@ -1,5 +1,6 @@
 package ninhduynhat.com.haui_android_n16_manager_account.Adapters;
 
+<<<<<<< HEAD
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -50,6 +51,30 @@ public class Chi_Phi_Adapter extends RecyclerView.Adapter<Chi_Phi_Adapter.chi_Ph
     public void setData(Context mContext,List<ExpensesObject> mListKhoanChi){
         this.mListKhoanChi=mListKhoanChi;
         this.mContext=mContext;
+=======
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.List;
+
+import ninhduynhat.com.haui_android_n16_manager_account.Model.KhoanChi;
+import ninhduynhat.com.haui_android_n16_manager_account.R;
+
+public class Chi_Phi_Adapter extends RecyclerView.Adapter<Chi_Phi_Adapter.chi_PhiViewHolder>{
+//    private Context mContext;
+    private List<KhoanChi> mListKhoanChi;
+
+//    public chi_Phi_Adapter(Context mContext) {
+//        this.mContext = mContext;
+//    }
+    public void setData(List<KhoanChi> list){
+        this.mListKhoanChi=list;
+>>>>>>> 3a9ede9f57b692f2210c5863c731435fd19a2fab
         notifyDataSetChanged();
     }
 
@@ -62,6 +87,7 @@ public class Chi_Phi_Adapter extends RecyclerView.Adapter<Chi_Phi_Adapter.chi_Ph
 
     @Override
     public void onBindViewHolder(@NonNull chi_PhiViewHolder holder, int position) {
+<<<<<<< HEAD
         ExpensesObject chiphi =mListKhoanChi.get(position);
         if(chiphi==null){
             return;
@@ -151,6 +177,15 @@ public class Chi_Phi_Adapter extends RecyclerView.Adapter<Chi_Phi_Adapter.chi_Ph
         mListKhoanChi.remove(posisions);
         notifyItemRemoved(posisions);
         notifyItemRangeChanged(posisions,mListKhoanChi.size());
+=======
+        KhoanChi khoanChi =mListKhoanChi.get(position);
+        if(khoanChi==null){
+            return;
+        }
+        holder.ten_chi_phi.setText(khoanChi.getKhoanchi());
+        holder.mo_ta_chi_phi.setText(khoanChi.getMo_Ta());
+        holder.gia_chi_phi.setText(khoanChi.getSo_Luong()+"");
+>>>>>>> 3a9ede9f57b692f2210c5863c731435fd19a2fab
     }
 
     @Override
@@ -162,6 +197,7 @@ public class Chi_Phi_Adapter extends RecyclerView.Adapter<Chi_Phi_Adapter.chi_Ph
     }
 
     public class chi_PhiViewHolder extends RecyclerView.ViewHolder{
+<<<<<<< HEAD
         private CardView layout_item_chiPhi;
         private TextView loai_chi_phi,mo_ta_chi_phi,gia_chi_phi;
 
@@ -174,4 +210,15 @@ public class Chi_Phi_Adapter extends RecyclerView.Adapter<Chi_Phi_Adapter.chi_Ph
         }
     }
 
+=======
+        private TextView ten_chi_phi,mo_ta_chi_phi,gia_chi_phi;
+
+        public chi_PhiViewHolder(@NonNull View itemView) {
+            super(itemView);
+            ten_chi_phi=itemView.findViewById(R.id.ten_chi_phi);
+            mo_ta_chi_phi=itemView.findViewById(R.id.mo_ta_chi_phi);
+            gia_chi_phi=itemView.findViewById(R.id.gia_chi_phi);
+        }
+    }
+>>>>>>> 3a9ede9f57b692f2210c5863c731435fd19a2fab
 }

@@ -39,6 +39,7 @@ public class DatabaseActivity extends AppCompatActivity {
 //        dbHelper.onCreate(db);
 
 //        // Thêm dữ liệu vào bảng User
+<<<<<<< HEAD
         db.execSQL("INSERT INTO USER (Username, Password, Fullname, PhoneNumber, LivingExpenses, MoneyForStudying, DebtMoney) " +
                 "VALUES ('quangkedo', '1', \"Nguyễn Minh Quang\", '0334973459', 1000000.0, 10000000.0, 000000.0)");
         db.execSQL("INSERT INTO USER (Username, Password, Fullname, PhoneNumber, LivingExpenses, MoneyForStudying, DebtMoney) " +
@@ -89,6 +90,9 @@ public class DatabaseActivity extends AppCompatActivity {
                 "VALUES ( '2', \"Chi phí đi lại\", 200000.0, '02/06/2024', \"Về quê\")");
         db.execSQL("INSERT INTO EXPENSES (UserID,ExpensesType, AmountSpent, DateSpent, Description) " +
                 "VALUES ( '2', \"Chi phí đi lại\", 200000.0, '02/06/2024', \"Về quê\")");
+=======
+        db.execSQL("INSERT INTO USER (Username, Password, Fullname, PhoneNumber, LivingExpenses, MoneyForStudying, DebtMoney) VALUES ('quangkedo', '1', \"Nguyễn Minh Quang\", '0334973459', 1000000.0, 10000000.0, 000000.0)");
+>>>>>>> 3a9ede9f57b692f2210c5863c731435fd19a2fab
 //
 //        // Truy vấn dữ liệu từ bảng User
 //        Cursor cursor = db.rawQuery("SELECT * FROM USER", null);

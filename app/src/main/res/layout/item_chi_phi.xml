@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<<<<<<< HEAD
     android:id="@+id/layout_item_chiPhi"
+=======
+>>>>>>> 3a9ede9f57b692f2210c5863c731435fd19a2fab
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="80dp"
@@ -17,10 +20,17 @@
 
         <TextView
             android:layout_marginStart="@dimen/size10dp"
+<<<<<<< HEAD
             android:id="@+id/loai_chi_phi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Thực phẩm &amp; Đồ uống"
+=======
+            android:id="@+id/ten_chi_phi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gà rán"
+>>>>>>> 3a9ede9f57b692f2210c5863c731435fd19a2fab
             android:textAlignment="center"
             android:textColor="#FF2B73"
             android:textSize="20sp"
@@ -29,7 +39,11 @@
 
         <TableRow
             android:padding="@dimen/size10dp"
+<<<<<<< HEAD
             android:layout_below="@+id/loai_chi_phi"
+=======
+            android:layout_below="@+id/ten_chi_phi"
+>>>>>>> 3a9ede9f57b692f2210c5863c731435fd19a2fab
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 

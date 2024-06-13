@@ -12,6 +12,7 @@ public class ExpensesObject {
     public ExpensesObject() {
     }
 
+<<<<<<< HEAD
     public ExpensesObject(String expensesType, double amountSpent) {
         ExpensesType = expensesType;
         AmountSpent = amountSpent;
@@ -32,6 +33,8 @@ public class ExpensesObject {
         Description = description;
     }
 
+=======
+>>>>>>> 3a9ede9f57b692f2210c5863c731435fd19a2fab
     public ExpensesObject(int expensesID, int userID, String expensesType, double amountSpent, String dateSpent, String description) {
         ExpensesID = expensesID;
         UserID = userID;

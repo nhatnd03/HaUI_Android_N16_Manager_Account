@@ -3,8 +3,12 @@ package ninhduynhat.com.haui_android_n16_manager_account.View;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+<<<<<<< HEAD
 import ninhduynhat.com.haui_android_n16_manager_account.Adapters.TypeTargetAdapter;
 import ninhduynhat.com.haui_android_n16_manager_account.Adapters.TargetAdapter;
+=======
+
+>>>>>>> 3a9ede9f57b692f2210c5863c731435fd19a2fab
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +20,11 @@ import ninhduynhat.com.haui_android_n16_manager_account.R;
  * Use the {@link Ke_Hoach_Fragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+<<<<<<< HEAD
 public class Ke_Hoach_Fragment extends Fragment implements TargetAdapter.OnItemClickListener, TypeTargetAdapter.OnItemClickListener {
+=======
+public class Ke_Hoach_Fragment extends Fragment {
+>>>>>>> 3a9ede9f57b692f2210c5863c731435fd19a2fab
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -31,7 +39,11 @@ public class Ke_Hoach_Fragment extends Fragment implements TargetAdapter.OnItemC
         // Required empty public constructor
     }
 
+<<<<<<< HEAD
      /**
+=======
+    /**
+>>>>>>> 3a9ede9f57b692f2210c5863c731435fd19a2fab
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *

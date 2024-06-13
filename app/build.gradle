@@ -3,6 +3,7 @@ plugins {
 }
 
 android {
+<<<<<<< HEAD
 
     buildFeatures {
         viewBinding = true
@@ -11,6 +12,17 @@ android {
     namespace 'ninhduynhat.com.haui_android_n16_manager_account'
     compileSdk 34
 
+=======
+    //binding
+    buildFeatures {
+        viewBinding = true
+    }
+    namespace 'ninhduynhat.com.haui_android_n16_manager_account'
+    compileSdk 34
+
+
+
+>>>>>>> 3a9ede9f57b692f2210c5863c731435fd19a2fab
     defaultConfig {
         applicationId "ninhduynhat.com.haui_android_n16_manager_account"
         minSdk 27
@@ -50,11 +62,20 @@ dependencies {
     //thư viện ảnh hình tròn
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
+<<<<<<< HEAD
 
     //cài đặt thư viện chọn ảnh từ thiết bị
     implementation 'com.github.dhaval2404:imagepicker:2.1'
 
     implementation "com.github.PhilJay:MPAndroidChart:v3.1.0"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0"
+=======
+    //chọn ảnh từ thiết bị
+    implementation 'gun0912.ted:tedbottompicker:1.2.6'
+    //check permission
+    implementation 'io.github.ParkSangGwon:tedpermission-normal:3.3.0'
+//Bieu do
+    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
+>>>>>>> 3a9ede9f57b692f2210c5863c731435fd19a2fab
 
 }
