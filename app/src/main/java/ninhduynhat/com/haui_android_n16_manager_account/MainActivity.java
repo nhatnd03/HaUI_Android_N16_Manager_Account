@@ -111,14 +111,14 @@ public class MainActivity extends AppCompatActivity {
                     openFragment(new Thong_Ke_Fragment(), enterAnimation, exitAnimation);
 
                 } else if (id==3) {
-<<<<<<< HEAD
+
                     enterAnimation = R.anim.enter_from_right;
                     exitAnimation = R.anim.exit_to_left;
                     openFragment(new Ke_Hoach_Fragment(), enterAnimation, exitAnimation);
                     //new Ke_Hoach_Fragment();
-=======
+
                     new Ke_Hoach_Fragment();
->>>>>>> 3a9ede9f57b692f2210c5863c731435fd19a2fab
+
                 }else if (id==4) {
                     enterAnimation = R.anim.enter_from_left;
                     exitAnimation = R.anim.exit_to_right;

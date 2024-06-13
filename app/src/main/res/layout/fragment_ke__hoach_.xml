@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<<<<<<< HEAD
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-=======
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
->>>>>>> 3a9ede9f57b692f2210c5863c731435fd19a2fab
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:background="@color/nen_chinh"
@@ -12,7 +8,6 @@
     tools:context=".View.Ke_Hoach_Fragment">
 
     <!-- TODO: Update blank fragment layout -->
-<<<<<<< HEAD
     <!--Lập kế hoạch-->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linearLayout"
@@ -127,8 +122,3 @@
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-=======
-
-
-</FrameLayout>
->>>>>>> 3a9ede9f57b692f2210c5863c731435fd19a2fab
