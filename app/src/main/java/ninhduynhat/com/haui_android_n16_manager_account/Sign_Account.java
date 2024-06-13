@@ -101,7 +101,7 @@ public class Sign_Account extends AppCompatActivity {
         }
 
         if(checkuser){
-            Toast.makeText(Sign_Account.this,"Username đã có trong database",Toast.LENGTH_SHORT).show();
+            Toast.makeText(Sign_Account.this,"Username đã tồn tại",Toast.LENGTH_SHORT).show();
             return;
         }
         db.insertUser_sign_1(edt_UserName_Sign.getText().toString(),edt_Password_Sign.getText().toString(),edt_FullName_Sign.getText().toString());

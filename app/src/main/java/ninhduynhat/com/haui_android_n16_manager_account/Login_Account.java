@@ -68,14 +68,14 @@ public class Login_Account extends AppCompatActivity {
         boolean islogin=sharedPreferences.getBoolean("isLogin",false);
         boolean isTurnOnFingerPrint=sharedPreferences.getBoolean("isTurnOnFingerPrint",false);
 
-
         if(islogin){
             String user= sharedPreferences.getString("UserName","");
             String pass= sharedPreferences.getString("PassWord","");
             edt_TenDangNhap.setText(user);
             edt_MatKhau.setText(pass);
         }
-        if(islogin && isTurnOnFingerPrint && Check_Device_Biometric()){
+
+        if(isTurnOnFingerPrint && Check_Device_Biometric()){
             login_by_finger();
             image_finger_login.setVisibility(View.VISIBLE);
         }
@@ -137,7 +137,7 @@ public class Login_Account extends AppCompatActivity {
 
     }
 
-
+    //hàm check thiết bị có hỗ trợ vân tay hay không
     private boolean Check_Device_Biometric(){
         boolean check_device=false;
 
@@ -166,8 +166,6 @@ public class Login_Account extends AppCompatActivity {
     }
 
     private void login_by_finger(){
-
-
         executor = ContextCompat.getMainExecutor(this);
         biometricPrompt = new BiometricPrompt(Login_Account.this,
                 executor, new BiometricPrompt.AuthenticationCallback() {
@@ -212,6 +210,7 @@ public class Login_Account extends AppCompatActivity {
             biometricPrompt.authenticate(promptInfo);
         });
     }
+
 
     @Override
     protected void onPause() {
