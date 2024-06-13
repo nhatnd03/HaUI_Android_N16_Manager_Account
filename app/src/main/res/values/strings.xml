@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">N16_QNHLT</string>
+    <string name="username">Tên đăng nhập</string>
+    <string name="password">Mật khẩu</string>
+    <string name="confirmpassword">Xác nhận mật khẩu</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
