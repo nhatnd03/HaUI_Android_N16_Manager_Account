@@ -54,16 +54,12 @@ dependencies {
     //thư viện ảnh hình tròn
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
-<<<<<<< HEAD
-    implementation 'com.github.dhaval2404:imagepicker:2.1'
-
-=======
 
     //cài đặt thư viện chọn ảnh từ thiết bị
     implementation 'com.github.dhaval2404:imagepicker:2.1'
 
     implementation "com.github.PhilJay:MPAndroidChart:v3.1.0"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0"
->>>>>>> 992adbbfb509584a708e3e104b16dfea6c93e861
+
 
 }

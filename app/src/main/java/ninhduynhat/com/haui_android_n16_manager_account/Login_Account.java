@@ -46,8 +46,18 @@ public class Login_Account extends AppCompatActivity {
     EditText edt_TenDangNhap,edt_MatKhau;
     Button btn_DangNhapManHinh;
     public static final String LUU_TRANG_THAI_NGUOI_DUNG ="LUU_TRANG_THAI_NGUOI_DUNG";
-//    public static final int UserID=1;
 
+
+    private void findId(){
+
+        txtchuyendangkys = findViewById(R.id.txtchuyendangkys);
+        edt_TenDangNhap= findViewById(R.id.edt_TenDangNhap);
+        edt_MatKhau= findViewById(R.id.edt_MatKhau);
+        btn_DangNhapManHinh=findViewById(R.id.btnDangNhapManHinh);
+        image_finger_login= findViewById(R.id.image_finger_login);
+        canhBaoDangNhap=findViewById(R.id.canhBaoDangNhap);
+
+    }
     
 
     @Override
@@ -105,18 +115,6 @@ public class Login_Account extends AppCompatActivity {
                 saveLoginState();
             }
         });
-    }
-    
-    
-    
-    private void   findId(){
-
-        txtchuyendangkys = findViewById(R.id.txtchuyendangkys);
-        edt_TenDangNhap= findViewById(R.id.edt_TenDangNhap);
-        edt_MatKhau= findViewById(R.id.edt_MatKhau);
-        btn_DangNhapManHinh=findViewById(R.id.btnDangNhapManHinh);
-        image_finger_login= findViewById(R.id.image_finger_login);
-        canhBaoDangNhap=findViewById(R.id.canhBaoDangNhap);
     }
 
 

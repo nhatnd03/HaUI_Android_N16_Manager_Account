@@ -1,5 +1,8 @@
 package ninhduynhat.com.haui_android_n16_manager_account.View;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,11 +16,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import ninhduynhat.com.haui_android_n16_manager_account.Adapters.TransactionHistoryAdapter;
 import ninhduynhat.com.haui_android_n16_manager_account.Database.DatabaseHelper;
+import ninhduynhat.com.haui_android_n16_manager_account.Login_Account;
 import ninhduynhat.com.haui_android_n16_manager_account.Model.PayingTuitionObject;
 import ninhduynhat.com.haui_android_n16_manager_account.Model.UserObject;
 import ninhduynhat.com.haui_android_n16_manager_account.R;
@@ -48,7 +53,6 @@ public class Cong_No_Fragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         transactionList = new ArrayList<>();
 
-
         transactionAdapter = new TransactionHistoryAdapter(transactionList);
         recyclerView.setAdapter(transactionAdapter);
 
@@ -57,7 +61,11 @@ public class Cong_No_Fragment extends Fragment {
 
         databaseHelper = new DatabaseHelper(getContext());
 
-        int userId = 1; // Giả sử bạn có userId là 1
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("LUU_TRANG_THAI_NGUOI_DUNG",MODE_PRIVATE);
+        String user= sharedPreferences.getString("UserName","");
+
+        int userId = databaseHelper.getUserByUsername(user).getUserID();
+//        int userId = new Login_Account().getCurrentUserID();
         loadUserData(userId);
         loadTransactionHistory(userId);
 
@@ -89,8 +97,10 @@ public class Cong_No_Fragment extends Fragment {
     private void loadUserData(int userId) {
         UserObject user = databaseHelper.getUserById(userId);
         if (user != null) {
-            soDuTextView.setText(String.valueOf(user.getMoneyForStudying()));
-            soTienConNoTextView.setText(String.valueOf(user.getDebtMoney()));
+//            soDuTextView.setText(String.valueOf(user.getMoneyForStudying()));
+//            soTienConNoTextView.setText(String.valueOf(user.getDebtMoney()));
+            soDuTextView.setText(String.format("%,.0f đ", user.getMoneyForStudying()));
+            soTienConNoTextView.setText(String.format("%,.0f đ", user.getDebtMoney()));
         }
     }
 

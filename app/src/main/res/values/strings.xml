@@ -7,7 +7,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string-array name="payment_methods">
-        <item>Chọn phương thức thanh toán</item>
+<!--        <item>Chọn phương thức thanh toán</item>-->
         <item>Nạp tiền trực tiếp</item>
         <item>Nạp tiền bằng ngân hàng</item>
     </string-array>
