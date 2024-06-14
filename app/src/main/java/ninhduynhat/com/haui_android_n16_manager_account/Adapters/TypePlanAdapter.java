@@ -14,9 +14,9 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import ninhduynhat.com.haui_android_n16_manager_account.Model.ListTypePlan;
 
-public class TypePlanAdapter extends RecyclerView.Adapter<TypePlanAdapter.Viewholder> {
-    ArrayList<ListTypePlan> items;
-    Context context;
+public class TypePlanAdapter extends RecyclerView.Adapter<TypePlanAdapter.ViewHolder> {
+    private ArrayList<ListTypePlan> items;
+    private Context context;
     private OnItemClickListener listener;
 
     public interface OnItemClickListener {
@@ -29,35 +29,30 @@ public class TypePlanAdapter extends RecyclerView.Adapter<TypePlanAdapter.Viewho
         this.listener = listener;
     }
 
-
     @NonNull
     @Override
-    public TypePlanAdapter.Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
-        View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_listview_type, parent, false);
-        return new Viewholder(inflate);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_listview_type, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TypePlanAdapter.Viewholder holder, int position) {
-
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final ListTypePlan item = items.get(position);
-        holder.titleTxt.setText(items.get(position).getTitle());
+        holder.titleTxt.setText(item.getTitle());
 
-        int drawableResourceId = holder.itemView.getResources()
-                .getIdentifier(items.get(position).getImgpath(), "drawable", holder.itemView.getContext().getPackageName());
-
+        int drawableResourceId = holder.itemView.getResources().getIdentifier(item.getImgpath(), "drawable", context.getPackageName());
         Glide.with(context)
                 .load(drawableResourceId)
                 .into(holder.img);
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onItemClick(items.get(position));
+                listener.onItemClick(item);
             }
         });
-
-
     }
 
     @Override
@@ -65,20 +60,16 @@ public class TypePlanAdapter extends RecyclerView.Adapter<TypePlanAdapter.Viewho
         return items.size();
     }
 
-
-    public class Viewholder extends RecyclerView.ViewHolder {
-        private boolean isItemSelected;
+    public class ViewHolder extends RecyclerView.ViewHolder {
         ConstraintLayout layoutItem;
         TextView titleTxt;
         ImageView img;
 
-        public Viewholder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
             layoutItem = itemView.findViewById(R.id.type_item);
             titleTxt = itemView.findViewById(R.id.titleTxt);
             img = itemView.findViewById(R.id.img_type);
         }
     }
-
-
 }

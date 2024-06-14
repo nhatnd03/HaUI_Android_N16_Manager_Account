@@ -418,18 +418,6 @@ public List<ExpensesObject> getExpensesObjectOfYear(int userId,String year) {
         return db.insert("EXPENSES", null, values);
     }
 
-
-    // Phương thức chèn dữ liệu vào bảng PLANNING
-//    public long insertPlanning(String planName, double amountNeeded, double amountReached, String timeline, String planType) {
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        ContentValues values = new ContentValues();
-//        values.put("PlanName", planName);
-//        values.put("AmountNeeded", amountNeeded);
-//        values.put("AmountReached", amountReached);
-//        values.put("Timeline", timeline);
-//        values.put("PlanType", planType);
-//        return db.insert("PLANNING", null, values);
-//    }
     // them
     public void addPlan(PlanObject plan){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -446,7 +434,28 @@ public List<ExpensesObject> getExpensesObjectOfYear(int userId,String year) {
     }
 
     // sua
+    public void updatePlan(PlanObject plan) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("PlanName", plan.getPlanName());
+        cv.put("AmountNeeded", plan.getAmoutNeeded());
+        cv.put("AmountReached", plan.getAmoutReached());
+        cv.put("Timeline", plan.getTimeLine());
+        cv.put("PlanType", plan.getPlanType());
+        String whereClause = "PlanId" + " = ?";
+        String[] whereArgs = {String.valueOf(plan.getPlanId())};
+        db.update("PLANNING", cv, whereClause, whereArgs);
+
+    }
+
     // xoa
+    public void deletePlan(PlanObject plan){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String whereClause = "PlanId" + " = ?";
+        String[] whereArgs = {String.valueOf(plan.getPlanId())};
+        db.delete("PLANNING", whereClause, whereArgs);
+
+    }
 
     //
     public ArrayList<PlanObject> fetchPlanByType(String type){

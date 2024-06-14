@@ -100,7 +100,7 @@ public class Plan_Fragment extends Fragment implements PlanAdapter.OnItemClickLi
         String type = item.getTitle();
         TextView txtName = binding.planName;
         TextView txtListName = binding.textViewListTarget;
-        txtName.setText("Target " + type);
+        txtName.setText("Loại mục tiêu" + type);
         txtListName.setText("List " + type + " target");
         items = DatabaseHelper.getInstance(getContext()).fetchPlanByType(type);
         listPlanAdapter.setTypePlan(items);
