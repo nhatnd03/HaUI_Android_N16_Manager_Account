@@ -22,7 +22,7 @@ import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 import ninhduynhat.com.haui_android_n16_manager_account.View.Cong_No_Fragment;
 import ninhduynhat.com.haui_android_n16_manager_account.View.HomeFragment;
-import ninhduynhat.com.haui_android_n16_manager_account.View.Ke_Hoach_Fragment;
+import ninhduynhat.com.haui_android_n16_manager_account.View.Plan_Fragment;
 import ninhduynhat.com.haui_android_n16_manager_account.View.RegisterFragment;
 import ninhduynhat.com.haui_android_n16_manager_account.View.Thong_Ke_Fragment;
 
@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
                 } else if (id==3) {
                     enterAnimation = R.anim.enter_from_right;
                     exitAnimation = R.anim.exit_to_left;
-                    openFragment(new Ke_Hoach_Fragment(), enterAnimation, exitAnimation);
+                    openFragment(new Plan_Fragment(), enterAnimation, exitAnimation);
 
                 }else if (id==4) {
                     enterAnimation = R.anim.enter_from_left;
@@ -144,7 +144,10 @@ public class MainActivity extends AppCompatActivity {
                     exitAnimation = R.anim.exit_to_left;
                     openFragment(new Thong_Ke_Fragment(), enterAnimation, exitAnimation);
                 } else if (id==3) {
-                    new Ke_Hoach_Fragment();
+                    enterAnimation = R.anim.enter_from_right;
+                    exitAnimation = R.anim.exit_to_left;
+                    openFragment(new Plan_Fragment(), enterAnimation, exitAnimation);
+
                 }else if (id==4) {
                     enterAnimation = R.anim.enter_from_left;
                     exitAnimation = R.anim.exit_to_right;

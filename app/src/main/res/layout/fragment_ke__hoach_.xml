@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:background="@color/nen_chinh"
     android:layout_height="match_parent"
-    tools:context=".View.Ke_Hoach_Fragment">
+    tools:context=".View.Plan_Fragment">
 
     <!-- TODO: Update blank fragment layout -->
     <!--Lập kế hoạch-->

@@ -8,10 +8,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import ninhduynhat.com.haui_android_n16_manager_account.Model.ExpensesObject;
 import ninhduynhat.com.haui_android_n16_manager_account.Model.PayingTuitionObject;
+import ninhduynhat.com.haui_android_n16_manager_account.Model.PlanObject;
 import ninhduynhat.com.haui_android_n16_manager_account.Model.SubjectObject;
 import ninhduynhat.com.haui_android_n16_manager_account.Model.UserObject;
 
@@ -20,8 +22,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "QUANLYTAIKHOAN.db";
     private static final int DATABASE_VERSION = 1;
 
+
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
+
+    private static DatabaseHelper instance;
+    public static synchronized DatabaseHelper getInstance(Context context) {
+        if (instance == null) {
+            instance = new DatabaseHelper(context.getApplicationContext());
+        }
+        return instance;
     }
 
     @Override
@@ -243,7 +254,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-
     //hàm lấy dữ liệu chi phí theo ngày cho màn hình home
     public List<ExpensesObject> getExpensesObjectOfDate(int userId,String dateToday) {
         List<ExpensesObject> expenses = new ArrayList<>();
@@ -410,15 +420,81 @@ public List<ExpensesObject> getExpensesObjectOfYear(int userId,String year) {
 
 
     // Phương thức chèn dữ liệu vào bảng PLANNING
-    public long insertPlanning(String planName, double amountNeeded, double amountReached, String timeline, String planType) {
+//    public long insertPlanning(String planName, double amountNeeded, double amountReached, String timeline, String planType) {
+//        SQLiteDatabase db = this.getWritableDatabase();
+//        ContentValues values = new ContentValues();
+//        values.put("PlanName", planName);
+//        values.put("AmountNeeded", amountNeeded);
+//        values.put("AmountReached", amountReached);
+//        values.put("Timeline", timeline);
+//        values.put("PlanType", planType);
+//        return db.insert("PLANNING", null, values);
+//    }
+    // them
+    public void addPlan(PlanObject plan){
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("PlanName", planName);
-        values.put("AmountNeeded", amountNeeded);
-        values.put("AmountReached", amountReached);
-        values.put("Timeline", timeline);
-        values.put("PlanType", planType);
-        return db.insert("PLANNING", null, values);
+        ContentValues cv = new ContentValues();
+        cv.put("PlanName", plan.getPlanName());
+        cv.put("UserID", UserObject.getInstance().getUserID());
+        cv.put("AmountNeeded", plan.getAmoutNeeded());
+        cv.put("AmountReached", plan.getAmoutReached());
+        cv.put("Timeline", plan.getTimeLine());
+        cv.put("PlanType", plan.getPlanType());
+        db.insert("PLANNING", null, cv);
+        db.close();
+
+    }
+
+    // sua
+    // xoa
+
+    //
+    public ArrayList<PlanObject> fetchPlanByType(String type){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM" + "PLANNING" + "WHERE" + "UserID"+ " = " + "'" + UserObject.getInstance().getUserID()+"'" + " AND " + "PlanType" + " = " + "'"+ type + "'", null );
+
+        ArrayList<PlanObject> plans
+                = new ArrayList<>();
+        if (cursor.moveToFirst()) {
+            do {
+                plans.add(new PlanObject(
+                        cursor.getInt(cursor.getColumnIndexOrThrow("PlanId")),
+                        //cursor.getInt(cursor.getColumnIndexOrThrow("UserId")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("PlanName")),
+                        cursor.getDouble(cursor.getColumnIndexOrThrow("AmountNeeded")),
+                        cursor.getDouble(cursor.getColumnIndexOrThrow("AmountReached")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("Timeline")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("PlanType"))
+                ));
+            } while (cursor.moveToNext());
+        }
+        Collections.reverse(plans);
+        cursor.close();
+        return plans;
+    }
+    // select toan bo du lieu
+    public ArrayList<PlanObject> fetchAllPlan(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM" + "PLANNING" + "WHERE" + "UserID"+ " = " + "'" + UserObject.getInstance().getUserID()+ "'", null );
+
+        ArrayList<PlanObject> plans
+                = new ArrayList<>();
+        if (cursor.moveToFirst()) {
+            do {
+                plans.add(new PlanObject(
+                        cursor.getInt(cursor.getColumnIndexOrThrow("PlanId")),
+                        //cursor.getInt(cursor.getColumnIndexOrThrow("UserId")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("PlanName")),
+                        cursor.getDouble(cursor.getColumnIndexOrThrow("AmountNeeded")),
+                        cursor.getDouble(cursor.getColumnIndexOrThrow("AmountReached")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("Timeline")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("PlanType"))
+                ));
+            } while (cursor.moveToNext());
+        }
+        Collections.reverse(plans);
+        cursor.close();
+        return plans;
     }
 
     // Phương thức chèn dữ liệu vào bảng SUBJECT
