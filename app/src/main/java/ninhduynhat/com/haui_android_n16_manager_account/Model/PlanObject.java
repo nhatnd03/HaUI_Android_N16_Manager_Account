@@ -13,46 +13,60 @@ public class PlanObject implements Parcelable {
     private double AmoutReached;
     private String TimeLine;
     private String PlanType;
+    private String Description;
 
-    private static PlanObject instance;
+    // Default constructor
     public PlanObject() {
     }
 
-    protected PlanObject(Parcel in){
+    public PlanObject(int planId, String planName, double amoutNeeded, double amoutReached, String timeLine, String planType, String description) {
+        PlanId = planId;
+        PlanName = planName;
+        AmoutNeeded = amoutNeeded;
+        AmoutReached = amoutReached;
+        TimeLine = timeLine;
+        PlanType = planType;
+        Description = description;
+    }
+
+    // Constructor with parameters
+    public PlanObject(int planId, int userID, String planName, double amoutNeeded, double amoutReached, String timeLine, String planType, String description) {
+        PlanId = planId;
+        UserID = userID;
+        PlanName = planName;
+        AmoutNeeded = amoutNeeded;
+        AmoutReached = amoutReached;
+        TimeLine = timeLine;
+        PlanType = planType;
+        Description = description;
+    }
+
+    // Constructor to create from Parcel
+    protected PlanObject(Parcel in) {
         PlanId = in.readInt();
         UserID = in.readInt();
         PlanName = in.readString();
         AmoutNeeded = in.readDouble();
         AmoutReached = in.readDouble();
         TimeLine = in.readString();
-        PlanType =  in.readString();
+        PlanType = in.readString();
+        Description = in.readString();
     }
 
+    // Parcelable Creator
     public static final Creator<PlanObject> CREATOR = new Creator<PlanObject>() {
+        @Override
         public PlanObject createFromParcel(Parcel in) {
-            return new PlanObject(in); }
+            return new PlanObject(in);
+        }
+
+        @Override
         public PlanObject[] newArray(int size) {
             return new PlanObject[size];
         }
     };
 
-    public static synchronized PlanObject getInstance() {
-        if (instance == null) {
-            instance = new PlanObject();
-        }
-        return instance;
-    }
-
-    public PlanObject(int planId, String planName, double amoutNeeded, double amoutReached, String timeLine, String planType) {
-        PlanId = planId;
-        //UserID = userID;
-        PlanName = planName;
-        AmoutNeeded = amoutNeeded;
-        AmoutReached = amoutReached;
-        TimeLine = timeLine;
-        PlanType = planType;
-    }
-
+    // Getters and Setters
     public int getPlanId() {
         return PlanId;
     }
@@ -109,17 +123,28 @@ public class PlanObject implements Parcelable {
         PlanType = planType;
     }
 
+    public String getDescription() {
+        return Description;
+    }
+
+    public void setDescription(String description) {
+        Description = description;
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }
 
-    public void writeToParcel(@NonNull Parcel parcel, int i) {
+    @Override
+    public void writeToParcel(@NonNull Parcel parcel, int flags) {
         parcel.writeInt(PlanId);
-        //parcel.writeInt(UserID);
+        parcel.writeInt(UserID);
         parcel.writeString(PlanName);
         parcel.writeDouble(AmoutNeeded);
         parcel.writeDouble(AmoutReached);
         parcel.writeString(TimeLine);
         parcel.writeString(PlanType);
+        parcel.writeString(Description);
     }
 }

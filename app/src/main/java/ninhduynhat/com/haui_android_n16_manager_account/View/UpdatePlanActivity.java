@@ -28,7 +28,7 @@ import ninhduynhat.com.haui_android_n16_manager_account.R;
 
 public class UpdatePlanActivity extends Activity {
     PlanObject plan;
-    EditText editTextTotalBudget, editTextSavedBudget, editTextDeadline;
+    EditText editTextTotalBudget, editTextSavedBudget, editTextDeadline, editTextDescribe;
     TextView textViewName;
     Spinner spinner;
     ProgressBar progressBar;
@@ -78,7 +78,7 @@ public class UpdatePlanActivity extends Activity {
                         Toast.makeText(UpdatePlanActivity.this, "Deadline can not empty", Toast.LENGTH_SHORT).show();
                     }
 
-                    PlanObject newtarget = new PlanObject(plan.getPlanId(), textViewName.getText().toString(), Double.parseDouble(editTextTotalBudget.getText().toString()), Double.parseDouble(editTextSavedBudget.getText().toString()), editTextDeadline.getText().toString(), spinner.getSelectedItem().toString());
+                    PlanObject newtarget = new PlanObject(plan.getPlanId(), textViewName.getText().toString(), Double.parseDouble(editTextTotalBudget.getText().toString()), Double.parseDouble(editTextSavedBudget.getText().toString()), editTextDeadline.getText().toString(), spinner.getSelectedItem().toString(),editTextDescribe.getText().toString());
                     DatabaseHelper.getInstance(UpdatePlanActivity.this).updatePlan(plan);
                     Toast.makeText(UpdatePlanActivity.this, "updated Target successfully", Toast.LENGTH_SHORT).show();
 

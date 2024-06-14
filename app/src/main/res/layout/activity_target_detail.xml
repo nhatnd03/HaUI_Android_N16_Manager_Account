@@ -60,11 +60,11 @@
             android:text="Loại mục tiêu :" />
 
         <TextView
-            android:id="@+id/textViewPriority"
+            android:id="@+id/textViewDescribe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:text=""
+            android:text="Ghi chú"
             />
 
         <ProgressBar

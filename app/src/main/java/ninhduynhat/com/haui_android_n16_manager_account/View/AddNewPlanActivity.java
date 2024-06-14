@@ -33,8 +33,7 @@ import java.util.List;
 
 public class AddNewPlanActivity extends AppCompatActivity {
     Button btnCreate, btnDelete;
-    ProgressBar progressBar;
-    EditText editTextName, editTextTotalBudget, editTextSavedBudget, editTextDate;
+    EditText editTextName, editTextTotalBudget, editTextSavedBudget, editTextDate, editTextDescribe;
     Spinner spinner;
     SeekBar seekBar;
     ImageView imageViewDatePicker;
@@ -46,7 +45,6 @@ public class AddNewPlanActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_target);
         setWidget();
-        progressBar.setProgress(0);
         editTextDateOnFocusEvent();
         editTextSavedBudgetOnFocusEvent();
         setUpSpinner();
@@ -60,7 +58,6 @@ public class AddNewPlanActivity extends AppCompatActivity {
         });
     }
     private void btnCreateEvent() {
-
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -74,19 +71,26 @@ public class AddNewPlanActivity extends AppCompatActivity {
                     } else if (editTextDate.getText().toString().equals("")) {
                         Toast.makeText(AddNewPlanActivity.this, "Deadline can not empty", Toast.LENGTH_SHORT).show();
                     } else {
-                        PlanObject plan = new PlanObject(0, editTextName.getText().toString(), Double.parseDouble(editTextTotalBudget.getText().toString()), Double.parseDouble(editTextSavedBudget.getText().toString()), editTextDate.getText().toString(), spinner.getSelectedItem().toString());
+                        PlanObject plan = new PlanObject(
+                                0,
+                                editTextName.getText().toString(),
+                                Double.parseDouble(editTextTotalBudget.getText().toString()),
+                                Double.parseDouble(editTextSavedBudget.getText().toString()),
+                                editTextDate.getText().toString(),
+                                spinner.getSelectedItem().toString(),
+                                editTextDescribe.getText().toString()  // Sử dụng giá trị từ editTextDescribe
+                        );
                         DatabaseHelper.getInstance(AddNewPlanActivity.this).addPlan(plan);
                         Toast.makeText(AddNewPlanActivity.this, "New Target added successfully", Toast.LENGTH_SHORT).show();
                         finish();
                     }
                 } catch (Exception e) {
                     Toast.makeText(AddNewPlanActivity.this, "Add target Error" + e.toString(), Toast.LENGTH_SHORT).show();
-
                 }
             }
         });
-
     }
+
 
     private void btnDeleteEvent() {
         btnDelete.setOnClickListener(new View.OnClickListener() {
@@ -96,6 +100,7 @@ public class AddNewPlanActivity extends AppCompatActivity {
                 editTextDate.setText("");
                 editTextSavedBudget.setText("0");
                 editTextTotalBudget.setText("0");
+                editTextDescribe.setText("");
             }
         });
     }
@@ -114,7 +119,7 @@ public class AddNewPlanActivity extends AppCompatActivity {
                 }
 
                 int progressprecent = (int) (Double.parseDouble(editTextSavedBudget.getText().toString()) / Double.parseDouble(editTextTotalBudget.getText().toString()) * 100);
-                progressBar.setProgress(progressprecent);
+                //progressBar.setProgress(progressprecent);
             }
         });
     }
@@ -138,10 +143,11 @@ public class AddNewPlanActivity extends AppCompatActivity {
         editTextTotalBudget = findViewById(R.id.editTextTotalBudget);
         editTextSavedBudget = findViewById(R.id.editTextSavedBudget);
         editTextDate = findViewById(R.id.editTextDate);
+        editTextDescribe = findViewById(R.id.editTextDescribe); // Thêm dòng này
         spinner = findViewById(R.id.spinner);
-        progressBar = findViewById(R.id.progressBar);
         imageViewDatePicker = findViewById(R.id.imageViewDatePicker);
     }
+
 
     public void pickDate() {
         SimpleDateFormat df = new SimpleDateFormat("dd-M-yyyy");

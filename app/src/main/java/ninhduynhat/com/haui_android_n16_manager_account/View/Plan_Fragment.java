@@ -37,15 +37,19 @@ public class Plan_Fragment extends Fragment implements PlanAdapter.OnItemClickLi
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Inflate layout cho fragment này bằng cách sử dụng view binding
         binding = FragmentKeHoachBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
-        return root;
+        return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        // Khởi tạo ImageView từ binding
         ic_plus = binding.icPlus;
+        if (ic_plus == null) {
+            throw new NullPointerException("ic_plus là null. Đảm bảo rằng file layout của bạn có chứa một ImageView với id 'icPlus'.");
+        }
         icPlusOnclick();
         initRecyclerviewType();
         initRecyclerviewPlan();
@@ -54,6 +58,7 @@ public class Plan_Fragment extends Fragment implements PlanAdapter.OnItemClickLi
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        // Set binding về null để tránh memory leaks
         binding = null;
     }
 
@@ -100,8 +105,8 @@ public class Plan_Fragment extends Fragment implements PlanAdapter.OnItemClickLi
         String type = item.getTitle();
         TextView txtName = binding.planName;
         TextView txtListName = binding.textViewListTarget;
-        txtName.setText("Loại mục tiêu" + type);
-        txtListName.setText("List " + type + " target");
+        txtName.setText("Loại mục tiêu " + type);
+        txtListName.setText("Danh sách mục tiêu " + type);
         items = DatabaseHelper.getInstance(getContext()).fetchPlanByType(type);
         listPlanAdapter.setTypePlan(items);
     }

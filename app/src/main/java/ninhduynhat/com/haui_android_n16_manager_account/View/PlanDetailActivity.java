@@ -17,21 +17,31 @@ import ninhduynhat.com.haui_android_n16_manager_account.Model.PlanObject;
 import ninhduynhat.com.haui_android_n16_manager_account.View.UpdatePlanActivity;
 
 public class PlanDetailActivity extends AppCompatActivity {
-    Button btnDelete, btnUpdate;
-    PlanObject plan;
+    private Button btnDelete, btnUpdate;
+    private PlanObject plan;
+    private TextView textViewTargetName, textViewTargetDeadline, textViewProgressPercent, tvTotalBudget, tvSavedBudget, textViewDescribe, tvType;
+    private ProgressBar progressBar;
 
-    TextView textViewTargetName, textViewTargetDeadline, textViewProgressPercent, tvTotalBudget, tvSavedBudget, tvType;
-    ProgressBar progressBar;
-
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_target_detail);
         setWidget();
-        // get data
-        plan = (PlanObject) getIntent().getParcelableExtra("PlanObject");
-        setDataForActivity();
-        btnUpdateOnClick();
-        btnDeleteOnClick();
+
+        // Get data from Intent
+        Intent intent = getIntent();
+        if (intent != null) {
+            plan = intent.getParcelableExtra("PlanObject");
+        }
+
+        if (plan != null) {
+            setDataForActivity();
+            setupButtonListeners();
+        } else {
+            Log.e("PlanDetailActivity", "PlanObject is null.");
+            Toast.makeText(this, "Không thể tải thông tin mục tiêu", Toast.LENGTH_SHORT).show();
+            finish(); // End activity if there is no valid data
+        }
     }
 
     private void setWidget() {
@@ -44,37 +54,51 @@ public class PlanDetailActivity extends AppCompatActivity {
         tvTotalBudget = findViewById(R.id.textViewTotalBudget);
         tvSavedBudget = findViewById(R.id.textViewSavedBudget);
         tvType = findViewById(R.id.textViewType);
+        textViewDescribe = findViewById(R.id.textViewDescribe);
     }
-    private void btnDeleteOnClick() {
+
+    private void setupButtonListeners() {
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatabaseHelper.getInstance(PlanDetailActivity.this).deletePlan(plan);
-                Toast.makeText(PlanDetailActivity.this, "Xóa mục tiêu thành công", Toast.LENGTH_SHORT).show();
-                finish();
+                if (plan != null) {
+                    DatabaseHelper.getInstance(PlanDetailActivity.this).deletePlan(plan);
+                    Toast.makeText(PlanDetailActivity.this, "Xóa mục tiêu thành công", Toast.LENGTH_SHORT).show();
+                    finish();
+                } else {
+                    Log.e("PlanDetailActivity", "PlanObject is null. Cannot delete plan.");
+                }
             }
         });
-    }
-    private void btnUpdateOnClick() {
+
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(PlanDetailActivity.this, UpdatePlanActivity.class);
-                intent.putExtra("Tên mục tiêu", plan);
-                startActivity(intent);
-                finish();
+                if (plan != null) {
+                    Intent intent = new Intent(PlanDetailActivity.this, UpdatePlanActivity.class);
+                    intent.putExtra("PlanObject", plan);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Log.e("PlanDetailActivity", "PlanObject is null. Cannot update plan.");
+                }
             }
         });
     }
 
     private void setDataForActivity() {
-        textViewTargetDeadline.setText("Thời gian: " + plan.getTimeLine());
-        textViewTargetName.setText(plan.getPlanName());
-        int percent = (int) (plan.getAmoutReached() / plan.getAmoutNeeded() * 100);
-        textViewProgressPercent.setText(percent + "%");
-        tvTotalBudget.setText(String.valueOf("Số tiền cần có :  " + plan.getAmoutNeeded()));
-        tvSavedBudget.setText(String.valueOf("Số tiền đã có :  " + plan.getAmoutReached()));
-        tvType.setText("Loại mục tiêu :" + plan.getPlanType());
-        progressBar.setProgress(percent);
+        if (plan != null) {
+            textViewTargetDeadline.setText("Thời gian: " + plan.getTimeLine());
+            textViewTargetName.setText(plan.getPlanName());
+            int percent = (int) ((plan.getAmoutReached() / plan.getAmoutNeeded()) * 100);
+            textViewProgressPercent.setText(percent + "%");
+            tvTotalBudget.setText("Số tiền cần có: " + plan.getAmoutNeeded());
+            tvSavedBudget.setText("Số tiền đã có: " + plan.getAmoutReached());
+            tvType.setText("Loại mục tiêu: " + plan.getPlanType());
+            progressBar.setProgress(percent);
+            textViewDescribe.setText(plan.getDescription());
+        } else {
+            Log.e("PlanDetailActivity", "PlanObject is null. Cannot set data for activity.");
+        }
     }
 }
