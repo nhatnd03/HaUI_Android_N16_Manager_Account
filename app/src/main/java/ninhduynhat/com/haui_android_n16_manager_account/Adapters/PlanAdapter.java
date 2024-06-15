@@ -1,12 +1,15 @@
 package ninhduynhat.com.haui_android_n16_manager_account.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,12 +17,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import ninhduynhat.com.haui_android_n16_manager_account.R;
 import ninhduynhat.com.haui_android_n16_manager_account.Model.PlanObject;
+import ninhduynhat.com.haui_android_n16_manager_account.View.PlanDetailActivity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.ViewHolder> {
-    private ArrayList<PlanObject> items;
-    private Context context;
+    private static ArrayList<PlanObject> items;
+    private static Context context;
     private OnItemClickListener listener;
 
     public PlanAdapter(Context context, ArrayList<PlanObject> items, OnItemClickListener listener) {
@@ -49,10 +54,17 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         PlanObject plan = items.get(position);
         holder.title.setText(plan.getPlanName());
+        // Ấn ra
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onItemClick(plan);
+
+//                 listener.onItemClick(plan);
+
+                Intent intent = new Intent(context, PlanDetailActivity.class);
+                intent.putExtra("Target", (Parcelable) plan);  // Make sure PlanObject implements Parcelable
+                context.startActivity(intent);
+
             }
         });
 
@@ -63,9 +75,9 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.ViewHolder> {
         holder.processPercent.setText(progress + "%");
         holder.progressBar.setProgress(progress);
 
-        // Uncomment and update this part if you have image handling
-        // int drawableResourceId = holder.itemView.getResources().getIdentifier(plan.getImgSrc(), "drawable", holder.itemView.getContext().getPackageName());
-        // Glide.with(context).load(drawableResourceId).into(holder.ic);
+         //Uncomment and update this part if you have image handling
+//         int drawableResourceId = holder.itemView.getResources().getIdentifier(plan.getImgSrc(), "drawable", holder.itemView.getContext().getPackageName());
+//         Glide.with(context).load(drawableResourceId).into(holder.ic);
     }
 
     @Override
@@ -73,7 +85,7 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.ViewHolder> {
         return items.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView ic;
         TextView title, processPercent;
         ProgressBar progressBar;
@@ -84,6 +96,15 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.ViewHolder> {
             title = itemView.findViewById(R.id.title);
             processPercent = itemView.findViewById(R.id.progress);
             progressBar = itemView.findViewById(R.id.progressBar);
+        }
+
+        @Override
+        public void onClick(View v) {
+            int position=getAdapterPosition();
+            PlanObject obj=items.get(position);
+            Intent intent= new Intent(context, PlanDetailActivity.class);
+            intent.putExtra("PlanObject", (Serializable) obj);
+            context.startActivity(intent);
         }
     }
 }

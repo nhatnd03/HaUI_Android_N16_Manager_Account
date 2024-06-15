@@ -4,7 +4,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
-public class PlanObject implements Parcelable {
+import java.io.Serializable;
+
+public class PlanObject implements Parcelable, Serializable {
 
     private int PlanId;
     private int UserID;

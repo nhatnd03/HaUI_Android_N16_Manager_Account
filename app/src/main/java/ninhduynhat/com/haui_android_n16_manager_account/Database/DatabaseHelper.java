@@ -420,6 +420,7 @@ public List<ExpensesObject> getExpensesObjectOfYear(int userId,String year) {
         return db.insert("EXPENSES", null, values);
     }
 
+    // them
     public void addPlan(PlanObject plan){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -506,6 +507,7 @@ public List<ExpensesObject> getExpensesObjectOfYear(int userId,String year) {
         db.close(); // Đóng database sau khi truy vấn
         return plans;
     }
+
 
 
 

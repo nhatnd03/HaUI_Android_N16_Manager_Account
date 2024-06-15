@@ -322,89 +322,107 @@ public class man_hinh_thontincanhan extends AppCompatActivity {
         dialog.show();
     }
 
-    private void openFeedbackDialog_NapTien(int gravity){
-        final Dialog dialog = new Dialog(man_hinh_thontincanhan.this,android.R.style.Theme_Holo_Light_Dialog);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.layout_dialog_nap_tien_sinh_hoat);
-        Window window = dialog.getWindow();
-        if(window==null){
-            return;
+    // Phương thức mở dialog nạp tiền sinh hoạt
+    private void openFeedbackDialog_NapTien(int gravity) {
+        // Tạo một Dialog với chủ đề Holo Light Dialog
+        final Dialog dialog = new Dialog(man_hinh_thontincanhan.this, android.R.style.Theme_Holo_Light_Dialog);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // Loại bỏ tiêu đề của Dialog
+        dialog.setContentView(R.layout.layout_dialog_nap_tien_sinh_hoat); // Thiết lập layout cho Dialog
+        Window window = dialog.getWindow(); // Lấy đối tượng Window của Dialog
+        if (window == null) {
+            return; // Nếu window là null thì thoát khỏi phương thức
         }
-        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);
+        // Thiết lập kích thước và hình nền cho Window
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        WindowManager.LayoutParams windowAtrubus= window.getAttributes();
-        windowAtrubus.gravity=gravity;
+        WindowManager.LayoutParams windowAtrubus = window.getAttributes();
+        windowAtrubus.gravity = gravity; // Thiết lập vị trí hiển thị của Dialog
         window.setAttributes(windowAtrubus);
-        Button thoatDialog8,nhanNapTienSinhHoat;
+
+        // Khai báo và khởi tạo các thành phần giao diện trong Dialog
+        Button thoatDialog8, nhanNapTienSinhHoat;
         EditText soTienMuonNap;
-        thoatDialog8=dialog.findViewById(R.id.thoatDialog8);
-        nhanNapTienSinhHoat=dialog.findViewById(R.id.nhanNapTienSinhHoat);
-        soTienMuonNap=dialog.findViewById(R.id.soTienMuonNap);
+        thoatDialog8 = dialog.findViewById(R.id.thoatDialog8); // Nút thoát Dialog
+        nhanNapTienSinhHoat = dialog.findViewById(R.id.nhanNapTienSinhHoat); // Nút xác nhận nạp tiền
+        soTienMuonNap = dialog.findViewById(R.id.soTienMuonNap); // Ô nhập số tiền muốn nạp
+
+        // Thiết lập sự kiện click cho nút thoát Dialog
         thoatDialog8.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.cancel();
+                dialog.cancel(); // Đóng Dialog khi nhấn nút thoát
             }
         });
+
+        // Thiết lập sự kiện click cho nút xác nhận nạp tiền
         nhanNapTienSinhHoat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(themtienvaotaikhoan(soTienMuonNap.getText().toString())!=-1){
-                    dialog.cancel();
+                if (themtienvaotaikhoan(soTienMuonNap.getText().toString()) != -1) {
+                    dialog.cancel(); // Đóng Dialog nếu nạp tiền thành công
                 }
             }
         });
-        dialog.show();
-    }
-    private int themtienvaotaikhoan(String tien_Nap){
-        if(tien_Nap.isEmpty()){
-            Toast.makeText(this, "Phải điền số tiền nạp", Toast.LENGTH_SHORT).show();
-            return -1;
-        }
-        UserObject userObject= new UserObject();
-        userObject=getDataUserNameS();
-        tenTaiKhoan.setText(userObject.getFullname());
-        double tienNap= Double.parseDouble(tien_Nap)+userObject.getLivingExpenses();
-        databaseHelper.update_LivingExpenses(userObject.getUserID(),tienNap);
-        NumberFormat numberFormat = NumberFormat.getInstance();
-        String formattedNumber = numberFormat.format(tienNap);
-        soduHienTai.setText("Số dư: "+formattedNumber+" VND");
-        Toast.makeText(this, "Nạp tiền thành công", Toast.LENGTH_SHORT).show();
-        return 1;
+        dialog.show(); // Hiển thị Dialog
     }
 
+    // Phương thức thêm tiền vào tài khoản
+    private int themtienvaotaikhoan(String tien_Nap) {
+        // Kiểm tra nếu số tiền nạp trống
+        if (tien_Nap.isEmpty()) {
+            Toast.makeText(this, "Phải điền số tiền nạp", Toast.LENGTH_SHORT).show();
+            return -1; // Trả về -1 nếu số tiền nạp trống
+        }
+        UserObject userObject = new UserObject();
+        userObject = getDataUserNameS(); // Lấy thông tin người dùng hiện tại
+        tenTaiKhoan.setText(userObject.getFullname()); // Hiển thị tên tài khoản người dùng
+
+        // Cộng số tiền nạp vào số tiền hiện có của người dùng
+        double tienNap = Double.parseDouble(tien_Nap) + userObject.getLivingExpenses();
+        databaseHelper.update_LivingExpenses(userObject.getUserID(), tienNap); // Cập nhật số tiền mới vào cơ sở dữ liệu
+
+        // Định dạng và hiển thị số tiền mới
+        NumberFormat numberFormat = NumberFormat.getInstance();
+        String formattedNumber = numberFormat.format(tienNap);
+        soduHienTai.setText("Số dư: " + formattedNumber + " VND");
+        Toast.makeText(this, "Nạp tiền thành công", Toast.LENGTH_SHORT).show();
+        return 1; // Trả về 1 nếu nạp tiền thành công
+    }
 
     @Override
     protected void onResume() {
         super.onResume();
-        sharedPreferences = getSharedPreferences(LUU_TRANG_THAI_NGUOI_DUNG,MODE_PRIVATE);
-        boolean checked= sharedPreferences.getBoolean("isTurnOnFingerPrint",false);
-        boolean check_device= sharedPreferences.getBoolean("Check_Device_onFinger",false);
-//        String LUU_DU_LIEU_ANH=sharedPreferences.getString("LUU_DU_LIEU_ANH","");
+        sharedPreferences = getSharedPreferences(LUU_TRANG_THAI_NGUOI_DUNG, MODE_PRIVATE); // Lấy SharedPreferences lưu trạng thái người dùng
+        boolean checked = sharedPreferences.getBoolean("isTurnOnFingerPrint", false); // Kiểm tra trạng thái bật vân tay
+        boolean check_device = sharedPreferences.getBoolean("Check_Device_onFinger", false); // Kiểm tra trạng thái thiết bị vân tay
 
-        //thao tác csdl
-        UserObject userObject= new UserObject();
-        userObject=getDataUserNameS();
-        tenTaiKhoan.setText(userObject.getFullname());
+        // Thao tác cơ sở dữ liệu
+        UserObject userObject = new UserObject();
+        userObject = getDataUserNameS(); // Lấy thông tin người dùng hiện tại
+        tenTaiKhoan.setText(userObject.getFullname()); // Hiển thị tên tài khoản người dùng
 
-        if(userObject!=null){
+        // Hiển thị số dư hiện tại của người dùng
+        if (userObject != null) {
             NumberFormat numberFormat = NumberFormat.getInstance();
             String formattedNumber = numberFormat.format(userObject.getLivingExpenses());
-            soduHienTai.setText("Số dư: "+formattedNumber+" VND");
-        }else {
+            soduHienTai.setText("Số dư: " + formattedNumber + " VND");
+        } else {
             soduHienTai.setText("Số dư: 0 VND");
         }
 
-        Bitmap bitmap=StringToBitMap(userObject.getImage());
-        if(bitmap!=null){
+        // Chuyển đổi chuỗi ảnh sang Bitmap và hiển thị
+        Bitmap bitmap = StringToBitMap(userObject.getImage());
+        if (bitmap != null) {
             home_imgAvartar.setImageBitmap(bitmap);
         }
 
-        if(check_device){
-            hienthivantay.setVisibility(View.VISIBLE);
-            switchvantay.setChecked(checked);
+        // Hiển thị và thiết lập trạng thái vân tay
+        if (check_device) {
+            hienthivantay.setVisibility(View.VISIBLE); // Hiển thị vân tay
+            switchvantay.setChecked(checked); // Thiết lập trạng thái của switch vân tay
         }
     }
+
 
     @Override
     protected void onPause() {

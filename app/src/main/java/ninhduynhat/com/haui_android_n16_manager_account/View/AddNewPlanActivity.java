@@ -32,36 +32,38 @@ import java.util.Date;
 import java.util.List;
 
 public class AddNewPlanActivity extends AppCompatActivity {
+    // Khai báo các biến cho các thành phần giao diện
     Button btnCreate, btnDelete;
     EditText editTextName, editTextTotalBudget, editTextSavedBudget, editTextDate, editTextDescribe;
     Spinner spinner;
     SeekBar seekBar;
     ImageView imageViewDatePicker;
-    List<String> type = Arrays.asList("Small", "Middle", "Big", "Short-term", "Long-term");  // data ta for spinner item
-
+    List<String> type = Arrays.asList("Small", "Middle", "Big", "Short-term", "Long-term");  // Dữ liệu cho spinner
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_new_target);
-        setWidget();
-        editTextDateOnFocusEvent();
-        editTextSavedBudgetOnFocusEvent();
-        setUpSpinner();
-        btnCreateEvent();
-        btnDeleteEvent();
+        setContentView(R.layout.activity_add_new_target); // Thiết lập layout cho activity
+        setWidget(); // Khởi tạo các thành phần giao diện
+        editTextDateOnFocusEvent(); // Thiết lập sự kiện cho editTextDate khi focus
+        editTextSavedBudgetOnFocusEvent(); // Thiết lập sự kiện cho editTextSavedBudget khi focus
+        setUpSpinner(); // Thiết lập dữ liệu cho spinner
+        btnCreateEvent(); // Thiết lập sự kiện cho nút tạo mới
+        btnDeleteEvent(); // Thiết lập sự kiện cho nút xóa
         imageViewDatePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                pickDate();
+                pickDate(); // Mở DatePicker khi người dùng nhấn vào imageViewDatePicker
             }
         });
     }
+
     private void btnCreateEvent() {
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
+                    // Kiểm tra các trường nhập liệu và hiển thị thông báo nếu trống
                     if (editTextName.getText().toString().equals("")) {
                         Toast.makeText(AddNewPlanActivity.this, "Name can not empty", Toast.LENGTH_SHORT).show();
                     } else if (editTextTotalBudget.getText().toString().equals("")) {
@@ -71,6 +73,7 @@ public class AddNewPlanActivity extends AppCompatActivity {
                     } else if (editTextDate.getText().toString().equals("")) {
                         Toast.makeText(AddNewPlanActivity.this, "Deadline can not empty", Toast.LENGTH_SHORT).show();
                     } else {
+                        // Tạo đối tượng PlanObject mới và thêm vào cơ sở dữ liệu
                         PlanObject plan = new PlanObject(
                                 0,
                                 editTextName.getText().toString(),
@@ -82,7 +85,7 @@ public class AddNewPlanActivity extends AppCompatActivity {
                         );
                         DatabaseHelper.getInstance(AddNewPlanActivity.this).addPlan(plan);
                         Toast.makeText(AddNewPlanActivity.this, "New Target added successfully", Toast.LENGTH_SHORT).show();
-                        finish();
+                        finish(); // Đóng activity sau khi thêm thành công
                     }
                 } catch (Exception e) {
                     Toast.makeText(AddNewPlanActivity.this, "Add target Error" + e.toString(), Toast.LENGTH_SHORT).show();
@@ -91,11 +94,11 @@ public class AddNewPlanActivity extends AppCompatActivity {
         });
     }
 
-
     private void btnDeleteEvent() {
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Xóa các trường nhập liệu
                 editTextName.setText("");
                 editTextDate.setText("");
                 editTextSavedBudget.setText("0");
@@ -106,6 +109,7 @@ public class AddNewPlanActivity extends AppCompatActivity {
     }
 
     private void setUpSpinner() {
+        // Thiết lập adapter và gán dữ liệu cho spinner
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(AddNewPlanActivity.this, android.R.layout.simple_spinner_item, type);
         spinner.setAdapter(spinnerAdapter);
     }
@@ -118,6 +122,7 @@ public class AddNewPlanActivity extends AppCompatActivity {
                     editTextSavedBudget.setText("0");
                 }
 
+                // Cập nhật tiến trình của seekBar theo tỷ lệ ngân sách đã tiết kiệm và ngân sách tổng
                 int progressprecent = (int) (Double.parseDouble(editTextSavedBudget.getText().toString()) / Double.parseDouble(editTextTotalBudget.getText().toString()) * 100);
                 //progressBar.setProgress(progressprecent);
             }
@@ -129,7 +134,7 @@ public class AddNewPlanActivity extends AppCompatActivity {
             @Override
             public void onFocusChange(View view, boolean b) {
                 if (b) {
-                    pickDate();
+                    pickDate(); // Mở DatePicker khi editTextDate được focus
                     view.clearFocus();
                 }
             }
@@ -137,6 +142,7 @@ public class AddNewPlanActivity extends AppCompatActivity {
     }
 
     private void setWidget() {
+        // Khởi tạo các thành phần giao diện
         btnCreate = findViewById(R.id.btn_create);
         btnDelete = findViewById(R.id.btn_delete);
         editTextName = findViewById(R.id.editTextName);
@@ -148,12 +154,12 @@ public class AddNewPlanActivity extends AppCompatActivity {
         imageViewDatePicker = findViewById(R.id.imageViewDatePicker);
     }
 
-
     public void pickDate() {
         SimpleDateFormat df = new SimpleDateFormat("dd-M-yyyy");
         Calendar calendar = Calendar.getInstance();
         int year, month, day;
         try {
+            // Thiết lập ngày hiện tại nếu editTextDate trống
             Date date = df.parse(editTextDate.getText().toString());
             calendar.setTime(date);
         } catch (ParseException e) {
@@ -163,6 +169,7 @@ public class AddNewPlanActivity extends AppCompatActivity {
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
 
+        // Tạo và hiển thị DatePickerDialog để chọn ngày
         DatePickerDialog datePickerDialog = new DatePickerDialog(
                 AddNewPlanActivity.this,
                 new DatePickerDialog.OnDateSetListener() {
@@ -170,7 +177,6 @@ public class AddNewPlanActivity extends AppCompatActivity {
                     public void onDateSet(DatePicker view, int year,
                                           int monthOfYear, int dayOfMonth) {
                         editTextDate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
-
                     }
                 },
                 year, month, day);
