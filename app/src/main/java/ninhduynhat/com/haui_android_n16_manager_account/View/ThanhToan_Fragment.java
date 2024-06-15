@@ -5,6 +5,7 @@ import static android.content.Context.MODE_PRIVATE;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -29,101 +30,6 @@ import ninhduynhat.com.haui_android_n16_manager_account.R;
 
 public class ThanhToan_Fragment extends Fragment {
 
-//    private RecyclerView recyclerView;
-//    private PayingTuitionAdapter adapter;
-//    private List<PayingTuitionObject> payingTuitionList;
-//    private DatabaseHelper databaseHelper;
-//    private UserObject currentUser;
-//    private Button btnThanhToanFinal, btnQuayLai, btnChonTatCa;
-//
-//    RadioButton rbChonTatCa;
-//
-//
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//                             Bundle savedInstanceState) {
-//        // Inflate the layout for this fragment
-////        return inflater.inflate(R.layout.fragment_thanh_toan, container, false);
-//
-//        View view = inflater.inflate(R.layout.fragment_thanh_toan, container, false);
-//
-//        databaseHelper = new DatabaseHelper(getContext());
-//        // Assume currentUser is retrieved from SharedPreferences or passed as argument
-//
-//        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("LUU_TRANG_THAI_NGUOI_DUNG",MODE_PRIVATE);
-//        String user= sharedPreferences.getString("UserName","");
-//
-//        int userId = databaseHelper.getUserByUsername(user).getUserID();
-//
-//        currentUser = databaseHelper.getUserById(userId);
-//
-//        recyclerView = view.findViewById(R.id.chi_tiet_recycler_view);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-//
-//        payingTuitionList = databaseHelper.getUnpaidTuitionList(currentUser.getUserID());
-//        adapter = new PayingTuitionAdapter(getContext(), payingTuitionList);
-//        recyclerView.setAdapter(adapter);
-//
-////        btnChonTatCa = view.findViewById(R.id.radioButton);
-//        rbChonTatCa = view.findViewById(R.id.radioButton);
-//        rbChonTatCa.setOnClickListener(v -> {
-//            if (adapter.getSelectedPositions().size() == payingTuitionList.size()) {
-//                adapter.getSelectedPositions().clear();
-//                rbChonTatCa.setChecked(false);
-//            } else {
-//                for (int i = 0; i < payingTuitionList.size(); i++) {
-//                    adapter.getSelectedPositions().add(i);
-//                }
-//            }
-//            adapter.notifyDataSetChanged();
-//
-//        });
-//
-//        btnThanhToanFinal = view.findViewById(R.id.btnThanhToanFinal);
-//        btnThanhToanFinal.setOnClickListener(v -> processPayment());
-//
-//
-//        btnQuayLai = view.findViewById(R.id.btnQuayLai);
-//        btnQuayLai.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-//                fragmentManager.popBackStack();
-//            }
-//        });
-//
-//        return view;
-//    }
-//
-//
-//    private void processPayment() {
-//        Set<Integer> selectedPositions = adapter.getSelectedPositions();
-//        double totalAmount = 0;
-//
-//        for (int position : selectedPositions) {
-//            totalAmount += payingTuitionList.get(position).getAmount();
-//        }
-//
-//        if (currentUser.getMoneyForStudying() >= totalAmount) {
-//            for (int position : selectedPositions) {
-//                PayingTuitionObject payingTuition = payingTuitionList.get(position);
-//                payingTuition.setPaided(true);
-//                databaseHelper.updatePayingTuition(payingTuition);
-//
-//                //Cập nhật
-//                payingTuitionList = databaseHelper.getUnpaidTuitionList(currentUser.getUserID());
-//                adapter = new PayingTuitionAdapter(getContext(), payingTuitionList);
-//                recyclerView.setAdapter(adapter);
-//            }
-//            currentUser.setMoneyForStudying(currentUser.getMoneyForStudying() - totalAmount);
-//            currentUser.setDebtMoney(currentUser.getDebtMoney() - totalAmount);
-//            databaseHelper.updateUser(currentUser);
-//
-//            Toast.makeText(getContext(), "Thanh toán thành công!", Toast.LENGTH_SHORT).show();
-//        } else {
-//            Toast.makeText(getContext(), "Không đủ tiền để thanh toán!", Toast.LENGTH_SHORT).show();
-//        }
-//    }
 
     private RecyclerView recyclerView;
     private PayingTuitionAdapter adapter;
@@ -202,7 +108,8 @@ public class ThanhToan_Fragment extends Fragment {
         double totalPayment = 0;
 
         if (selectedPositions.isEmpty()) {
-            Toast.makeText(getContext(), "Vui lòng chọn ít nhất một môn học để thanh toán", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getContext(), "Vui lòng chọn ít nhất một môn học để thanh toán", Toast.LENGTH_SHORT).show();
+            showDialog("Vui lòng chọn ít nhất một môn học để thanh toán");
             return;
         }
 
@@ -212,7 +119,8 @@ public class ThanhToan_Fragment extends Fragment {
         }
 
         if (currentUser.getMoneyForStudying() < totalPayment) {
-            Toast.makeText(getContext(), "Số dư không đủ để thanh toán", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getContext(), "Số dư không đủ để thanh toán", Toast.LENGTH_SHORT).show();
+            showDialog("Số dư không đủ để thanh toán");
             return;
         }
 
@@ -227,34 +135,16 @@ public class ThanhToan_Fragment extends Fragment {
         currentUser.setDebtMoney(newDebt);
         databaseHelper.updateUser(currentUser);
 
-        Toast.makeText(getContext(), "Thanh toán thành công!", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getContext(), "Thanh toán thành công!", Toast.LENGTH_SHORT).show();
+        showDialog("Thanh toán thành công!");
+        rbChonTatCa.setChecked(false);
         loadData();
-
-//        Set<Integer> selectedPositions = adapter.getSelectedPositions();
-//        double totalAmount = 0;
-//
-//        for (int position : selectedPositions) {
-//            totalAmount += payingTuitionList.get(position).getAmount();
-//        }
-//
-//        if (currentUser.getMoneyForStudying() >= totalAmount) {
-//            for (int position : selectedPositions) {
-//                PayingTuitionObject payingTuition = payingTuitionList.get(position);
-//                payingTuition.setPaided(true);
-//                databaseHelper.updatePayingTuition(payingTuition);
-//
-//                //Cập nhật
-//                payingTuitionList = databaseHelper.getUnpaidTuitionList(currentUser.getUserID());
-//                adapter = new PayingTuitionAdapter(getContext(), payingTuitionList);
-//                recyclerView.setAdapter(adapter);
-//            }
-//            currentUser.setMoneyForStudying(currentUser.getMoneyForStudying() - totalAmount);
-//            currentUser.setDebtMoney(currentUser.getDebtMoney() - totalAmount);
-//            databaseHelper.updateUser(currentUser);
-//
-//            Toast.makeText(getContext(), "Thanh toán thành công!", Toast.LENGTH_SHORT).show();
-//        } else {
-//            Toast.makeText(getContext(), "Không đủ tiền để thanh toán!", Toast.LENGTH_SHORT).show();
-//        }
+    }
+    private void showDialog(String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setMessage(message)
+                .setPositiveButton("OK", null)
+                .create()
+                .show();
     }
 }

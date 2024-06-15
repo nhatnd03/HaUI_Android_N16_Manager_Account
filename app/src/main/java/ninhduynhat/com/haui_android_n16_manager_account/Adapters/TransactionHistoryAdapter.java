@@ -37,7 +37,7 @@ public class TransactionHistoryAdapter extends RecyclerView.Adapter<TransactionH
 
         PayingTuitionObject transaction = transactionList.get(position);
         holder.description.setText(transaction.getSubjectName());
-        holder.amount.setText(numberFormat.format(transaction.getAmount()) + "đ");
+        holder.amount.setText(numberFormat.format(transaction.getAmount()) + " VND");
         holder.amount.setTextColor(transaction.isPaided() ? holder.itemView.getResources().getColor(android.R.color.holo_green_dark) : holder.itemView.getResources().getColor(android.R.color.holo_red_dark));
     }
 

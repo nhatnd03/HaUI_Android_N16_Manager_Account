@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -23,6 +24,7 @@ import android.widget.Toast;
 
 import java.text.NumberFormat;
 import java.util.Locale;
+import java.util.Objects;
 
 import ninhduynhat.com.haui_android_n16_manager_account.Database.DatabaseHelper;
 import ninhduynhat.com.haui_android_n16_manager_account.Login_Account;
@@ -119,29 +121,52 @@ public class Recharge_Fragment extends Fragment {
                     double tienNap = Double.parseDouble(editText.getText().toString());
 
                     if (tienNap <= 0) {
-                        Toast.makeText(getContext(), "Số tiền nhập không hợp lệ. Vui lòng nhập số tiền lớn hơn 0.", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getContext(), "Số tiền nhập không hợp lệ. Vui lòng nhập số tiền lớn hơn 0.", Toast.LENGTH_SHORT).show();
+                        showDialog("Số tiền nhập không hợp lệ. Vui lòng nhập số tiền lớn hơn 0");
                         editText.setText("");
                     } else {
+                        String selectedMethod = phuongThucThanhToanSpinner.getSelectedItem().toString();
+                        if (selectedMethod.equals("Nạp tiền bằng ngân hàng")) {
+                            String soTaiKhoan = soTaiKhoanEditText.getText().toString().trim();
+                            String tenNganHang = tenNganHangEditText.getText().toString().trim();
+                            String chiNhanhNganHang = chiNhanhNganHangEditText.getText().toString().trim();
+
+                            if (soTaiKhoan.isEmpty() || tenNganHang.isEmpty() || chiNhanhNganHang.isEmpty()) {
+//                                Toast.makeText(getContext(), "Vui lòng nhập đầy đủ thông tin ngân hàng.", Toast.LENGTH_SHORT).show();
+                                showDialog("Vui lòng nhập đầy đủ thông tin ngân hàng");
+                                return;
+                            }
+                        }
+
                         userObject.setMoneyForStudying(tienNap + userObject.getMoneyForStudying());
                         databaseHelper.updateUser(userObject);
-
-                        // Định dạng số tiền và hiển thị lại
-//                        txtCongno.setText(numberFormat.format(userObject.getDebtMoney()) + "đ");
                         editText.setText("");
-
-                        Toast.makeText(getContext(), "Nạp tiền thành công", Toast.LENGTH_SHORT).show();
-
+                        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(requireContext(),
+                                R.array.payment_methods, android.R.layout.simple_spinner_item);
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        phuongThucThanhToanSpinner.setAdapter(adapter);
+//                        Toast.makeText(getContext(), "Nạp tiền thành công", Toast.LENGTH_SHORT).show();
+                        showDialog("Nạp tiền thành công");
                         // Quay lại màn hình công nợ
 //                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 //                        fragmentManager.popBackStack();
                     }
                 } catch (NumberFormatException e) {
-                    Toast.makeText(getContext(), "Vui lòng nhập số tiền hợp lệ.", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), "Vui lòng nhập số tiền hợp lệ.", Toast.LENGTH_SHORT).show();
+                    showDialog("Vui lòng nhập số tiền hợp lệ");
                     editText.setText("");
                 }
             }
         });
 
         return view;
+    }
+
+    private void showDialog(String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setMessage(message)
+                .setPositiveButton("OK", null)
+                .create()
+                .show();
     }
 }

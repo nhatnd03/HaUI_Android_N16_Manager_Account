@@ -99,8 +99,8 @@ public class Cong_No_Fragment extends Fragment {
         if (user != null) {
 //            soDuTextView.setText(String.valueOf(user.getMoneyForStudying()));
 //            soTienConNoTextView.setText(String.valueOf(user.getDebtMoney()));
-            soDuTextView.setText(String.format("%,.0f đ", user.getMoneyForStudying()));
-            soTienConNoTextView.setText(String.format("%,.0f đ", user.getDebtMoney()));
+            soDuTextView.setText(String.format("%,.0f VND", user.getMoneyForStudying()));
+            soTienConNoTextView.setText(String.format("%,.0f VND", user.getDebtMoney()));
         }
     }
 
