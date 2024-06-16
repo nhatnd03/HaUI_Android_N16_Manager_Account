@@ -8,10 +8,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import ninhduynhat.com.haui_android_n16_manager_account.Model.ExpensesObject;
 import ninhduynhat.com.haui_android_n16_manager_account.Model.PayingTuitionObject;
+import ninhduynhat.com.haui_android_n16_manager_account.Model.PlanObject;
 import ninhduynhat.com.haui_android_n16_manager_account.Model.SubjectObject;
 import ninhduynhat.com.haui_android_n16_manager_account.Model.UserObject;
 
@@ -20,8 +22,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "QUANLYTAIKHOAN.db";
     private static final int DATABASE_VERSION = 1;
 
+
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
+
+    private static DatabaseHelper instance;
+    public static synchronized DatabaseHelper getInstance(Context context) {
+        if (instance == null) {
+            instance = new DatabaseHelper(context.getApplicationContext());
+        }
+        return instance;
     }
 
     @Override
@@ -38,7 +49,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "Image TEXT" +
                 ")";
 
-        String createKhoanChiTable = "CREATE TABLE EXPENSES (" +
+        String createExpensesTable = "CREATE TABLE EXPENSES (" +
                 "ExpensesID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "UserID INTEGER, " +
                 "ExpensesType TEXT, " +
@@ -48,40 +59,41 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "FOREIGN KEY(UserID) REFERENCES USER(UserID)" +
                 ")";
 
-        String createKeHoachTable = "CREATE TABLE PLANNING (" +
+        String createPlanningTable = "CREATE TABLE PLANNING (" +
                 "PlanId INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "UserID INTEGER, " +
                 "PlanName TEXT, " +
-                "AmountNeeded REAL, " +
-                "AmountReached REAL, " +
+                "AmoutNeeded REAL, " +
+                "AmoutReached REAL, " +
                 "Timeline TEXT, " +
                 "PlanType TEXT, " +
+                "Description TEXT, " +
                 "FOREIGN KEY(UserID) REFERENCES USER(UserID)" +
                 ")";
 
-        String createMonHocTable = "CREATE TABLE SUBJECT (" +
+        String createSubjectTable = "CREATE TABLE SUBJECT (" +
                 "SubjectId INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "SubjectName TEXT, " +
                 "StudyCredits INTEGER, " +
                 "Semester INTEGER " +
                 ")";
 
-        String createThanhToanTable = "CREATE TABLE PayingTuition (" +
+        String createPayingTuitionTable = "CREATE TABLE PayingTuition (" +
                 "PayingTuitionId INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "UserID INTEGER, " +
                 "SubjectID INTEGER, " +
                 "SubjectName TEXT, " +
                 "TheAmount REAL, " +
                 "IsPaided INTEGER, " +
-                "FOREIGN KEY(UserID) REFERENCES USER(UserID)," +
-                "FOREIGN KEY(SubjectId) REFERENCES SUBJECT(SubjectId)" +
+                "FOREIGN KEY(UserID) REFERENCES USER(UserID), " +
+                "FOREIGN KEY(SubjectID) REFERENCES SUBJECT(SubjectID)" +
                 ")";
 
         db.execSQL(createUserTable);
-        db.execSQL(createKhoanChiTable);
-        db.execSQL(createKeHoachTable);
-        db.execSQL(createMonHocTable);
-        db.execSQL(createThanhToanTable);
+        db.execSQL(createExpensesTable);
+        db.execSQL(createPlanningTable);
+        db.execSQL(createSubjectTable);
+        db.execSQL(createPayingTuitionTable);
     }
 
     @Override
@@ -93,6 +105,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS PayingTuition");
         onCreate(db);
     }
+
     // Phương thức chèn dữ liệu vào bảng USER
     public long insertUser(String username, String password, String phoneNumber, double livingExpenses, double moneyForStudying, double debtMoney) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -239,7 +252,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         db.close();
     }
-
 
 
     //hàm lấy dữ liệu chi phí theo ngày cho màn hình home
@@ -406,18 +418,96 @@ public List<ExpensesObject> getExpensesObjectOfYear(int userId,String year) {
         return db.insert("EXPENSES", null, values);
     }
 
-
-    // Phương thức chèn dữ liệu vào bảng PLANNING
-    public long insertPlanning(String planName, double amountNeeded, double amountReached, String timeline, String planType) {
+    // them
+    public void addPlan(PlanObject plan){
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("PlanName", planName);
-        values.put("AmountNeeded", amountNeeded);
-        values.put("AmountReached", amountReached);
-        values.put("Timeline", timeline);
-        values.put("PlanType", planType);
-        return db.insert("PLANNING", null, values);
+        ContentValues cv = new ContentValues();
+        cv.put("PlanName", plan.getPlanName());
+        cv.put("UserID", UserObject.getInstance().getUserID());
+        cv.put("AmoutNeeded", plan.getAmoutNeeded());
+        cv.put("AmoutReached", plan.getAmoutReached());
+        cv.put("Timeline", plan.getTimeLine());
+        cv.put("PlanType", plan.getPlanType());
+        cv.put("Description", plan.getDescription());
+        db.insert("PLANNING", null, cv);
+        db.close();
     }
+
+    public void updatePlan(PlanObject plan) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("PlanName", plan.getPlanName());
+        cv.put("AmoutNeeded", plan.getAmoutNeeded());
+        cv.put("AmoutReached", plan.getAmoutReached());
+        cv.put("Timeline", plan.getTimeLine());
+        cv.put("PlanType", plan.getPlanType());
+        cv.put("Description", plan.getDescription());
+        String whereClause = "PlanId = ?";
+        String[] whereArgs = {String.valueOf(plan.getPlanId())};
+        db.update("PLANNING", cv, whereClause, whereArgs);
+        db.close();
+    }
+
+    public void deletePlan(PlanObject plan){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String whereClause = "PlanId = ?";
+        String[] whereArgs = {String.valueOf(plan.getPlanId())};
+        db.delete("PLANNING", whereClause, whereArgs);
+        db.close();
+    }
+
+    public ArrayList<PlanObject> fetchPlanByType(String type){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM PLANNING WHERE UserID = ? AND PlanType = ?", new String[]{String.valueOf(UserObject.getInstance().getUserID()), type});
+
+        ArrayList<PlanObject> plans = new ArrayList<>();
+        if (cursor.moveToFirst()) {
+            do {
+                plans.add(new PlanObject(
+                        cursor.getInt(cursor.getColumnIndexOrThrow("PlanId")),
+                        cursor.getInt(cursor.getColumnIndexOrThrow("UserID")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("PlanName")),
+                        cursor.getDouble(cursor.getColumnIndexOrThrow("AmoutNeeded")),
+                        cursor.getDouble(cursor.getColumnIndexOrThrow("AmoutReached")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("Timeline")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("PlanType")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("Description"))
+                ));
+            } while (cursor.moveToNext());
+        }
+        Collections.reverse(plans);
+        cursor.close();
+        db.close(); // Đóng database sau khi truy vấn
+        return plans;
+    }
+
+    public ArrayList<PlanObject> fetchAllPlan(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM PLANNING WHERE UserID = ?", new String[]{String.valueOf(UserObject.getInstance().getUserID())});
+
+        ArrayList<PlanObject> plans = new ArrayList<>();
+        if (cursor.moveToFirst()) {
+            do {
+                plans.add(new PlanObject(
+                        cursor.getInt(cursor.getColumnIndexOrThrow("PlanId")),
+                        cursor.getInt(cursor.getColumnIndexOrThrow("UserID")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("PlanName")),
+                        cursor.getDouble(cursor.getColumnIndexOrThrow("AmoutNeeded")),
+                        cursor.getDouble(cursor.getColumnIndexOrThrow("AmoutReached")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("Timeline")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("PlanType")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("Description"))
+                ));
+            } while (cursor.moveToNext());
+        }
+        Collections.reverse(plans);
+        cursor.close();
+        db.close(); // Đóng database sau khi truy vấn
+        return plans;
+    }
+
+
+
 
     // Phương thức chèn dữ liệu vào bảng SUBJECT
     public long insertSubject(String subjectName, int studyCredits, int semester) {

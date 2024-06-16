@@ -7,8 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Base64;
-
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -160,6 +157,7 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
         rcl_Chi_Phi.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -190,6 +188,7 @@ public class HomeFragment extends Fragment {
         chiPhiAdapter.notifyDataSetChanged();
     }
 
+
     private void xuLySuaXoaChiPhi(){
 
     }
@@ -197,8 +196,6 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
-
         databaseHelper= new DatabaseHelper(getActivity());
         UserObject userObject= new UserObject();
         userObject=getDataUserName();
@@ -243,9 +240,5 @@ public class HomeFragment extends Fragment {
             return null;
         }
     }
-
-
-
-
 
 }

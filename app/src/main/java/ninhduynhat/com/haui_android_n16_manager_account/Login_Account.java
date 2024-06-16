@@ -30,6 +30,7 @@ import java.util.concurrent.Executor;
 import ninhduynhat.com.haui_android_n16_manager_account.Database.DatabaseHelper;
 import ninhduynhat.com.haui_android_n16_manager_account.View.Quen_Mat_Khau;
 
+
 public class Login_Account extends AppCompatActivity {
 
     //vân tay
@@ -65,7 +66,6 @@ public class Login_Account extends AppCompatActivity {
 
         //login to fingerPrint
         SharedPreferences sharedPreferences = getSharedPreferences(LUU_TRANG_THAI_NGUOI_DUNG,MODE_PRIVATE);
-
         boolean islogin=sharedPreferences.getBoolean("isLogin",false);
         boolean isTurnOnFingerPrint=sharedPreferences.getBoolean("isTurnOnFingerPrint",false);
 
@@ -218,7 +218,6 @@ public class Login_Account extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-
         SharedPreferences.Editor editor=getSharedPreferences(LUU_TRANG_THAI_NGUOI_DUNG,MODE_PRIVATE).edit();
         editor.putString("UserName",
                 edt_TenDangNhap.getText().toString());
