@@ -68,6 +68,7 @@
         </TableRow>
 
 
+
         <EditText
             android:textColor="@color/black"
             android:id="@+id/mo_ta_chi_phi"

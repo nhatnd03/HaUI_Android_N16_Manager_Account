@@ -3,11 +3,12 @@ package ninhduynhat.com.haui_android_n16_manager_account.View;
 import static android.content.Context.MODE_PRIVATE;
 import static ninhduynhat.com.haui_android_n16_manager_account.Login_Account.LUU_TRANG_THAI_NGUOI_DUNG;
 
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,13 +18,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Base64;
 
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import android.widget.CalendarView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import android.widget.CalendarView;
 
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -38,6 +41,7 @@ import java.util.Date;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import ninhduynhat.com.haui_android_n16_manager_account.Adapters.ChiPhiSpiner_Adapter;
 import ninhduynhat.com.haui_android_n16_manager_account.Adapters.Chi_Phi_Adapter;
 import ninhduynhat.com.haui_android_n16_manager_account.Database.DatabaseHelper;
 import ninhduynhat.com.haui_android_n16_manager_account.Model.ExpensesObject;
@@ -156,7 +160,6 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
-
         rcl_Chi_Phi.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -195,8 +198,7 @@ public class HomeFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-//        sharedPreferences= getActivity().getSharedPreferences(LUU_TRANG_THAI_NGUOI_DUNG,MODE_PRIVATE);
-//        String LUU_DU_LIEU_ANH=sharedPreferences.getString("LUU_DU_LIEU_ANH","");
+
         databaseHelper= new DatabaseHelper(getActivity());
         UserObject userObject= new UserObject();
         userObject=getDataUserName();
@@ -241,6 +243,8 @@ public class HomeFragment extends Fragment {
             return null;
         }
     }
+
+
 
 
 

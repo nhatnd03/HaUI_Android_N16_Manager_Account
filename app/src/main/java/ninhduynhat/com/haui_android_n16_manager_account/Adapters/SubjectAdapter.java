@@ -1,5 +1,6 @@
 package ninhduynhat.com.haui_android_n16_manager_account.Adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -32,6 +33,11 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.ViewHold
         this.context = context;
     }
 
+    public void clearSelection() {
+        selectedSubjects.clear();
+        notifyDataSetChanged();
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public CardView cardView;
         public TextView description;
@@ -55,7 +61,7 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         SubjectObject subject = subjects.get(position);
         // Giả sử bạn có TextView trong ViewHolder để hiển thị thông tin
 //        holder.description.setText(subject.getSubjectName());
@@ -74,14 +80,20 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.ViewHold
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                v.setBackgroundColor(context.getResources().getColor(R.color.xanhla));
                 // Các thao tác khác khi ấn vào item
+//                if (selectedSubjects.contains(position)) {
+//                    selectedSubjects.remove(position);
+//                    v.setBackgroundColor(context.getResources().getColor(android.R.color.white));
+//                } else {
+//                    selectedSubjects.add(position);
+//                    v.setBackgroundColor(context.getResources().getColor(R.color.xanhla));
+//                }
                 if (selectedSubjects.contains(position)) {
                     selectedSubjects.remove(position);
-//                    v.setBackgroundColor(context.getResources().getColor(android.R.color.white));
+                    holder.itemView.setBackgroundColor(context.getResources().getColor(android.R.color.white));
                 } else {
                     selectedSubjects.add(position);
-//                    v.setBackgroundColor(context.getResources().getColor(R.color.xanhla));
+                    holder.itemView.setBackgroundColor(context.getResources().getColor(R.color.xanhla));
                 }
             }
         });

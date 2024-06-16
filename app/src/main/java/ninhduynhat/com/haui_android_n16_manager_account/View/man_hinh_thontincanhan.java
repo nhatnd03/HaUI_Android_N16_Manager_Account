@@ -2,12 +2,9 @@ package ninhduynhat.com.haui_android_n16_manager_account.View;
 
 import static ninhduynhat.com.haui_android_n16_manager_account.Login_Account.LUU_TRANG_THAI_NGUOI_DUNG;
 
-import android.Manifest;
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -15,9 +12,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
-import android.provider.MediaStore;
 import android.util.Base64;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,10 +26,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -46,11 +37,10 @@ import androidx.core.view.WindowInsetsCompat;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileDescriptor;
 import java.io.IOException;
+
 import java.text.NumberFormat;
-import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import ninhduynhat.com.haui_android_n16_manager_account.Database.DatabaseHelper;
@@ -447,7 +437,6 @@ public class man_hinh_thontincanhan extends AppCompatActivity {
             return bitmap;
         }
     }
-
 
     private String BitMapToString(@NonNull Bitmap bitmap){
         ByteArrayOutputStream baos=new  ByteArrayOutputStream();

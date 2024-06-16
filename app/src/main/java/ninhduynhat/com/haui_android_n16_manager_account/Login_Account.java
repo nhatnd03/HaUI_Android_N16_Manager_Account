@@ -47,7 +47,6 @@ public class Login_Account extends AppCompatActivity {
     private EditText edt_TenDangNhap,edt_MatKhau;
     private Button btn_DangNhapManHinh;
     public static final String LUU_TRANG_THAI_NGUOI_DUNG ="LUU_TRANG_THAI_NGUOI_DUNG";
-//    public static final int UserID=1;
 
     
 
@@ -66,6 +65,7 @@ public class Login_Account extends AppCompatActivity {
 
         //login to fingerPrint
         SharedPreferences sharedPreferences = getSharedPreferences(LUU_TRANG_THAI_NGUOI_DUNG,MODE_PRIVATE);
+
         boolean islogin=sharedPreferences.getBoolean("isLogin",false);
         boolean isTurnOnFingerPrint=sharedPreferences.getBoolean("isTurnOnFingerPrint",false);
 
@@ -122,6 +122,7 @@ public class Login_Account extends AppCompatActivity {
         canhBaoDangNhap=findViewById(R.id.canhBaoDangNhap);
         quenMatKhau=findViewById(R.id.quenMatKhau);
     }
+
 
 
     public void saveLoginState(){
@@ -217,6 +218,7 @@ public class Login_Account extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+
         SharedPreferences.Editor editor=getSharedPreferences(LUU_TRANG_THAI_NGUOI_DUNG,MODE_PRIVATE).edit();
         editor.putString("UserName",
                 edt_TenDangNhap.getText().toString());
