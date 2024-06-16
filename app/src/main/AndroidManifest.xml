@@ -12,9 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HaUI_Android_N16_Manager_Account"
         tools:targetApi="31">
+
+        <!-- Khai báo các Activity hiện có -->
+
         <activity
             android:name=".View.Quen_Mat_Khau"
             android:exported="false" />
+
         <activity
             android:name=".View.sua_chi_phi"
             android:exported="false" />
@@ -35,13 +39,25 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".MainActivity"
             android:exported="true" />
+
+        <!-- Thêm khai báo cho AddNewPlanActivity -->
+        <activity
+            android:name=".View.AddNewPlanActivity"
+            android:exported="false" />
+        <activity
+            android:name=".View.UpdatePlanActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".View.PlanDetailActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>

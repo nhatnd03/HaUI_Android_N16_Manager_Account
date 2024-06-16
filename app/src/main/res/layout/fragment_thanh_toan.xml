@@ -14,37 +14,41 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:textSize="24dp"
+            android:textColor="@color/white"
+            android:text="Thanh toán"
+            android:padding="@dimen/size10dp"/>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:textSize="24dp"
-                android:textColor="@color/white"
-                android:text="Thanh toán" />
-
-            <RadioGroup
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="horizontal">
+                android:gravity="end">
 
-                <RadioButton
-                    android:id="@+id/radioButton"
-                    android:layout_width="match_parent"
+                <RadioGroup
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Chọn tất cả"
-                    android:textSize="18dp"
-                    android:textColor="@color/white"
-                    />
-            </RadioGroup>
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/radioButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Chọn tất cả"
+                        android:textSize="18dp"
+                        android:textColor="@color/white" />
+                </RadioGroup>
+            </LinearLayout>
         </LinearLayout>
 
         <ScrollView

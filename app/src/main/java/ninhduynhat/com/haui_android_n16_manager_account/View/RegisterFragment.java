@@ -19,8 +19,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -56,6 +58,11 @@ public class RegisterFragment extends Fragment {
 
         databaseHelper = new DatabaseHelper(getContext());
         db = databaseHelper.getReadableDatabase();
+
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("LUU_TRANG_THAI_NGUOI_DUNG",MODE_PRIVATE);
+        String user= sharedPreferences.getString("UserName","");
+
+        userId = databaseHelper.getUserByUsername(user).getUserID();
 
         // Define semesters array in Java code
         String[] semestersArray = {"Kỳ 1", "Kỳ 2", "Kỳ 3", "Kỳ 4", "Kỳ 5", "Kỳ 6", "Kỳ 7", "Kỳ 8"};
@@ -102,11 +109,10 @@ public class RegisterFragment extends Fragment {
         Cursor cursor = db.query("SUBJECT", null, "Semester = ?", new String[]{String.valueOf(semester)}, null, null, null);
         if (cursor != null && cursor.moveToFirst()) {
             do {
-                int userID = cursor.getInt(cursor.getColumnIndexOrThrow("UserID"));
                 int subjectId = cursor.getInt(cursor.getColumnIndexOrThrow("SubjectId"));
                 String name = cursor.getString(cursor.getColumnIndexOrThrow("SubjectName"));
                 byte credits = (byte) cursor.getInt(cursor.getColumnIndexOrThrow("StudyCredits"));
-                subjects.add(new SubjectObject(subjectId,1,  name, credits, semester));
+                subjects.add(new SubjectObject(subjectId,  name, credits, semester));
             } while (cursor.moveToNext());
             cursor.close();
         }
@@ -115,26 +121,69 @@ public class RegisterFragment extends Fragment {
 
     private void registerSelectedSubjects() {
 
-        Set<Integer> selectedPositions = subjectAdapter.getSelectedPositions();
-        double totalDebt = 0;
+        try {
+            Set<Integer> selectedPositions = subjectAdapter.getSelectedPositions();
+            double totalDebt = 0;
 
-        for (int position : selectedPositions) {
-            SubjectObject subject = subjects.get(position);
-            PayingTuitionObject payingTuition = new PayingTuitionObject(0,1, subject.getSubjectId(), subject.getSubjectName(), subject.getStudyCredits() * 415000, false);
-            databaseHelper.insertPayingTuition(1, payingTuition.getSubjectID(), payingTuition.getSubjectName(), payingTuition.getAmount(), payingTuition.isPaided()?1:0);
-            totalDebt += subject.getAmount();
-        }
+            if (selectedPositions.isEmpty()) {
+                // Hiển thị thông báo lỗi bằng cách sử dụng Toast hoặc Dialog
+                Toast.makeText(getContext(), "Vui lòng chọn ít nhất một môn học để đăng ký", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-        // Update the user's debt in the database
-        SharedPreferences sharedPreferences = getContext().getSharedPreferences(LUU_TRANG_THAI_NGUOI_DUNG, MODE_PRIVATE);
+            for (int position : selectedPositions) {
+                SubjectObject subject = subjects.get(position);
+                PayingTuitionObject payingTuition = new PayingTuitionObject(userId, subject.getSubjectId(), subject.getSubjectName(), subject.getStudyCredits() * 415000, false);
+                databaseHelper.insertPayingTuition(userId, payingTuition.getSubjectID(), payingTuition.getSubjectName(), payingTuition.getAmount(), payingTuition.isPaided()?1:0);
+                totalDebt += subject.getAmount();
+            }
+
+            // Update the user's debt in the database
+            SharedPreferences sharedPreferences = getContext().getSharedPreferences(LUU_TRANG_THAI_NGUOI_DUNG, MODE_PRIVATE);
 //        UserObject user = databaseHelper.getUserByUsername(sharedPreferences.getString("Username",""));
-        UserObject user = databaseHelper.getUserByUsername("quangkedo");
-        if (user != null) {
-            double newDebt = user.getDebtMoney() + totalDebt;
-            user.setDebtMoney(newDebt);
-            databaseHelper.updateUser(user);
-
+            UserObject user = databaseHelper.getUserById(userId);
+            if (user != null) {
+                double newDebt = user.getDebtMoney() + totalDebt;
+                user.setDebtMoney(newDebt);
+                databaseHelper.updateUser(user);
+                Toast.makeText(getContext(), "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
+                subjectAdapter.clearSelection();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            Toast.makeText(getContext(), "Đăng ký không thành công!", Toast.LENGTH_SHORT).show();
         }
+
+//        Set<Integer> selectedPositions = subjectAdapter.getSelectedPositions();
+//        double totalDebt = 0;
+//        Set<Integer> registeredSubjectIds = new HashSet<>();
+//
+//        // Get the list of already registered subjects for the user
+//        Cursor cursor = db.query("PayingTuition", null, "UserID = ?", new String[]{String.valueOf(userId)}, null, null, null);
+//        if (cursor != null && cursor.moveToFirst()) {
+//            do {
+//                int subjectId = cursor.getInt(cursor.getColumnIndexOrThrow("SubjectID"));
+//                registeredSubjectIds.add(subjectId);
+//            } while (cursor.moveToNext());
+//            cursor.close();
+//        }
+//
+//        for (int position : selectedPositions) {
+//            SubjectObject subject = subjects.get(position);
+//            if (!registeredSubjectIds.contains(subject.getSubjectId())) {
+//                PayingTuitionObject payingTuition = new PayingTuitionObject(userId, subject.getSubjectId(), subject.getSubjectName(), subject.getStudyCredits() * 415000, false);
+//                databaseHelper.insertPayingTuition(userId, payingTuition.getSubjectID(), payingTuition.getSubjectName(), payingTuition.getAmount(), payingTuition.isPaided() ? 1 : 0);
+//                totalDebt += payingTuition.getAmount();
+//            }
+//        }
+//
+//        // Update the user's debt in the database
+//        UserObject user = databaseHelper.getUserById(userId);
+//        if (user != null) {
+//            double newDebt = user.getDebtMoney() + totalDebt;
+//            user.setDebtMoney(newDebt);
+//            databaseHelper.updateUser(user);
+//        }
     }
 
 

@@ -30,6 +30,7 @@ import java.util.concurrent.Executor;
 import ninhduynhat.com.haui_android_n16_manager_account.Database.DatabaseHelper;
 import ninhduynhat.com.haui_android_n16_manager_account.View.Quen_Mat_Khau;
 
+
 public class Login_Account extends AppCompatActivity {
 
     //vân tay
@@ -47,7 +48,6 @@ public class Login_Account extends AppCompatActivity {
     private EditText edt_TenDangNhap,edt_MatKhau;
     private Button btn_DangNhapManHinh;
     public static final String LUU_TRANG_THAI_NGUOI_DUNG ="LUU_TRANG_THAI_NGUOI_DUNG";
-//    public static final int UserID=1;
 
     
 
@@ -122,6 +122,7 @@ public class Login_Account extends AppCompatActivity {
         canhBaoDangNhap=findViewById(R.id.canhBaoDangNhap);
         quenMatKhau=findViewById(R.id.quenMatKhau);
     }
+
 
 
     public void saveLoginState(){
