@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.TextView;
+import android.widget.Toast;
 
 import android.widget.CalendarView;
 
@@ -209,7 +210,6 @@ public class HomeFragment extends Fragment {
         Date date = new Date(nam-1900,thang,ngay);
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         String dateString = df.format(date);
-
         rcl_Chi_Phi.setLayoutManager(new LinearLayoutManager(getActivity()));
         chiPhiAdapter = new Chi_Phi_Adapter();
         chiPhiAdapter.setData(getActivity(),setDataCholistKhoanchi(userObject.getUserID(),dateString));
@@ -224,8 +224,7 @@ public class HomeFragment extends Fragment {
         }else {
             soduhientai.setText("Số dư: 0 VND");
         }
-
-
+        
         Bitmap bitmap=StringToBitMap(userObject.getImage());
         if(bitmap!=null){
             home_imgAvartar.setImageBitmap(bitmap);

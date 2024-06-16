@@ -1,11 +1,11 @@
-package ninhduynhat.com.haui_android_n16_manager_account;
+package ninhduynhat.com.haui_android_n16_manager_account.View;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -15,62 +15,57 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import ninhduynhat.com.haui_android_n16_manager_account.Database.DatabaseHelper;
+import ninhduynhat.com.haui_android_n16_manager_account.Login_Account;
+import ninhduynhat.com.haui_android_n16_manager_account.Model.UserObject;
+import ninhduynhat.com.haui_android_n16_manager_account.R;
 
-public class Sign_Account extends AppCompatActivity {
-    private TextView chuyenmanhinhdangnhap;
-    private EditText edt_UserName_Sign,edt_Password_Sign,edt_Password_Sign_Confirm,edt_FullName_Sign;
-    private Button btn_Sign_In;
-    private DatabaseHelper db;
+public class Quen_Mat_Khau extends AppCompatActivity {
+    private EditText edt_ten_dangNhap,edt_MatKhau,edt_XacNhanMK;
+    private Button btn_QuenMK;
+    private DatabaseHelper databaseHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_sign_account);
+        setContentView(R.layout.activity_quen_mat_khau);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
         findId();
-        chuyenmanhinhdangnhap.setOnClickListener(new View.OnClickListener() {
+        btn_QuenMK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Sign_Account.this,Login_Account.class);
-                startActivity(intent);
+                xuLyDauVao();
             }
         });
 
-        btn_Sign_In.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                checkInPutSignIn();
-            }
-        });
     }
     private void findId(){
-        btn_Sign_In=findViewById(R.id.btn_Sign_In);
-        chuyenmanhinhdangnhap = findViewById(R.id.chuyenmanhinhdangnhap);
-        edt_UserName_Sign = findViewById(R.id.edt_UserName_Sign);
-        edt_Password_Sign= findViewById(R.id.edt_Password_Sign);
-        edt_Password_Sign_Confirm= findViewById(R.id.edt_Password_Sign_Confirm);
-        edt_FullName_Sign=findViewById(R.id.edt_FullName_Sign);
+        edt_ten_dangNhap=findViewById(R.id.edt_ten_dangNhap);
+        edt_MatKhau=findViewById(R.id.edt_MatKhau);
+        edt_XacNhanMK=findViewById(R.id.edt_XacNhanMK);
+        btn_QuenMK=findViewById(R.id.btn_QuenMK);
     }
-    private void checkInPutSignIn(){
-
-         db = new DatabaseHelper(Sign_Account.this);
-        boolean checkuser = db.isUsernameDuplicate(edt_UserName_Sign.getText().toString());
-        if(edt_UserName_Sign.getText().toString().isEmpty()||
-                edt_Password_Sign.getText().toString().isEmpty()||
-                edt_Password_Sign_Confirm.getText().toString().isEmpty()
-        ){
-            Toast.makeText(this, "Phải điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+    private void xuLyDauVao(){
+        databaseHelper= new DatabaseHelper(this);
+        if(edt_ten_dangNhap.getText().toString().isEmpty()||edt_MatKhau.getText().toString().isEmpty()||edt_XacNhanMK.getText().toString().isEmpty()){
+            Toast.makeText(this, "Bạn phải điền đủ thông tin", Toast.LENGTH_SHORT).show();
             return;
         }
-        if(!(edt_Password_Sign.getText().toString().equals(edt_Password_Sign_Confirm.getText().toString()))){
+        boolean checkuser = databaseHelper.isUsernameDuplicate(edt_ten_dangNhap.getText().toString());
+        if(!checkuser){
+            Toast.makeText(this, "Tên đăng nhập không tồn tại", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(!(edt_MatKhau.getText().toString().equals(edt_XacNhanMK.getText().toString()))){
             Toast.makeText(this, "Mật khẩu không trùng khớp", Toast.LENGTH_SHORT).show();
             return;
         }
-        String pass = edt_Password_Sign.getText().toString();
+        String pass = edt_MatKhau.getText().toString();
         if(pass.length()<6 ){
             Toast.makeText(this,"Mật khẩu phải có ít nhất 6 kí tự!",Toast.LENGTH_SHORT).show();
             return;
@@ -99,13 +94,12 @@ public class Sign_Account extends AppCompatActivity {
             Toast.makeText(this, "Mật khẩu phải có cả chữ và số", Toast.LENGTH_SHORT).show();
             return;
         }
+        UserObject user = databaseHelper.getUserByUsername(edt_ten_dangNhap.getText().toString());
+        user.setPassword(edt_MatKhau.getText().toString());
+        databaseHelper.updateUser(user);
 
-        if(checkuser){
-            Toast.makeText(Sign_Account.this,"Username đã tồn tại",Toast.LENGTH_SHORT).show();
-            return;
-        }
-        db.insertUser_sign_1(edt_UserName_Sign.getText().toString(),edt_Password_Sign.getText().toString(),edt_FullName_Sign.getText().toString());
-        Intent intent = new Intent(Sign_Account.this,Login_Account.class);
+        Intent intent = new Intent(Quen_Mat_Khau.this, Login_Account.class);
         startActivity(intent);
+
     }
 }

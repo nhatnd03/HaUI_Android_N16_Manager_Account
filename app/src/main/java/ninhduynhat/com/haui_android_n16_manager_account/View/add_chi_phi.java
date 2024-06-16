@@ -90,7 +90,11 @@ public class add_chi_phi extends AppCompatActivity {
         nhanThemChiPhi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(xulyDauVao()) {finish();}
+                if(xulyDauVao()){
+                    finish();
+                }
+
+
             }
         });
         //thoát chức năng thêm chi phí
@@ -139,6 +143,7 @@ public class add_chi_phi extends AppCompatActivity {
         String dateString = df.format(date);
         thoi_gian_mua.setText(dateString);
     }
+
     private UserObject getDataUserName(){
         sharedPreferences =getSharedPreferences(LUU_TRANG_THAI_NGUOI_DUNG,MODE_PRIVATE);
         databaseHelper= new DatabaseHelper(add_chi_phi.this);
@@ -147,6 +152,37 @@ public class add_chi_phi extends AppCompatActivity {
         userObject=databaseHelper.getUserByUsername_Home(user_name);
         return userObject;
     }
+
+
+    private boolean xulyDauVao(){
+        if( mo_ta_chi_phi.getText().toString().isEmpty()||gia_chi_phi.getText().toString().isEmpty()) {
+            Toast.makeText(this, "Phải điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+            return false;
+        } else {
+            double gia= Double.parseDouble(gia_chi_phi.getText().toString());
+            if(gia<1000){
+                Toast.makeText(this, "Chi phí phải lớn hơn 1000", Toast.LENGTH_SHORT).show();
+                return false;
+            }else {
+                UserObject userObject=new UserObject();
+                userObject=getDataUserName();
+
+                String ngaymua=thoi_gian_mua.getText().toString();
+                databaseHelper= new DatabaseHelper(add_chi_phi.this);
+                double sodumoi=userObject.getLivingExpenses()-gia;
+                if(sodumoi>=0){
+                    databaseHelper.update_LivingExpenses(userObject.getUserID(),sodumoi);
+                    databaseHelper.insertUser_KhoanChi(userObject.getUserID(),loaichi,gia,ngaymua,mo_ta_chi_phi.getText().toString());
+                    return true;
+                }else {
+                    Toast.makeText(this, "Số dư không đủ", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            }
+
+
+        }
+
     private boolean xulyDauVao(){
         if(mo_ta_chi_phi.getText().toString().isEmpty()&&gia_chi_phi.getText().toString().isEmpty()){
             Toast.makeText(this, "Phải điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
