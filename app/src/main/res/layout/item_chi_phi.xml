@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_item_chiPhi"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="80dp"
@@ -16,10 +17,10 @@
 
         <TextView
             android:layout_marginStart="@dimen/size10dp"
-            android:id="@+id/ten_chi_phi"
+            android:id="@+id/loai_chi_phi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Gà rán"
+            android:text="Thực phẩm &amp; Đồ uống"
             android:textAlignment="center"
             android:textColor="#FF2B73"
             android:textSize="20sp"
@@ -28,7 +29,7 @@
 
         <TableRow
             android:padding="@dimen/size10dp"
-            android:layout_below="@+id/ten_chi_phi"
+            android:layout_below="@+id/loai_chi_phi"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 

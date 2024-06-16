@@ -9,7 +9,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 import ninhduynhat.com.haui_android_n16_manager_account.Model.PayingTuitionObject;
 import ninhduynhat.com.haui_android_n16_manager_account.R;
@@ -31,9 +33,11 @@ public class TransactionHistoryAdapter extends RecyclerView.Adapter<TransactionH
 
 //    @Override
     public void onBindViewHolder(@NonNull TransactionViewHolder holder, int position) {
+        NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
+
         PayingTuitionObject transaction = transactionList.get(position);
         holder.description.setText(transaction.getSubjectName());
-        holder.amount.setText(transaction.getAmount() + "");
+        holder.amount.setText(numberFormat.format(transaction.getAmount()) + " VND");
         holder.amount.setTextColor(transaction.isPaided() ? holder.itemView.getResources().getColor(android.R.color.holo_green_dark) : holder.itemView.getResources().getColor(android.R.color.holo_red_dark));
     }
 

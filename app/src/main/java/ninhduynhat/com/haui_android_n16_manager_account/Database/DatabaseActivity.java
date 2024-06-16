@@ -39,7 +39,56 @@ public class DatabaseActivity extends AppCompatActivity {
 //        dbHelper.onCreate(db);
 
 //        // Thêm dữ liệu vào bảng User
-        db.execSQL("INSERT INTO USER (Username, Password, Fullname, PhoneNumber, LivingExpenses, MoneyForStudying, DebtMoney) VALUES ('quangkedo', '1', \"Nguyễn Minh Quang\", '0334973459', 1000000.0, 10000000.0, 000000.0)");
+        db.execSQL("INSERT INTO USER (Username, Password, Fullname, PhoneNumber, LivingExpenses, MoneyForStudying, DebtMoney) " +
+                "VALUES ('quangkedo', '1', \"Nguyễn Minh Quang\", '0334973459', 1000000.0, 10000000.0, 000000.0)");
+        db.execSQL("INSERT INTO USER (Username, Password, Fullname, PhoneNumber, LivingExpenses, MoneyForStudying, DebtMoney) " +
+                "VALUES ('trunghuynh', '123', \"Bùi Trung Huỳnh\", '0334567899', 1000000.0, 10000000.0, 000000.0)");
+
+        //thêm dữ liệu cho bảng khoản chi
+        db.execSQL("INSERT INTO EXPENSES (UserID,ExpensesType, AmountSpent, DateSpent, Description) " +
+                "VALUES ( '1', \"Thực phẩm & Đồ uống\", 10000.0, '06/06/2024', \"Gà rán\")");
+        db.execSQL("INSERT INTO EXPENSES (UserID,ExpensesType, AmountSpent, DateSpent, Description) " +
+                "VALUES ( '1', \"Sức khỏe\", 15000.0, '05/06/2024', \"Thuốc đau đầu\")");
+        db.execSQL("INSERT INTO EXPENSES (UserID,ExpensesType, AmountSpent, DateSpent, Description) " +
+                "VALUES ( '1', \"Chi phí nhà ở\", 1500000.0, '04/06/2024', \"Tiền trọ\")");
+        db.execSQL("INSERT INTO EXPENSES (UserID,ExpensesType, AmountSpent, DateSpent, Description) " +
+                "VALUES ( '1', \"Đầu tư\", 200000.0, '03/06/2024', \"Chơi chứng khoán\")");
+        db.execSQL("INSERT INTO EXPENSES (UserID,ExpensesType, AmountSpent, DateSpent, Description) " +
+                "VALUES ( '1', \"Chi phí đi lại\", 80000.0, '02/06/2024', \"Về quê\")");
+        db.execSQL("INSERT INTO EXPENSES (UserID,ExpensesType, AmountSpent, DateSpent, Description) " +
+                "VALUES ( '1', \"Du lịch\", 500000.0, '01/06/2024', \"Đi chùa Bái Đính\")");
+        db.execSQL("INSERT INTO EXPENSES (UserID,ExpensesType, AmountSpent, DateSpent, Description) " +
+                "VALUES ( '1', \"Chi phí khác\", 10000.0, '08/06/2024', \"Công đức chùa\")");
+
+
+        db.execSQL("INSERT INTO EXPENSES (UserID,ExpensesType, AmountSpent, DateSpent, Description) " +
+                "VALUES ( '2', \"Thực phẩm & Đồ uống\", 12000.0, '11/06/2024', \"Bánh mì thịt\")");
+        db.execSQL("INSERT INTO EXPENSES (UserID,ExpensesType, AmountSpent, DateSpent, Description) " +
+                "VALUES ( '2', \"Sức khỏe\", 15000.0, '05/06/2024', \"Thuốc cảm cúm\")");
+        db.execSQL("INSERT INTO EXPENSES (UserID,ExpensesType, AmountSpent, DateSpent, Description) " +
+                "VALUES ( '2', \"Chi phí nhà ở\", 1500000.0, '04/06/2024', \"Tiền trọ\")");
+        db.execSQL("INSERT INTO EXPENSES (UserID,ExpensesType, AmountSpent, DateSpent, Description) " +
+                "VALUES ( '2', \"Đầu tư\", 200000.0, '03/06/2024', \"Chơi tài xỉu\")");
+        db.execSQL("INSERT INTO EXPENSES (UserID,ExpensesType, AmountSpent, DateSpent, Description) " +
+                "VALUES ( '2', \"Chi phí đi lại\", 200000.0, '02/06/2024', \"Về quê\")");
+        db.execSQL("INSERT INTO EXPENSES (UserID,ExpensesType, AmountSpent, DateSpent, Description) " +
+                "VALUES ( '2', \"Du lịch\", 500000.0, '01/06/2024', \"Đi du lịch\")");
+        db.execSQL("INSERT INTO EXPENSES (UserID,ExpensesType, AmountSpent, DateSpent, Description) " +
+                "VALUES ( '2', \"Chi phí khác\", 10000.0, '07/06/2024', \"Xe hư\")");
+        db.execSQL("INSERT INTO EXPENSES (UserID,ExpensesType, AmountSpent, DateSpent, Description) " +
+                "VALUES ( '2', \"Chi phí khác\", 10000.0, '07/06/2024', \"Xe hư\")");
+        db.execSQL("INSERT INTO EXPENSES (UserID,ExpensesType, AmountSpent, DateSpent, Description) " +
+                "VALUES ( '2', \"Chi phí khác\", 10000.0, '07/06/2024', \"Xe hư\")");
+        db.execSQL("INSERT INTO EXPENSES (UserID,ExpensesType, AmountSpent, DateSpent, Description) " +
+                "VALUES ( '2', \"Chi phí khác\", 10000.0, '07/06/2024', \"Xe hư\")");
+        db.execSQL("INSERT INTO EXPENSES (UserID,ExpensesType, AmountSpent, DateSpent, Description) " +
+                "VALUES ( '2', \"Chi phí khác\", 10000.0, '07/06/2024', \"Xe hư\")");
+        db.execSQL("INSERT INTO EXPENSES (UserID,ExpensesType, AmountSpent, DateSpent, Description) " +
+                "VALUES ( '2', \"Chi phí đi lại\", 200000.0, '02/06/2024', \"Về quê\")");
+        db.execSQL("INSERT INTO EXPENSES (UserID,ExpensesType, AmountSpent, DateSpent, Description) " +
+                "VALUES ( '2', \"Chi phí đi lại\", 200000.0, '02/06/2024', \"Về quê\")");
+        db.execSQL("INSERT INTO EXPENSES (UserID,ExpensesType, AmountSpent, DateSpent, Description) " +
+                "VALUES ( '2', \"Chi phí đi lại\", 200000.0, '02/06/2024', \"Về quê\")");
 //
 //        // Truy vấn dữ liệu từ bảng User
 //        Cursor cursor = db.rawQuery("SELECT * FROM USER", null);
@@ -78,20 +127,49 @@ public class DatabaseActivity extends AppCompatActivity {
 //        dbHelper.insertPlanning("Vacation", 2000.0, 1500.0, "2024-06-30", "Family");
 //
 //        // Chèn dữ liệu thử vào bảng SUBJECT
-        long subjectId1 = dbHelper.insertSubject(1,"Lập trình C++", 3, 1);
-        long subjectId2 = dbHelper.insertSubject(1,"English", 5, 1);
-        long subjectId3 = dbHelper.insertSubject(1,"Lập trình C", 3, 1);
-        long subjectId4 = dbHelper.insertSubject(1,"Hệ thống cơ sở dữ liệu", 4, 1);
-        long subjectId5 = dbHelper.insertSubject(1,"Kiến trúc máy tính", 3, 1);
-        long subjectId6 = dbHelper.insertSubject(1,"Hệ điều hành", 3, 1);
-        long subjectId7 = dbHelper.insertSubject(1,"Phân tích thiết kế phần mềm", 3, 1);
-        long subjectId8 = dbHelper.insertSubject(1,"Lập trình Java", 3, 1);
-        long subjectId9 = dbHelper.insertSubject(1,"Lập trình .NET", 3, 1);
-        long subjectId10 = dbHelper.insertSubject(1,"English", 5, 1);
-        long subjectId11 = dbHelper.insertSubject(1,"Android", 4, 2);
-        long subjectId12 = dbHelper.insertSubject(1,"English", 4, 3);
-        long subjectId13 = dbHelper.insertSubject(1,"Lập trình Java nâng cao", 3, 3);
-        long subjectId14 = dbHelper.insertSubject(1,"English", 5, 4);
+        long subjectId1 = dbHelper.insertSubject("Lập trình C++", 3, 1);
+        long subjectId2 = dbHelper.insertSubject("English 1", 5, 1);
+        long subjectId3 = dbHelper.insertSubject("Triết học", 3, 1);
+        long subjectId4 = dbHelper.insertSubject("Hệ thống cơ sở dữ liệu", 4, 1);
+        long subjectId5 = dbHelper.insertSubject("Kiến trúc máy tính", 3, 1);
+        long subjectId6 = dbHelper.insertSubject("Hệ điều hành", 3, 1);
+        long subjectId7 = dbHelper.insertSubject("Phân tích thiết kế phần mềm", 3, 1);
+        long subjectId8 = dbHelper.insertSubject("Lập trình Java", 3, 2);
+        long subjectId9 = dbHelper.insertSubject("Lập trình .NET", 3, 2);
+        long subjectId10 = dbHelper.insertSubject("Kinh tế chính trị", 2, 2);
+        long subjectId11 = dbHelper.insertSubject("Kỹ thuật số", 3, 2);
+        long subjectId11_1 = dbHelper.insertSubject("English 2", 5, 2);
+        long subjectId12 = dbHelper.insertSubject("English 3", 5, 3);
+        long subjectId13 = dbHelper.insertSubject("Lập trình Java nâng cao", 3, 3);
+        long subjectId13_1 = dbHelper.insertSubject("Chủ nghĩa xã hội", 3, 3);
+        long subjectId13_2 = dbHelper.insertSubject("Trí tuệ nhân tạo", 3, 3);
+        long subjectId13_3 = dbHelper.insertSubject("Tối ưu hóa", 3, 3);
+        long subjectId13_4 = dbHelper.insertSubject("Xác xuất thống kê", 3, 3);
+        long subjectId14 = dbHelper.insertSubject("English 4", 5, 4);
+        long subjectId15 = dbHelper.insertSubject("Phân tích dữ liệu lớn", 3, 4);
+        long subjectId16 = dbHelper.insertSubject("Công nghệ đa phương tiện", 3, 4);
+        long subjectId17 = dbHelper.insertSubject("Ứng dụng thuật toán", 3, 4);
+        long subjectId18 = dbHelper.insertSubject("Lịch sử đảng", 2, 4);
+        long subjectId19 = dbHelper.insertSubject("Lập trình game", 3, 4);
+        long subjectId20 = dbHelper.insertSubject("English 5", 5, 5);
+        long subjectId21 = dbHelper.insertSubject("Phát triển ứng dụng trên thiết bị di động", 3, 5);
+        long subjectId22 = dbHelper.insertSubject("Tư tưởng Hồ Chí Minh", 2, 5);
+        long subjectId23 = dbHelper.insertSubject("Thiết kế đồ họa 2D", 3, 5);
+        long subjectId24 = dbHelper.insertSubject("Thực tập cơ sở ngành", 3, 5);
+        long subjectId25 = dbHelper.insertSubject("English 6", 5, 6);
+        long subjectId26 = dbHelper.insertSubject("Quản trị mạn trên hệ điều hành Windows", 3, 6);
+        long subjectId27 = dbHelper.insertSubject("Phát luật đại cương", 3, 6);
+        long subjectId28 = dbHelper.insertSubject("Tương tác người máy", 3, 6);
+        long subjectId29 = dbHelper.insertSubject("An ninh mạng", 3, 6);
+        long subjectId30 = dbHelper.insertSubject("Thiết kế web nâng cao", 3, 6);
+        long subjectId31 = dbHelper.insertSubject("Kiểm thử phần mềm", 3, 7);
+        long subjectId32 = dbHelper.insertSubject("Đồ án chuyên ngành", 3, 7);
+        long subjectId33 = dbHelper.insertSubject("Tích hợp hệ thống phần mềm", 3, 7);
+        long subjectId34 = dbHelper.insertSubject("Lập trình web bằng Java", 3, 7);
+        long subjectId35 = dbHelper.insertSubject("Đảm bảo chất lượng phần mềm", 3, 7);
+        long subjectId36 = dbHelper.insertSubject("Lập trình PHP nâng cao", 3, 7);
+        long subjectId37 = dbHelper.insertSubject("Đồ án tốt nghiệp", 9, 8);
+        long subjectId38 = dbHelper.insertSubject("Thực tập doanh nghiệp", 6, 8);
 //
 //        // Chèn dữ liệu thử vào bảng PayingTuition
 //        dbHelper.insertPayingTuition( 1,1, "C++", 415000, 0);

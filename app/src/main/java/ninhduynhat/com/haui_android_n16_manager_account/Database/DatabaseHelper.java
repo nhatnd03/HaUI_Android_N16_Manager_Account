@@ -5,10 +5,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import ninhduynhat.com.haui_android_n16_manager_account.Model.ExpensesObject;
 import ninhduynhat.com.haui_android_n16_manager_account.Model.PayingTuitionObject;
 import ninhduynhat.com.haui_android_n16_manager_account.Model.SubjectObject;
 import ninhduynhat.com.haui_android_n16_manager_account.Model.UserObject;
@@ -59,11 +61,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         String createMonHocTable = "CREATE TABLE SUBJECT (" +
                 "SubjectId INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "UserID INTEGER, " +
                 "SubjectName TEXT, " +
                 "StudyCredits INTEGER, " +
-                "Semester INTEGER, " +
-                "FOREIGN KEY(UserID) REFERENCES USER(UserID)" +
+                "Semester INTEGER " +
                 ")";
 
         String createThanhToanTable = "CREATE TABLE PayingTuition (" +
@@ -105,6 +105,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put("DebtMoney", debtMoney);
         return db.insert("USER", null, values);
     }
+
     public UserObject getUserById(int userid) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query("USER", null, "UserID = ?", new String[]{String.valueOf(userid)}, null, null, null);
@@ -127,6 +128,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return null;
     }
 
+
+
+
     public UserObject getUserByUsername(String username) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM USER WHERE Username = ?", new String[]{username});
@@ -147,6 +151,249 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return null;
     }
 
+
+    //lấy dữ liệu cho màn hình home
+    public UserObject getUserByUsername_Home(String username) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM USER WHERE Username = ?", new String[]{username});
+        if (cursor.moveToFirst()) {
+            return new UserObject(
+                    Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow("UserID"))) ,
+                    cursor.getString(cursor.getColumnIndexOrThrow("Fullname")),
+                    cursor.getDouble(cursor.getColumnIndexOrThrow("LivingExpenses")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("Image"))
+            );
+        }
+        cursor.close();
+        return null;
+    }
+
+    //lưu dữ liệu ảnh cho user
+    public void updateImageUser(int userId, String stringImage) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("Image", stringImage);
+        db.update("USER", values, "UserID = ?", new String[]{String.valueOf(userId)});
+        db.close();
+    }
+
+    //cập nhật dữ liệu cho bảng khoản chi
+    public void updateKhoanChi(int expensesId, String type,double gia,String ngay,String mota) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("ExpensesType", type);
+        values.put("AmountSpent", gia);
+        values.put("DateSpent", ngay);
+        values.put("Description", mota);
+        db.update("EXPENSES", values, "ExpensesID = ?", new String[]{String.valueOf(expensesId)});
+        db.close();
+    }
+
+    //ExpensesType AmountSpent DateSpent Description
+    //lấy dữ liệu theo id của bảng expenses
+    public ExpensesObject getExpensesByIdExpense(int idexpense) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT ExpensesType,AmountSpent,DateSpent,Description" +
+                " FROM EXPENSES WHERE ExpensesID = ?", new String[]{String.valueOf(idexpense)});
+        if (cursor.moveToFirst()) {
+            return new ExpensesObject(
+                    cursor.getString(cursor.getColumnIndexOrThrow("ExpensesType")),
+                    Double.parseDouble(cursor.getString(cursor.getColumnIndexOrThrow("AmountSpent"))),
+                    cursor.getString(cursor.getColumnIndexOrThrow("DateSpent")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("Description"))
+            );
+        }
+        cursor.close();
+        return null;
+    }
+
+
+
+    //cập nhật lại số tiền chi
+    public void update_LivingExpenses(int userId, double tienmua) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("LivingExpenses", tienmua);
+        db.update("USER", values, "UserID = ?", new String[]{String.valueOf(userId)});
+        db.close();
+    }
+
+
+
+
+    //thêm một khoản chi
+    public void insertUser_KhoanChi(int UserID, String ExpensesType, double AmountSpent,String DateSpent,String Description) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("UserID", UserID);
+        values.put("ExpensesType", ExpensesType);
+        values.put("AmountSpent", AmountSpent);
+        values.put("DateSpent",DateSpent);
+        values.put("Description",Description);
+        long newRowId = db.insert("EXPENSES", null, values);
+        if (newRowId != -1) {
+           Log.e("thêm khoản chi","thành công");
+        } else {
+            Log.e("thêm khoản chi","không được");
+            // Thêm dữ liệu không thành công
+        }
+        db.close();
+    }
+
+
+
+    //hàm lấy dữ liệu chi phí theo ngày cho màn hình home
+    public List<ExpensesObject> getExpensesObjectOfDate(int userId,String dateToday) {
+        List<ExpensesObject> expenses = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        // Thực hiện câu truy vấn SELECT với khóa ngoại
+        String query = "SELECT EXPENSES.ExpensesID, EXPENSES.ExpensesType,EXPENSES.AmountSpent,EXPENSES.DateSpent,EXPENSES.Description" +
+                " FROM EXPENSES " +  "WHERE UserID = ? AND DateSpent =?";
+        String[] selectionArgs = {String.valueOf(userId),dateToday};
+        Cursor cursor = db.rawQuery(query,selectionArgs);
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                int ExpensesID=Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow("ExpensesID")));
+                String ExpensesType = cursor.getString(cursor.getColumnIndexOrThrow("ExpensesType"));
+                double AmountSpent= Double.parseDouble(cursor.getString(cursor.getColumnIndexOrThrow("AmountSpent")));
+                String DateSpent = cursor.getString(cursor.getColumnIndexOrThrow("DateSpent"));
+                String Description=cursor.getString(cursor.getColumnIndexOrThrow("Description"));
+                ExpensesObject expense = new ExpensesObject( ExpensesID,ExpensesType,AmountSpent, DateSpent,Description);
+                expenses.add(expense);
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+
+        return expenses;
+    }
+    //lấy dữ liệu chi phí theo tháng
+    public List<ExpensesObject> getExpensesObjectOfMonth(int userId,String monthDaily) {
+        List<ExpensesObject> expenses = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        // Thực hiện câu truy vấn SELECT với khóa ngoại
+        String query = "SELECT  EXPENSES.ExpensesType,EXPENSES.AmountSpent" +
+                " FROM EXPENSES " +  "WHERE UserID = ? AND SUBSTR(DateSpent, 4, 7) =? "; //strftime('%m', your_date_column) = '06',AND SUBSTR(DateSpent, 7, 4) ='2024'
+        String[] selectionArgs = {String.valueOf(userId),monthDaily};
+        Cursor cursor = db.rawQuery(query,selectionArgs);
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                String ExpensesType = cursor.getString(cursor.getColumnIndexOrThrow("ExpensesType"));
+                double AmountSpent= Double.parseDouble(cursor.getString(cursor.getColumnIndexOrThrow("AmountSpent")));
+                ExpensesObject expense = new ExpensesObject( ExpensesType,AmountSpent);
+                expenses.add(expense);
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+
+        return expenses;
+    }
+//lấy dữ liệu chi phí theo năm
+public List<ExpensesObject> getExpensesObjectOfYear(int userId,String year) {
+    List<ExpensesObject> expenses = new ArrayList<>();
+    SQLiteDatabase db = this.getReadableDatabase();
+    // Thực hiện câu truy vấn SELECT với khóa ngoại
+    String query = "SELECT  EXPENSES.ExpensesType,EXPENSES.AmountSpent" +
+            " FROM EXPENSES " +  "WHERE UserID = ?  AND SUBSTR(DateSpent, 7, 4) =?"; //strftime('%m', your_date_column) = '06'
+    String[] selectionArgs = {String.valueOf(userId),year};
+    Cursor cursor = db.rawQuery(query,selectionArgs);
+    if (cursor != null && cursor.moveToFirst()) {
+        do {
+            String ExpensesType = cursor.getString(cursor.getColumnIndexOrThrow("ExpensesType"));
+            double AmountSpent= Double.parseDouble(cursor.getString(cursor.getColumnIndexOrThrow("AmountSpent")));
+            ExpensesObject expense = new ExpensesObject( ExpensesType,AmountSpent);
+            expenses.add(expense);
+        } while (cursor.moveToNext());
+        cursor.close();
+    }
+    Log.e("check số lượng bên DB",expenses.size()+"");
+    return expenses;
+}
+
+
+
+
+
+
+    // Phương thức kiểm tra xem chỉ tài khoản có bị trùng lặp hay không
+    public boolean isUsernameDuplicated(String username) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM USER WHERE Username = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{username});
+        boolean isDuplicated = cursor.getCount() > 0;
+        cursor.close();
+        db.close();
+        return isDuplicated;
+    }
+    public long insertUser_sign(String username, String password,String fullname) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("Username", username);
+        values.put("Password", password);
+        values.put("Fullname", fullname);
+        return db.insert("USER", null, values);
+    }
+
+
+
+    //hàm lấy dữ liệu toàn bộ chi phí
+    public List<ExpensesObject> getExpensesObject(int userId) {
+        List<ExpensesObject> expenses = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        // Thực hiện câu truy vấn SELECT với khóa ngoại
+        String query = "SELECT EXPENSES.ExpensesID, EXPENSES.ExpensesType,EXPENSES.AmountSpent,EXPENSES.DateSpent,EXPENSES.Description" +
+                " FROM EXPENSES " +  "WHERE UserID = ?";
+        String[] selectionArgs = {String.valueOf(userId)};
+        Cursor cursor = db.rawQuery(query,selectionArgs);
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                int ExpensesID = Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow("ExpensesID")));
+                String ExpensesType = cursor.getString(cursor.getColumnIndexOrThrow("ExpensesType"));
+                double AmountSpent= Double.parseDouble(cursor.getString(cursor.getColumnIndexOrThrow("AmountSpent")));
+                String DateSpent = cursor.getString(cursor.getColumnIndexOrThrow("DateSpent"));
+                String Description=cursor.getString(cursor.getColumnIndexOrThrow("Description"));
+
+                ExpensesObject expense = new ExpensesObject( ExpensesID,ExpensesType,AmountSpent, DateSpent,Description);
+                expenses.add(expense);
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+
+        return expenses;
+    }
+    //
+    // Phương thức kiểm tra xem chỉ tài khoản có bị trùng lặp hay không
+    public boolean isUsernameDuplicate(String username) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM USER WHERE Username = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{username});
+        boolean isDuplicated = cursor.getCount() > 0;
+        cursor.close();
+        db.close();
+        return isDuplicated;
+    }
+    public long insertUser_sign_1(String username, String password,String fullname) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("Username", username);
+        values.put("Password", password);
+        values.put("Fullname", fullname);
+        return db.insert("USER", null, values);
+    }
+
+
+    //hàm check đăng nhập
+    public boolean checkUserName_Password(String username,String pass) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + "USER" + " WHERE "
+                + "Username" + " = ? AND " + "Password" + " = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{username, pass});
+        boolean exists = cursor.getCount() > 0;
+        cursor.close();
+        db.close();
+        return exists;
+    }
+
+
     // Phương thức chèn dữ liệu vào bảng EXPENSES
     public long insertExpenses(int userId, String expensesType, double amountSpent, String dateSpent, String description) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -158,6 +405,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put("Description", description);
         return db.insert("EXPENSES", null, values);
     }
+
 
     // Phương thức chèn dữ liệu vào bảng PLANNING
     public long insertPlanning(String planName, double amountNeeded, double amountReached, String timeline, String planType) {
@@ -172,10 +420,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     // Phương thức chèn dữ liệu vào bảng SUBJECT
-    public long insertSubject(int userID, String subjectName, int studyCredits, int semester) {
+    public long insertSubject(String subjectName, int studyCredits, int semester) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("UserID", userID);
         values.put("SubjectName", subjectName);
         values.put("StudyCredits", studyCredits);
         values.put("Semester", semester);
@@ -208,7 +455,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 int studyCredits = cursor.getInt(cursor.getColumnIndexOrThrow("StudyCredits"));
                 double amount = studyCredits * 415000;
 
-                SubjectObject subject = new SubjectObject(subjectId, 1, subjectName, (byte) studyCredits, semester);
+                SubjectObject subject = new SubjectObject(subjectId, subjectName, (byte) studyCredits, semester);
                 subjects.add(subject);
             } while (cursor.moveToNext());
             cursor.close();
