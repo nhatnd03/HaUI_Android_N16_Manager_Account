@@ -3,13 +3,14 @@ plugins {
 }
 
 android {
-
     buildFeatures {
         viewBinding = true
     }
 
     namespace 'ninhduynhat.com.haui_android_n16_manager_account'
     compileSdk 34
+
+
 
     defaultConfig {
         applicationId "ninhduynhat.com.haui_android_n16_manager_account"
@@ -54,12 +55,14 @@ dependencies {
     //thư viện ảnh hình tròn
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
-
     //cài đặt thư viện chọn ảnh từ thiết bị
     implementation 'com.github.dhaval2404:imagepicker:2.1'
 
     implementation "com.github.PhilJay:MPAndroidChart:v3.1.0"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0"
-
-
-}
+    //chọn ảnh từ thiết bị
+    implementation 'gun0912.ted:tedbottompicker:1.2.6'
+    //check permission
+    implementation 'io.github.ParkSangGwon:tedpermission-normal:3.3.0'
+//Bieu do
+    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
