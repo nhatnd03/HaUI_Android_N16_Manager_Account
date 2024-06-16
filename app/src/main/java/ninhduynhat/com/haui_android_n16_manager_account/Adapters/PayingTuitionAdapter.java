@@ -40,8 +40,8 @@ public class PayingTuitionAdapter extends RecyclerView.Adapter<PayingTuitionAdap
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         PayingTuitionObject payingTuition = payingTuitionList.get(position);
         holder.subjectName.setText(payingTuition.getSubjectName());
-        holder.amount.setText(String.format("%,.0f đ", payingTuition.TIENMOTTINCHI));
-        holder.totalAmount.setText(String.format("%,.0f đ", payingTuition.getAmount()));
+        holder.amount.setText(String.format("%,.0f VND", payingTuition.TIENMOTTINCHI));
+        holder.totalAmount.setText(String.format("%,.0f VND", payingTuition.getAmount()));
 
         holder.itemView.setBackgroundColor(selectedPositions.contains(position) ?
                 context.getResources().getColor(R.color.xanhla) : context.getResources().getColor(R.color.white));

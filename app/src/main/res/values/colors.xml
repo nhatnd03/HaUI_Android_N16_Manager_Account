@@ -9,7 +9,7 @@
     <color name="xanhla">#C411D854</color>
     <color name="background_default">#FBD1D1</color>
     <color name="defaultt">#979797</color>
-
+    <color name="red">#FF0000</color>
     <color name="selectedIconColor">#FFFFFFFF</color>
     <color name="defaultIconColor">#FFFFFFFF</color>
     <color name="countTextColor">#65B3F1</color>

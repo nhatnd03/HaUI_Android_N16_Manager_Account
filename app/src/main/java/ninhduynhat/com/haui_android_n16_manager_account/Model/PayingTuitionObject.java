@@ -26,6 +26,13 @@ public class PayingTuitionObject {
         Amount = amount;
         IsPaided = isPaided;
     }
+    public PayingTuitionObject(int userID, int subjectID, String subjectName, double amount, boolean isPaided) {
+        UserID = userID;
+        SubjectID = subjectID;
+        SubjectName = subjectName;
+        Amount = amount;
+        IsPaided = isPaided;
+    }
 
     public int getPayingTuitionId() {
         return PayingTuitionId;

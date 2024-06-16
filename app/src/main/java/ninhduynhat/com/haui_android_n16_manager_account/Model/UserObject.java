@@ -37,8 +37,6 @@ public class UserObject {
     }
 
 
-
-
     public UserObject(int userID, String userName, String password, String fullname, String phoneNumber, double livingExpenses, double moneyForStudying, double debtMoney, String image) {
         UserID = userID;
         UserName = userName;

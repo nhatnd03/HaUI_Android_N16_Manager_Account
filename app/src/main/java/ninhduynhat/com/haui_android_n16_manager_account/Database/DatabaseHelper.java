@@ -73,11 +73,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         String createSubjectTable = "CREATE TABLE SUBJECT (" +
                 "SubjectId INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "UserID INTEGER, " +
                 "SubjectName TEXT, " +
                 "StudyCredits INTEGER, " +
-                "Semester INTEGER, " +
-                "FOREIGN KEY(UserID) REFERENCES USER(UserID)" +
+                "Semester INTEGER " +
                 ")";
 
         String createPayingTuitionTable = "CREATE TABLE PayingTuition (" +
@@ -512,10 +510,9 @@ public List<ExpensesObject> getExpensesObjectOfYear(int userId,String year) {
 
 
     // Phương thức chèn dữ liệu vào bảng SUBJECT
-    public long insertSubject(int userID, String subjectName, int studyCredits, int semester) {
+    public long insertSubject(String subjectName, int studyCredits, int semester) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("UserID", userID);
         values.put("SubjectName", subjectName);
         values.put("StudyCredits", studyCredits);
         values.put("Semester", semester);
@@ -548,7 +545,7 @@ public List<ExpensesObject> getExpensesObjectOfYear(int userId,String year) {
                 int studyCredits = cursor.getInt(cursor.getColumnIndexOrThrow("StudyCredits"));
                 double amount = studyCredits * 415000;
 
-                SubjectObject subject = new SubjectObject(subjectId, 1, subjectName, (byte) studyCredits, semester);
+                SubjectObject subject = new SubjectObject(subjectId, subjectName, (byte) studyCredits, semester);
                 subjects.add(subject);
             } while (cursor.moveToNext());
             cursor.close();

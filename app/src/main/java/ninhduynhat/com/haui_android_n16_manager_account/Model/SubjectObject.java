@@ -7,7 +7,6 @@ public class SubjectObject {
     private static final double TIENMOTTINCHI = 415000;
 
     private int SubjectId;
-    private int UserID;
     private String SubjectName;
     private byte StudyCredits;
     private int Semester;
@@ -15,9 +14,8 @@ public class SubjectObject {
     public SubjectObject() {
     }
 
-    public SubjectObject(int subjectId, int userID, String subjectName, byte studyCredits, int semester) {
+    public SubjectObject(int subjectId, String subjectName, byte studyCredits, int semester) {
         SubjectId = subjectId;
-        UserID = userID;
         SubjectName = subjectName;
         StudyCredits = studyCredits;
         Semester = semester;
@@ -29,14 +27,6 @@ public class SubjectObject {
 
     public void setSubjectId(int subjectId) {
         SubjectId = subjectId;
-    }
-
-    public int getUserID() {
-        return UserID;
-    }
-
-    public void setUserID(int userID) {
-        UserID = userID;
     }
 
     public String getSubjectName() {
