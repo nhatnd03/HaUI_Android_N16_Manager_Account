@@ -3,12 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/nen_chinh"
-    tools:context=".View.ThanhToan_Fragment">
+    tools:context=".View.ListRegisterFragment">
 
     <!-- TODO: Update blank fragment layout -->
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,7 +17,7 @@
             android:layout_height="wrap_content"
             android:textSize="24dp"
             android:textColor="@color/white"
-            android:text="Thanh toán"
+            android:text="Danh sách môn đăng ký"
             android:padding="@dimen/size10dp"/>
 
         <LinearLayout
@@ -53,7 +50,7 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="553dp">
+            android:layout_height="500dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -63,9 +60,9 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/chi_tiet_recycler_view"
                     android:layout_width="match_parent"
-                    android:layout_height="548dp"
+                    android:layout_height="500dp"
 
-                    android:clipToPadding="false" />
+                    android:clipToPadding="false"/>
             </LinearLayout>
         </ScrollView>
 
@@ -77,12 +74,12 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/btnThanhToanFinal"
+                android:id="@+id/btnHuyDangKy"
                 android:layout_width="0dp"
                 android:layout_height="60dp"
                 android:layout_weight="1"
                 android:backgroundTint="@android:color/holo_blue_light"
-                android:text="Thanh toán"
+                android:text="Hủy đăng ký"
                 android:textSize="20sp"/>
 
             <Button
@@ -96,4 +93,5 @@
                 android:textSize="20sp"/>
         </LinearLayout>
     </LinearLayout>
+
 </FrameLayout>

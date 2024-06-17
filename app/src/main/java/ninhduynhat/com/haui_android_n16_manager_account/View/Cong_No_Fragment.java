@@ -56,8 +56,7 @@ public class Cong_No_Fragment extends Fragment {
         transactionAdapter = new TransactionHistoryAdapter(transactionList);
         recyclerView.setAdapter(transactionAdapter);
 
-        // Handle button click to switch to Chi_Tiet_Fragment
-        getWidget(view); // Assuming the button ID is btnThanhToan
+        getWidget(view);
 
         databaseHelper = new DatabaseHelper(getContext());
 
@@ -65,7 +64,6 @@ public class Cong_No_Fragment extends Fragment {
         String user= sharedPreferences.getString("UserName","");
 
         int userId = databaseHelper.getUserByUsername(user).getUserID();
-//        int userId = new Login_Account().getCurrentUserID();
         loadUserData(userId);
         loadTransactionHistory(userId);
 
@@ -97,8 +95,6 @@ public class Cong_No_Fragment extends Fragment {
     private void loadUserData(int userId) {
         UserObject user = databaseHelper.getUserById(userId);
         if (user != null) {
-//            soDuTextView.setText(String.valueOf(user.getMoneyForStudying()));
-//            soTienConNoTextView.setText(String.valueOf(user.getDebtMoney()));
             soDuTextView.setText(String.format("%,.0f VND", user.getMoneyForStudying()));
             soTienConNoTextView.setText(String.format("%,.0f VND", user.getDebtMoney()));
         }

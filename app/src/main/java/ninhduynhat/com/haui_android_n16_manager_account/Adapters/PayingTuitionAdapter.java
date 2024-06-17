@@ -65,6 +65,11 @@ public class PayingTuitionAdapter extends RecyclerView.Adapter<PayingTuitionAdap
         return selectedPositions;
     }
 
+    public void clearSelection() {
+        selectedPositions.clear();
+        notifyDataSetChanged();
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView subjectName, amount, totalAmount;
 
