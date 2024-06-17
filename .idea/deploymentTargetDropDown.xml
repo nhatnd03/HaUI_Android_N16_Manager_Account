@@ -3,6 +3,7 @@
   <component name="deploymentTargetDropDown">
     <value>
       <entry key="Login_Account">
+    <!--  <entry key="DatabaseActivity">-->
         <State />
       </entry>
       <entry key="app">

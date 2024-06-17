@@ -53,7 +53,8 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="553dp">
+
+            android:layout_height="540dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -63,7 +64,8 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/chi_tiet_recycler_view"
                     android:layout_width="match_parent"
-                    android:layout_height="548dp"
+
+                    android:layout_height="540dp"
 
                     android:clipToPadding="false" />
             </LinearLayout>
@@ -72,18 +74,17 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:gravity="center"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btnThanhToanFinal"
-                android:layout_width="0dp"
+                android:layout_width="205dp"
                 android:layout_height="60dp"
                 android:layout_weight="1"
                 android:backgroundTint="@android:color/holo_blue_light"
                 android:text="Thanh toán"
-                android:textSize="20sp"/>
+                android:textSize="20sp" />
 
             <Button
                 android:id="@+id/btnQuayLai"
