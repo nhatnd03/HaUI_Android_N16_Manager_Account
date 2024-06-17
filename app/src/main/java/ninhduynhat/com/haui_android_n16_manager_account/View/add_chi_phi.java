@@ -154,8 +154,6 @@ public class add_chi_phi extends AppCompatActivity {
     }
 
 
-
-
     private boolean xulyDauVao(){
         if(mo_ta_chi_phi.getText().toString().isEmpty()&&gia_chi_phi.getText().toString().isEmpty()){
             Toast.makeText(this, "Phải điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
