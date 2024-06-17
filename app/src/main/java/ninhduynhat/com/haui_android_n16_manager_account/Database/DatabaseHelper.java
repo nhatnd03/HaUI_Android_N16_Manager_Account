@@ -568,6 +568,24 @@ public List<ExpensesObject> getExpensesObjectOfYear(int userId,String year) {
         return amount;
     }
 
+    public String getCreditByID(int subjectID) {
+        String amount = "";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query("SUBJECT", new String[]{"StudyCredits"}, "SubjectID = ?", new String[]{String.valueOf(subjectID)}, null, null, null);
+
+        if (cursor != null) {
+            try {
+                if (cursor.moveToFirst()) {
+                    amount = String.valueOf(cursor.getInt(cursor.getColumnIndexOrThrow("StudyCredits")));
+                }
+            } finally {
+                cursor.close();
+            }
+        }
+
+        return amount;
+    }
+
     // Phương thức chèn dữ liệu vào bảng PayingTuition
     public long insertPayingTuition(int userID, int subjectId, String subjectName, double theAmount, int isPaided) {
         SQLiteDatabase db = this.getWritableDatabase();
