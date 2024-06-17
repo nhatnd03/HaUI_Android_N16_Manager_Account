@@ -48,6 +48,7 @@ public class Login_Account extends AppCompatActivity {
     private EditText edt_TenDangNhap,edt_MatKhau;
     private Button btn_DangNhapManHinh;
     public static final String LUU_TRANG_THAI_NGUOI_DUNG ="LUU_TRANG_THAI_NGUOI_DUNG";
+    private String usernamedangnhap,matkhaudangnhap;
 
     
 
@@ -68,7 +69,8 @@ public class Login_Account extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences(LUU_TRANG_THAI_NGUOI_DUNG,MODE_PRIVATE);
         boolean islogin=sharedPreferences.getBoolean("isLogin",false);
         boolean isTurnOnFingerPrint=sharedPreferences.getBoolean("isTurnOnFingerPrint",false);
-
+        usernamedangnhap=sharedPreferences.getString("UserName","");
+        matkhaudangnhap=sharedPreferences.getString("PassWord","");
         if(islogin){
             String user= sharedPreferences.getString("UserName","");
             String pass= sharedPreferences.getString("PassWord","");
@@ -219,12 +221,19 @@ public class Login_Account extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         SharedPreferences.Editor editor=getSharedPreferences(LUU_TRANG_THAI_NGUOI_DUNG,MODE_PRIVATE).edit();
-        editor.putString("UserName",
-                edt_TenDangNhap.getText().toString());
-        editor.putString("PassWord",
-                edt_MatKhau.getText().toString());
-        editor.putBoolean("Check_Device_onFinger",Check_Device_Biometric());
-        editor.commit();
+        if ( edt_TenDangNhap.getText().toString().isEmpty()||edt_MatKhau.getText().toString().isEmpty()){
+            editor.putString("UserName",usernamedangnhap );
+            editor.putString("PassWord",matkhaudangnhap);
+            Log.e("check luu thong tin ",usernamedangnhap+"mật khẩu là: "+matkhaudangnhap);
+            editor.commit();
+        }else {
+            editor.putString("UserName",
+                    edt_TenDangNhap.getText().toString());
+            editor.putString("PassWord",
+                    edt_MatKhau.getText().toString());
+            editor.putBoolean("Check_Device_onFinger",Check_Device_Biometric());
+            editor.commit();
+        }
     }
 
     @Override

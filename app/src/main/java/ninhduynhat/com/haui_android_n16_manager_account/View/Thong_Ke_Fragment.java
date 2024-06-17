@@ -158,16 +158,17 @@ public class Thong_Ke_Fragment extends Fragment {
         dataVals.add(new PieEntry(n6,"Du lịch"));
         dataVals.add(new PieEntry(n7,"Chi phí khác"));
 
-        for(int i=0;i<dataVals.size();i++){
-            if(dataVals.get(i).getValue()==0){
-                dataVals.remove(i);
+        List<PieEntry> filteredDataVals = new ArrayList<>();
+        for (PieEntry entry : dataVals) {
+            if (entry.getValue() != 0) {
+                filteredDataVals.add(entry);
             }
         }
 
 
         //Nhập dữ liệu cho biểu đồ thống kê ngày //
         dailyPieChart = binding.dailyPieChart;
-        PieDataSet piedataset = new PieDataSet(dataVals,"");
+        PieDataSet piedataset = new PieDataSet(filteredDataVals,"");
         piedataset.setColors(colorClassArray);
         PieData pieData = new PieData(piedataset);
         dailyPieChart.setData(pieData);
@@ -276,6 +277,7 @@ public class Thong_Ke_Fragment extends Fragment {
 
         }
 
+
         ArrayList<PieEntry> dataVals = new ArrayList<>();
         dataVals.add(new PieEntry(n1,"Thực phẩm & Đồ uống"));
         dataVals.add(new PieEntry(n2,"Sức khỏe"));
@@ -284,16 +286,17 @@ public class Thong_Ke_Fragment extends Fragment {
         dataVals.add(new PieEntry(n5,"Chi phí đi lại"));
         dataVals.add(new PieEntry(n6,"Du lịch"));
         dataVals.add(new PieEntry(n7,"Chi phí khác"));
-        for(int i=0;i<dataVals.size();i++){
-            if(dataVals.get(i).getValue()==0){
-                dataVals.remove(i);
+        List<PieEntry> filteredDataVals = new ArrayList<>();
+        for (PieEntry entry : dataVals) {
+            if (entry.getValue() != 0) {
+                filteredDataVals.add(entry);
             }
         }
 
 
         //Nhập dữ liệu cho biểu đồ thống kê ngày //
         dailyPieChart = binding.dailyPieChart;
-        PieDataSet piedataset = new PieDataSet(dataVals,"");
+        PieDataSet piedataset = new PieDataSet(filteredDataVals,"");
         piedataset.setColors(colorClassArray);
         PieData pieData = new PieData(piedataset);
         dailyPieChart.setData(pieData);
@@ -408,15 +411,16 @@ public class Thong_Ke_Fragment extends Fragment {
 
 
         //Nhập dữ liệu cho biểu đồ thống kê tháng //
-        for(int i=0;i<dataVals.size();i++){
-            if(dataVals.get(i).getValue()==0){
-                dataVals.remove(i);
+        List<PieEntry> filteredDataVals = new ArrayList<>();
+        for (PieEntry entry : dataVals) {
+            if (entry.getValue() != 0) {
+                filteredDataVals.add(entry);
             }
         }
 
 
         monthlyPiechart = binding.monthlyPieChart;
-        PieDataSet piedataset3 = new PieDataSet(dataVals,"");
+        PieDataSet piedataset3 = new PieDataSet(filteredDataVals,"");
         piedataset3.setColors(colorClassArray);
         PieData pieData3 = new PieData(piedataset3);
         monthlyPiechart.setData(pieData3);
@@ -518,16 +522,17 @@ public class Thong_Ke_Fragment extends Fragment {
         dataVals.add(new PieEntry(n6,"Du lịch"));
         dataVals.add(new PieEntry(n7,"Chi phí khác"));
 
-        for(int i=0;i<dataVals.size();i++){
-            if(dataVals.get(i).getValue()==0){
-                dataVals.remove(i);
+        List<PieEntry> filteredDataVals = new ArrayList<>();
+        for (PieEntry entry : dataVals) {
+            if (entry.getValue() != 0) {
+                filteredDataVals.add(entry);
             }
         }
 
         ////////////////////////////
         //Nhập dữ liệu cho biểu đồ thống kê năm //
         yearlyPiechart = binding.yearlyPieChart;
-        PieDataSet piedataset4 = new PieDataSet(dataVals,"");
+        PieDataSet piedataset4 = new PieDataSet(filteredDataVals,"");
         piedataset4.setColors(colorClassArray);
         PieData pieData4 = new PieData(piedataset4);
         yearlyPiechart.setData(pieData4);
