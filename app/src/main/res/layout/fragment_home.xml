@@ -110,7 +110,7 @@
                 android:id="@+id/rcl_Chi_Phi"
                 android:layout_marginBottom="@dimen/size10dp"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"/>
+                android:layout_height="350dp"/>
         </LinearLayout>
     </ScrollView>
     <com.google.android.material.floatingactionbutton.FloatingActionButton

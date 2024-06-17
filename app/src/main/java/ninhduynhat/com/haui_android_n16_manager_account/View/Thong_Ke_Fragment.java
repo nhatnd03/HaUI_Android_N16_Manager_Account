@@ -158,6 +158,11 @@ public class Thong_Ke_Fragment extends Fragment {
         dataVals.add(new PieEntry(n6,"Du lịch"));
         dataVals.add(new PieEntry(n7,"Chi phí khác"));
 
+        for(int i=0;i<dataVals.size();i++){
+            if(dataVals.get(i).getValue()==0){
+                dataVals.remove(i);
+            }
+        }
 
 
         //Nhập dữ liệu cho biểu đồ thống kê ngày //
@@ -270,6 +275,7 @@ public class Thong_Ke_Fragment extends Fragment {
             }
 
         }
+
         ArrayList<PieEntry> dataVals = new ArrayList<>();
         dataVals.add(new PieEntry(n1,"Thực phẩm & Đồ uống"));
         dataVals.add(new PieEntry(n2,"Sức khỏe"));
@@ -278,7 +284,11 @@ public class Thong_Ke_Fragment extends Fragment {
         dataVals.add(new PieEntry(n5,"Chi phí đi lại"));
         dataVals.add(new PieEntry(n6,"Du lịch"));
         dataVals.add(new PieEntry(n7,"Chi phí khác"));
-
+        for(int i=0;i<dataVals.size();i++){
+            if(dataVals.get(i).getValue()==0){
+                dataVals.remove(i);
+            }
+        }
 
 
         //Nhập dữ liệu cho biểu đồ thống kê ngày //
@@ -398,6 +408,11 @@ public class Thong_Ke_Fragment extends Fragment {
 
 
         //Nhập dữ liệu cho biểu đồ thống kê tháng //
+        for(int i=0;i<dataVals.size();i++){
+            if(dataVals.get(i).getValue()==0){
+                dataVals.remove(i);
+            }
+        }
 
 
         monthlyPiechart = binding.monthlyPieChart;
@@ -503,13 +518,17 @@ public class Thong_Ke_Fragment extends Fragment {
         dataVals.add(new PieEntry(n6,"Du lịch"));
         dataVals.add(new PieEntry(n7,"Chi phí khác"));
 
-
+        for(int i=0;i<dataVals.size();i++){
+            if(dataVals.get(i).getValue()==0){
+                dataVals.remove(i);
+            }
+        }
 
         ////////////////////////////
         //Nhập dữ liệu cho biểu đồ thống kê năm //
         yearlyPiechart = binding.yearlyPieChart;
         PieDataSet piedataset4 = new PieDataSet(dataVals,"");
-        piedataset4.setColors(ColorTemplate.COLORFUL_COLORS);
+        piedataset4.setColors(colorClassArray);
         PieData pieData4 = new PieData(piedataset4);
         yearlyPiechart.setData(pieData4);
         yearlyPiechart.setCenterTextSize(25);

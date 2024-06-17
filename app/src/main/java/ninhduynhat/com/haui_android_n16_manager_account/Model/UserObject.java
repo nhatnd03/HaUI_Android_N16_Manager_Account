@@ -12,6 +12,8 @@ public class UserObject {
     private double DebtMoney;
     private String Image;
 
+    private static UserObject instance;
+
     public UserObject(){
 
     }
@@ -25,6 +27,13 @@ public class UserObject {
         Fullname = fullname;
         LivingExpenses = livingExpenses;
         Image = image;
+    }
+
+    public static synchronized UserObject getInstance() {
+        if (instance == null) {
+            instance = new UserObject();
+        }
+        return instance;
     }
 
 

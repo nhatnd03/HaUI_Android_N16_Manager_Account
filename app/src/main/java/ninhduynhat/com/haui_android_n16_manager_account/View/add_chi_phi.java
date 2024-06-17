@@ -90,7 +90,11 @@ public class add_chi_phi extends AppCompatActivity {
         nhanThemChiPhi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(xulyDauVao()) {finish();}
+                if(xulyDauVao()){
+                    finish();
+                }
+
+
             }
         });
         //thoát chức năng thêm chi phí
@@ -139,6 +143,7 @@ public class add_chi_phi extends AppCompatActivity {
         String dateString = df.format(date);
         thoi_gian_mua.setText(dateString);
     }
+
     private UserObject getDataUserName(){
         sharedPreferences =getSharedPreferences(LUU_TRANG_THAI_NGUOI_DUNG,MODE_PRIVATE);
         databaseHelper= new DatabaseHelper(add_chi_phi.this);
@@ -147,6 +152,7 @@ public class add_chi_phi extends AppCompatActivity {
         userObject=databaseHelper.getUserByUsername_Home(user_name);
         return userObject;
     }
+
     private boolean xulyDauVao(){
         if(mo_ta_chi_phi.getText().toString().isEmpty()&&gia_chi_phi.getText().toString().isEmpty()){
             Toast.makeText(this, "Phải điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
@@ -174,7 +180,5 @@ public class add_chi_phi extends AppCompatActivity {
             return false;
         }
     }
-
-
 
 }

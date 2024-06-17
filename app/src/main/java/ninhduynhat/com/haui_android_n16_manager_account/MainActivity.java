@@ -22,19 +22,14 @@ import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 import ninhduynhat.com.haui_android_n16_manager_account.View.Cong_No_Fragment;
 import ninhduynhat.com.haui_android_n16_manager_account.View.HomeFragment;
-import ninhduynhat.com.haui_android_n16_manager_account.View.Ke_Hoach_Fragment;
+import ninhduynhat.com.haui_android_n16_manager_account.View.Plan_Fragment;
 import ninhduynhat.com.haui_android_n16_manager_account.View.RegisterFragment;
 import ninhduynhat.com.haui_android_n16_manager_account.View.Thong_Ke_Fragment;
 
 public class MainActivity extends AppCompatActivity {
 
     MeowBottomNavigation meowBottomNavigation;
-//    SharedPreferences sharedPreferences;
 
-//    Switch switchvantay;
-
-//
-//    TextView thongbao;
     protected long thoatungdung;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,45 +46,22 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
-
-
-
-//        sharedPreferences = getSharedPreferences(TEN_TT_DANG_NHAP,MODE_PRIVATE);
-//        boolean isTurnOnFingerPrint=sharedPreferences.getBoolean("isTurnOnFingerPrint",false);
-//        boolean check_device= sharedPreferences.getBoolean("Check_Device_onFinger",false);
-//        if(check_device){
-//            switchvantay.setVisibility(View.VISIBLE);
-//            switchvantay.setChecked(isTurnOnFingerPrint);
-//        }else {
-//            thongbao.setText("Thiết bị không hỗ trợ đăng nhập bằng vân tay");
-//        }
-
-
-
-
-
     }
     private void findId(){
-
         meowBottomNavigation = findViewById(R.id.meoButtonNavigation);
-//        switchvantay=findViewById(R.id.switchvantay);
-//        thongbao=findViewById(R.id.thongbao);
     }
     private void buttonMeo(){
 
 
-        meowBottomNavigation.add(new MeowBottomNavigation.Model(1,R.drawable.navbar_ic_home));
+        meowBottomNavigation.add(new MeowBottomNavigation.Model(1,R.drawable.icon_home));
 
         meowBottomNavigation.add(new MeowBottomNavigation.Model(2,R.drawable.icon_thongke));
-        meowBottomNavigation.add(new MeowBottomNavigation.Model(3,R.drawable.icon_add));
-        meowBottomNavigation.add(new MeowBottomNavigation.Model(4,R.drawable.icon_kehoach));
-        meowBottomNavigation.add(new MeowBottomNavigation.Model(5,R.drawable.icon_cong_no));
+        meowBottomNavigation.add(new MeowBottomNavigation.Model(3,R.drawable.icon_kehoach));
+        meowBottomNavigation.add(new MeowBottomNavigation.Model(4,R.drawable.icon_dangky_mon_hoc));
+        meowBottomNavigation.add(new MeowBottomNavigation.Model(5,R.drawable.icon_cong_no_2));
 
         // Set default selection
         meowBottomNavigation.show(1, true);
-
-
 
 
         meowBottomNavigation.setOnClickMenuListener(new Function1<MeowBottomNavigation.Model, Unit>() {
@@ -111,7 +83,10 @@ public class MainActivity extends AppCompatActivity {
                     openFragment(new Thong_Ke_Fragment(), enterAnimation, exitAnimation);
 
                 } else if (id==3) {
-                    new Ke_Hoach_Fragment();
+                    enterAnimation = R.anim.enter_from_right;
+                    exitAnimation = R.anim.exit_to_left;
+                    openFragment(new Plan_Fragment(), enterAnimation, exitAnimation);
+
                 }else if (id==4) {
                     enterAnimation = R.anim.enter_from_left;
                     exitAnimation = R.anim.exit_to_right;
@@ -141,7 +116,10 @@ public class MainActivity extends AppCompatActivity {
                     exitAnimation = R.anim.exit_to_left;
                     openFragment(new Thong_Ke_Fragment(), enterAnimation, exitAnimation);
                 } else if (id==3) {
-                    new Ke_Hoach_Fragment();
+                    enterAnimation = R.anim.enter_from_right;
+                    exitAnimation = R.anim.exit_to_left;
+                    openFragment(new Plan_Fragment(), enterAnimation, exitAnimation);
+
                 }else if (id==4) {
                     enterAnimation = R.anim.enter_from_left;
                     exitAnimation = R.anim.exit_to_right;
@@ -153,36 +131,6 @@ public class MainActivity extends AppCompatActivity {
                 return null;
             }
         });
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-//        sharedPreferences = getSharedPreferences(TEN_TT_DANG_NHAP,MODE_PRIVATE);
-//        boolean checked= sharedPreferences.getBoolean("isTurnOnFingerPrint",false);
-//        boolean check_device= sharedPreferences.getBoolean("Check_Device_onFinger",false);
-//        if(check_device){
-//            switchvantay.setVisibility(View.VISIBLE);
-//            switchvantay.setChecked(checked);
-//        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-//        boolean ischeckedSwitch=switchvantay.isChecked();
-//        SharedPreferences.Editor editor = getSharedPreferences(TEN_TT_DANG_NHAP,MODE_PRIVATE).edit();
-//        editor.putBoolean("isTurnOnFingerPrint",ischeckedSwitch);
-//        editor.commit();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-//        boolean ischeckedSwitch=switchvantay.isChecked();
-//        SharedPreferences.Editor editor = getSharedPreferences(TEN_TT_DANG_NHAP,MODE_PRIVATE).edit();
-//        editor.putBoolean("isTurnOnFingerPrint",ischeckedSwitch);
-//        editor.commit();
     }
 
     @Override

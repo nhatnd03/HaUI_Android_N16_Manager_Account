@@ -2,9 +2,14 @@ package ninhduynhat.com.haui_android_n16_manager_account.View;
 
 import static ninhduynhat.com.haui_android_n16_manager_account.Login_Account.LUU_TRANG_THAI_NGUOI_DUNG;
 
+
+import android.Manifest;
+import android.app.Activity;
+
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -12,6 +17,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
+import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -26,6 +32,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,10 +47,12 @@ import androidx.core.view.WindowInsetsCompat;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 
 import java.io.ByteArrayOutputStream;
+
+import java.io.File;
 import java.io.FileDescriptor;
 import java.io.IOException;
-
 import java.text.NumberFormat;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import ninhduynhat.com.haui_android_n16_manager_account.Database.DatabaseHelper;
@@ -109,6 +121,7 @@ public class man_hinh_thontincanhan extends AppCompatActivity {
                         .compress(1024)			//Final image size will be less than 1 MB(Optional)
                         .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
                         .start();
+
             }
         });
 
@@ -207,14 +220,16 @@ public class man_hinh_thontincanhan extends AppCompatActivity {
     }
     
     private boolean XuLyDoiMatKhau(String mkHienTai,String matKhauMoi,String xacNhanMK){
-        if(mkHienTai.isEmpty()&&matKhauMoi.isEmpty()&&xacNhanMK.isEmpty()){
+        if(mkHienTai.isEmpty()||matKhauMoi.isEmpty()||xacNhanMK.isEmpty()){
             Toast.makeText(this, "Phải điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+            return false;
         }
 
         SharedPreferences sharedPreferences = getSharedPreferences(LUU_TRANG_THAI_NGUOI_DUNG, MODE_PRIVATE);
         String username = sharedPreferences.getString("UserName", null);
         if(username ==null){
             Toast.makeText(man_hinh_thontincanhan.this,"tài khoản chưa đăng nhập!", Toast.LENGTH_SHORT).show();
+            return false;
         }
         else {
             DatabaseHelper db = new DatabaseHelper(man_hinh_thontincanhan.this);
@@ -310,6 +325,7 @@ public class man_hinh_thontincanhan extends AppCompatActivity {
         dialog.show();
     }
 
+
     private void openFeedbackDialog_NapTien(int gravity){
         final Dialog dialog = new Dialog(man_hinh_thontincanhan.this,android.R.style.Theme_Holo_Light_Dialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -365,6 +381,7 @@ public class man_hinh_thontincanhan extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
         sharedPreferences = getSharedPreferences(LUU_TRANG_THAI_NGUOI_DUNG,MODE_PRIVATE);
         boolean checked= sharedPreferences.getBoolean("isTurnOnFingerPrint",false);
         boolean check_device= sharedPreferences.getBoolean("Check_Device_onFinger",false);
@@ -385,14 +402,17 @@ public class man_hinh_thontincanhan extends AppCompatActivity {
 
         Bitmap bitmap=StringToBitMap(userObject.getImage());
         if(bitmap!=null){
+
             home_imgAvartar.setImageBitmap(bitmap);
         }
 
-        if(check_device){
-            hienthivantay.setVisibility(View.VISIBLE);
-            switchvantay.setChecked(checked);
+        // Hiển thị và thiết lập trạng thái vân tay
+        if (check_device) {
+            hienthivantay.setVisibility(View.VISIBLE); // Hiển thị vân tay
+            switchvantay.setChecked(checked); // Thiết lập trạng thái của switch vân tay
         }
     }
+
 
     @Override
     protected void onPause() {
@@ -418,7 +438,6 @@ public class man_hinh_thontincanhan extends AppCompatActivity {
     }
 
 
-
     private Bitmap uriToBitmap2(Uri selectedFileUri) {
         Bitmap bitmap=null;
         try {
@@ -430,6 +449,7 @@ public class man_hinh_thontincanhan extends AppCompatActivity {
             parcelFileDescriptor.close();
             return bitmap;
         } catch (IOException e) {
+
 
             e.printStackTrace();
             return bitmap;

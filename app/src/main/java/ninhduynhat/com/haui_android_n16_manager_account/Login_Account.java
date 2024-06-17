@@ -28,6 +28,8 @@ import androidx.core.view.WindowInsetsCompat;
 import java.util.concurrent.Executor;
 
 import ninhduynhat.com.haui_android_n16_manager_account.Database.DatabaseHelper;
+import ninhduynhat.com.haui_android_n16_manager_account.View.Quen_Mat_Khau;
+
 
 public class Login_Account extends AppCompatActivity {
 
@@ -42,22 +44,11 @@ public class Login_Account extends AppCompatActivity {
 
 
     private static final int REQUEST_CODE = 11111;
-    TextView txtchuyendangkys;
-    EditText edt_TenDangNhap,edt_MatKhau;
-    Button btn_DangNhapManHinh;
+    private TextView txtchuyendangkys,quenMatKhau;
+    private EditText edt_TenDangNhap,edt_MatKhau;
+    private Button btn_DangNhapManHinh;
     public static final String LUU_TRANG_THAI_NGUOI_DUNG ="LUU_TRANG_THAI_NGUOI_DUNG";
 
-
-    private void findId(){
-
-        txtchuyendangkys = findViewById(R.id.txtchuyendangkys);
-        edt_TenDangNhap= findViewById(R.id.edt_TenDangNhap);
-        edt_MatKhau= findViewById(R.id.edt_MatKhau);
-        btn_DangNhapManHinh=findViewById(R.id.btnDangNhapManHinh);
-        image_finger_login= findViewById(R.id.image_finger_login);
-        canhBaoDangNhap=findViewById(R.id.canhBaoDangNhap);
-
-    }
     
 
     @Override
@@ -75,10 +66,8 @@ public class Login_Account extends AppCompatActivity {
 
         //login to fingerPrint
         SharedPreferences sharedPreferences = getSharedPreferences(LUU_TRANG_THAI_NGUOI_DUNG,MODE_PRIVATE);
-
         boolean islogin=sharedPreferences.getBoolean("isLogin",false);
         boolean isTurnOnFingerPrint=sharedPreferences.getBoolean("isTurnOnFingerPrint",false);
-
 
         if(islogin){
             String user= sharedPreferences.getString("UserName","");
@@ -86,7 +75,8 @@ public class Login_Account extends AppCompatActivity {
             edt_TenDangNhap.setText(user);
             edt_MatKhau.setText(pass);
         }
-        if(islogin && isTurnOnFingerPrint && Check_Device_Biometric()){
+
+        if(isTurnOnFingerPrint && Check_Device_Biometric()){
             login_by_finger();
             image_finger_login.setVisibility(View.VISIBLE);
         }
@@ -108,14 +98,31 @@ public class Login_Account extends AppCompatActivity {
         btn_DangNhapManHinh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(Login_Account.this,MainActivity.class);
-//                intent.putExtra("user",edt_TenDangNhap.getText().toString());
-//                intent.putExtra("pass",edt_MatKhau.getText().toString());
-//                startActivity(intent);
                 saveLoginState();
             }
         });
+        quenMatKhau.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent= new Intent(Login_Account.this, Quen_Mat_Khau.class);
+                startActivity(intent);
+            }
+        });
     }
+    
+    
+    
+    private void   findId(){
+
+        txtchuyendangkys = findViewById(R.id.txtchuyendangkys);
+        edt_TenDangNhap= findViewById(R.id.edt_TenDangNhap);
+        edt_MatKhau= findViewById(R.id.edt_MatKhau);
+        btn_DangNhapManHinh=findViewById(R.id.btnDangNhapManHinh);
+        image_finger_login= findViewById(R.id.image_finger_login);
+        canhBaoDangNhap=findViewById(R.id.canhBaoDangNhap);
+        quenMatKhau=findViewById(R.id.quenMatKhau);
+    }
+
 
 
     public void saveLoginState(){
@@ -136,7 +143,7 @@ public class Login_Account extends AppCompatActivity {
 
     }
 
-
+    //hàm check thiết bị có hỗ trợ vân tay hay không
     private boolean Check_Device_Biometric(){
         boolean check_device=false;
 
@@ -165,8 +172,6 @@ public class Login_Account extends AppCompatActivity {
     }
 
     private void login_by_finger(){
-
-
         executor = ContextCompat.getMainExecutor(this);
         biometricPrompt = new BiometricPrompt(Login_Account.this,
                 executor, new BiometricPrompt.AuthenticationCallback() {
@@ -175,9 +180,6 @@ public class Login_Account extends AppCompatActivity {
                                               @NonNull CharSequence errString) {
                 super.onAuthenticationError(errorCode, errString);
 
-//                Toast.makeText(getApplicationContext(),
-//                                "Đăng nhập lỗi " + errString, Toast.LENGTH_SHORT)
-//                        .show();
             }
 
             @Override
@@ -212,10 +214,10 @@ public class Login_Account extends AppCompatActivity {
         });
     }
 
+
     @Override
     protected void onPause() {
         super.onPause();
-
         SharedPreferences.Editor editor=getSharedPreferences(LUU_TRANG_THAI_NGUOI_DUNG,MODE_PRIVATE).edit();
         editor.putString("UserName",
                 edt_TenDangNhap.getText().toString());
