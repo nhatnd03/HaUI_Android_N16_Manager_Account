@@ -36,17 +36,19 @@ public class Recharge_Fragment extends Fragment {
 
     EditText editText;
     Button buttonNap, btnQuayLai;
-    TextView txtCongno;
+    TextView txtCongno, title;
 
     Spinner phuongThucThanhToanSpinner;
     EditText  soTaiKhoanEditText, tenNganHangEditText, chiNhanhNganHangEditText;
     LinearLayout bankTransferLayout;
+    NumberFormat numberFormat = NumberFormat.getInstance(new Locale("vi", "VN"));
 
     private void getWidget(View view){
         editText = view.findViewById(R.id.editNapTien);
         buttonNap = view.findViewById(R.id.btnNapTien);
         btnQuayLai = view.findViewById(R.id.btnQuayLaiMHNap);
         txtCongno = view.findViewById(R.id.txtGoiYTien);
+        title = view.findViewById(R.id.textviewTitle);
 
         bankTransferLayout = view.findViewById(R.id.bank_transfer_layout);
         soTaiKhoanEditText = view.findViewById(R.id.edit_text_bank_account);
@@ -72,10 +74,11 @@ public class Recharge_Fragment extends Fragment {
 
         UserObject userObject = databaseHelper.getUserById(userId);
 
+        setTextView(userObject);
+
         // Sử dụng NumberFormat để định dạng số tiền
 //        NumberFormat numberFormat = NumberFormat.getInstance(Locale.US);
-        NumberFormat numberFormat = NumberFormat.getInstance(new Locale("vi", "VN"));
-        txtCongno.setText(numberFormat.format(userObject.getDebtMoney()) +" VND");
+//        txtCongno.setText(numberFormat.format(userObject.getDebtMoney()) +" VND");
 //        txtCongno.setText(numberFormat.format(userObject.getDebtMoney()));
 
 
@@ -113,15 +116,10 @@ public class Recharge_Fragment extends Fragment {
         buttonNap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                double tienNap = Double.parseDouble(editText.getText().toString());
-//                userObject.setMoneyForStudying(tienNap + userObject.getMoneyForStudying());
-//                databaseHelper.updateUser(userObject);
-//                editText.setText("");
                 try {
                     double tienNap = Double.parseDouble(editText.getText().toString());
 
                     if (tienNap <= 0) {
-//                        Toast.makeText(getContext(), "Số tiền nhập không hợp lệ. Vui lòng nhập số tiền lớn hơn 0.", Toast.LENGTH_SHORT).show();
                         showDialog("Số tiền nhập không hợp lệ. Vui lòng nhập số tiền lớn hơn 0");
                         editText.setText("");
                     } else {
@@ -132,7 +130,6 @@ public class Recharge_Fragment extends Fragment {
                             String chiNhanhNganHang = chiNhanhNganHangEditText.getText().toString().trim();
 
                             if (soTaiKhoan.isEmpty() || tenNganHang.isEmpty() || chiNhanhNganHang.isEmpty()) {
-//                                Toast.makeText(getContext(), "Vui lòng nhập đầy đủ thông tin ngân hàng.", Toast.LENGTH_SHORT).show();
                                 showDialog("Vui lòng nhập đầy đủ thông tin ngân hàng");
                                 return;
                             }
@@ -146,6 +143,7 @@ public class Recharge_Fragment extends Fragment {
                         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         phuongThucThanhToanSpinner.setAdapter(adapter);
 //                        Toast.makeText(getContext(), "Nạp tiền thành công", Toast.LENGTH_SHORT).show();
+                        setTextView(userObject);
                         showDialog("Nạp tiền thành công");
                         // Quay lại màn hình công nợ
 //                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
@@ -162,9 +160,21 @@ public class Recharge_Fragment extends Fragment {
         return view;
     }
 
+    private void setTextView(UserObject userObject){
+//        if(userObject.getMoneyForStudying() < userObject.getDebtMoney()){
+//            txtCongno.setText(numberFormat.format(userObject.getDebtMoney() - userObject.getMoneyForStudying()) +" VND");
+//        }
+//        else{
+//            title.setText("Số tiền còn nợ: ");
+//            txtCongno.setText(numberFormat.format(userObject.getDebtMoney()) +" VND");
+//        }
+        txtCongno.setText(numberFormat.format(userObject.getDebtMoney()) +" VND");
+    }
+
     private void showDialog(String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setMessage(message)
+        builder.setTitle("Thông báo")
+                .setMessage(message)
                 .setPositiveButton("OK", null)
                 .create()
                 .show();

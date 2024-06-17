@@ -568,6 +568,24 @@ public List<ExpensesObject> getExpensesObjectOfYear(int userId,String year) {
         return amount;
     }
 
+    public String getCreditByID(int subjectID) {
+        String amount = "";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query("SUBJECT", new String[]{"StudyCredits"}, "SubjectID = ?", new String[]{String.valueOf(subjectID)}, null, null, null);
+
+        if (cursor != null) {
+            try {
+                if (cursor.moveToFirst()) {
+                    amount = String.valueOf(cursor.getInt(cursor.getColumnIndexOrThrow("StudyCredits")));
+                }
+            } finally {
+                cursor.close();
+            }
+        }
+
+        return amount;
+    }
+
     // Phương thức chèn dữ liệu vào bảng PayingTuition
     public long insertPayingTuition(int userID, int subjectId, String subjectName, double theAmount, int isPaided) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -578,6 +596,24 @@ public List<ExpensesObject> getExpensesObjectOfYear(int userId,String year) {
         values.put("TheAmount", theAmount);
         values.put("IsPaided", isPaided);
         return db.insert("PayingTuition", null, values);
+    }
+
+    public List<PayingTuitionObject> getRegisteredSubjects(int userId) {
+        List<PayingTuitionObject> subjects = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM PayingTuition WHERE IsPaided = 0 AND UserID = ?", new String[]{String.valueOf(userId)});
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow("PayingTuitionId"));
+                int subjectId = cursor.getInt(cursor.getColumnIndexOrThrow("SubjectID"));
+                String subjectName = cursor.getString(cursor.getColumnIndexOrThrow("SubjectName"));
+                double amount = cursor.getDouble(cursor.getColumnIndexOrThrow("TheAmount"));
+                boolean isPaid = cursor.getInt(cursor.getColumnIndexOrThrow("IsPaided")) == 1;
+                subjects.add(new PayingTuitionObject(id, userId, subjectId, subjectName, amount, isPaid));
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+        return subjects;
     }
 
     public List<PayingTuitionObject> getUnpaidTuitionList(int userId) {
@@ -627,6 +663,46 @@ public List<ExpensesObject> getExpensesObjectOfYear(int userId,String year) {
         ContentValues values = new ContentValues();
         values.put("IsPaided", payingTuition.isPaided() ? 1 : 0);
         db.update("PayingTuition", values, "PayingTuitionId = ?", new String[]{String.valueOf(payingTuition.getPayingTuitionId())});
+    }
+
+    public double getSubjectAmount(int subjectId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        double amount = 0;
+        Cursor cursor = db.rawQuery("SELECT TheAmount FROM PayingTuition WHERE SubjectID = ?", new String[]{String.valueOf(subjectId)});
+        if (cursor.moveToFirst()) {
+            amount = cursor.getDouble(cursor.getColumnIndexOrThrow("TheAmount"));
+        }
+        cursor.close();
+        return amount;
+    }
+
+    // Cập nhật số tiền công nợ của người dùng
+    public void updateDebt(int userId, double amount) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("DebtMoney", amount);
+        db.update("USER", values, "UserID = ?", new String[]{String.valueOf(userId)});
+    }
+
+    public void cancelRegistrationAndUpdateDebt(int userId, int subjectId) {
+        double subjectAmount = getSubjectAmount(subjectId);
+        SQLiteDatabase db = this.getWritableDatabase();
+        // Lấy số tiền công nợ hiện tại của người dùng
+        double currentDebt = 0;
+        Cursor cursor = db.rawQuery("SELECT DebtMoney FROM USER WHERE UserID = ?", new String[]{String.valueOf(userId)});
+        if (cursor.moveToFirst()) {
+            currentDebt = cursor.getDouble(cursor.getColumnIndexOrThrow("DebtMoney"));
+        }
+        cursor.close();
+
+        // Trừ đi số tiền của môn học khỏi số tiền công nợ
+        double updatedDebt = currentDebt - subjectAmount;
+
+        // Cập nhật lại số tiền công nợ mới
+        updateDebt(userId, updatedDebt);
+
+        // Xóa đăng ký môn học khỏi CSDL
+        db.delete("PayingTuition", "UserID = ? AND SubjectID = ?", new String[]{String.valueOf(userId), String.valueOf(subjectId)});
     }
 
     // Phương thức xóa tất cả dữ liệu từ một bảng
